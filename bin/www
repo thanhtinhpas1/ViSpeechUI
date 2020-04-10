@@ -1,0 +1,191 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('vispeechui:server');
+var http = require('http');
+var consumer = require('../kafka/consumer');
+var admin = require('../kafka/admin');
+
+/**
+ * Get port from environment and store in Express.
+ */
+var port = normalizePort(process.env.PORT || '8080');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+var topics = require('../kafka/event').TOPICS;
+var io = require('socket.io').listen(server);
+// admin.run().catch(e => console.error(`[example/admin] ${e.message}`, e));
+
+app.set('socket', io);
+
+io.sockets.on('connection', function (socket) {
+  console.log('Socket connected');
+  socket.emit('CONNECTED', "Connect socket success");
+
+  socket.on(topics.USER_CREATED_SUCCESS_EVENT, () => {
+    consumer.run(topics.USER_CREATED_SUCCESS_EVENT, socket);
+  })
+  socket.on(topics.USER_CREATED_FAILED_EVENT, () => {
+    consumer.run(topics.USER_CREATED_FAILED_EVENT, socket);
+  })
+  socket.on(topics.USER_DELETED_SUCCESS_EVENT, () => {
+    consumer.run(topics.USER_DELETED_SUCCESS_EVENT, socket);
+  })
+  socket.on(topics.USER_DELETED_SUCCESS_EVENT, () => {
+    consumer.run(topics.USER_DELETED_SUCCESS_EVENT, socket);
+  })
+  socket.on(topics.USER_UPDATE_SUCCESS_EVENT, () => {
+    consumer.run(topics.USER_UPDATE_SUCCESS_EVENT, socket);
+  })
+  socket.on(topics.USER_UPDATE_FAILED_EVENT, () => {
+    consumer.run(topics.USER_UPDATE_FAILED_EVENT, socket);
+  })
+  socket.on(topics.VERIFY_EMAIL_SENT_SUCCESS_EVENT, () => {
+    consumer.run(topics.VERIFY_EMAIL_SENT_SUCCESS_EVENT, socket);
+  })
+  socket.on(topics.VERIFY_EMAIL_SENT_FAILED_EVENT, () => {
+    consumer.run(topics.VERIFY_EMAIL_SENT_FAILED_EVENT, socket);
+  })
+  socket.on(topics.FREE_TOKEN_CREATED_SUCCESS_EVENT, () => {
+    consumer.run(topics.FREE_TOKEN_CREATED_SUCCESS_EVENT);
+  })
+  // TOKEN
+  socket.on(topics.FREE_TOKEN_CREATED_FAILED_EVENT, () => {
+    consumer.run(topics.FREE_TOKEN_CREATED_FAILED_EVENT);
+  })
+  socket.on(topics.TOKEN_CREATED_SUCCESS_EVENT, () => {
+    consumer.run(topics.TOKEN_CREATED_SUCCESS_EVENT);
+  })
+  socket.on(topics.TOKEN_CREATED_FAILED_EVENT, () => {
+    consumer.run(topics.TOKEN_CREATED_FAILED_EVENT);
+  })
+  socket.on(topics.TOKEN_DELETED_SUCCESS_EVENT, () => {
+    consumer.run(topics.TOKEN_DELETED_SUCCESS_EVENT);
+  })
+  socket.on(topics.TOKEN_DELETED_FAILED_EVENT, () => {
+    consumer.run(topics.TOKEN_DELETED_FAILED_EVENT);
+  })
+  socket.on(topics.PASSWORD_CHANGED_SUCCESS_EVENT, () => {
+    consumer.run(topics.PASSWORD_CHANGED_SUCCESS_EVENT, socket);
+  })
+  socket.on(topics.PASSWORD_CHANGED_FAILED_EVENT, () => {
+    consumer.run(topics.PASSWORD_CHANGED_FAILED_EVENT, socket);
+  })
+  // ORDER
+  socket.on(topics.ORDERED_TOKEN_CREATED_SUCCESS_EVENT, () => {
+    consumer.run(topics.ORDERED_TOKEN_CREATED_SUCCESS_EVENT, socket);
+  })
+  socket.on(topics.ORDERED_TOKEN_CREATED_FAILED_EVENT, () => {
+    consumer.run(topics.ORDERED_TOKEN_CREATED_FAILED_EVENT, socket);
+  })
+  socket.on(topics.ORDER_CREATED_SUCCESS_EVENT, () => {
+    consumer.run(topics.ORDER_CREATED_SUCCESS_EVENT, socket);
+  })
+  socket.on(topics.ORDER_CREATED_FAILED_EVENT, () => {
+    consumer.run(topics.ORDER_CREATED_FAILED_EVENT, socket);
+  })
+  // PROJECT
+  socket.on(topics.PROJECT_CREATED_SUCCESS_EVENT, () => {
+    consumer.run(topics.PROJECT_CREATED_SUCCESS_EVENT, socket);
+  })
+  socket.on(topics.PROJECT_CREATED_FAILED_EVENT, () => {
+    consumer.run(topics.PROJECT_CREATED_FAILED_EVENT, socket);
+  })
+  // PERMISSION
+  socket.on(topics.PERMISSION_CREATED_SUCCESS_EVENT, () => {
+    consumer.run(topics.PERMISSION_CREATED_SUCCESS_EVENT, socket);
+  })
+  socket.on(topics.PERMISSION_CREATED_FAILED_EVENT, () => {
+    consumer.run(topics.PERMISSION_CREATED_FAILED_EVENT, socket);
+  })
+  socket.on(topics.PERMISSION_ASSIGN_EMAIL_SENT_SUCCESS_EVENT, () => {
+    consumer.run(topics.PERMISSION_ASSIGN_EMAIL_SENT_SUCCESS_EVENT, socket);
+  })
+  socket.on(topics.PERMISSION_ASSIGN_EMAIL_SENT_FAILED_EVENT, () => {
+    consumer.run(topics.PERMISSION_ASSIGN_EMAIL_SENT_FAILED_EVENT, socket);
+  })
+
+  socket.on('disconnect', function () {
+    console.log('Socket disconnect!');
+    consumer.disconnect();
+  });
+});
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
+});
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
