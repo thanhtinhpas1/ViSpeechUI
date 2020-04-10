@@ -1,7 +1,7 @@
 
 module.exports = {
     proxy: {
-        host: 'localhost',
+        host: 'asr.vietspeech.com',
         port: 7070,
     },
 }
