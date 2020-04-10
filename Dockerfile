@@ -7,7 +7,7 @@ LABEL maintainer "VispeechUI <vispeech@hcmus.edu.vn>"
 WORKDIR /user/src/app/vispeechui
 
 # Copy project specification and dependencies lock files
-COPY package.json package-lock.json tsconfig.json /tmp/
+COPY package.json package-lock.json /tmp/
 COPY ui/package.json package-lock.json /tmp/ui/
 
 ### DEPENDENCIES
@@ -28,4 +28,4 @@ COPY --from=dependencies /tmp/ui/node_modules ./node_modules
 
 CMD npm run start:dev
 # Expose application port
-EXPOSE 3000:3000
+EXPOSE 8080:8080
