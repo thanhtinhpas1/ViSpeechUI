@@ -20,7 +20,7 @@ const TokenType = ({ tokenType }) => (
         <span
           className="pay-amount"
           style={
-            tokenType.saleOff
+            tokenType.salePercent > 0
               ? {
                   marginTop: '0.5em',
                   marginBottom: '0.5em',
@@ -31,9 +31,9 @@ const TokenType = ({ tokenType }) => (
         >
           {tokenType.price}$/ {tokenType.minutes} phút
         </span>
-        {tokenType.saleOff ? (
+        {tokenType.salePercent > 0 ? (
           <span className="pay-amount" style={{ marginBottom: '0.5em', color: 'red' }}>
-            {tokenType.saleOff.price}$/ {tokenType.saleOff.time} phút
+            {tokenType.saleOffPrice}$/ {tokenType.minutes} phút
           </span>
         ) : null}
       </div>

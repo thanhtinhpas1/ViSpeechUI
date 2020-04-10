@@ -1,5 +1,11 @@
+/* eslint-disable func-names */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-var */
+/* eslint-disable lines-between-class-members */
+/* eslint-disable prettier/prettier */
 import * as io from 'socket.io-client';
 import { Subject } from 'rxjs';
+
 const apiSocket = 'http://localhost:8080';
 
 const topics = {

@@ -100,14 +100,15 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
     },
     {
       Header: '',
-      accessor: '',
+      accessor: '_id',
       id: 'transaction-detail',
       headerClassName: 'data-col',
       className: 'data-col text-right',
-      Cell: () => {
+      Cell: props => {
+        const { cell } = props
         return (
           <a
-            href={`${CUSTOMER_PATH}/transaction-details`}
+            href={`${CUSTOMER_PATH}/transaction-details?id=${cell.value}`}
             className="btn btn-light-alt btn-xs btn-icon"
           >
             <em className="ti ti-eye" />

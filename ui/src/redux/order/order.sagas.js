@@ -1,8 +1,13 @@
 /* eslint-disable no-restricted-globals */
 import { call, all, takeLatest, put } from 'redux-saga/effects'
-import { TOKEN_TYPE, STATUS } from 'utils/constant'
+import { TOKEN_TYPE, STATUS, ORDER_STATUS } from 'utils/constant'
 import OrderTypes from './order.types'
-import { getOrderListSuccess, getOrderListFailure } from './order.actions'
+import {
+  getOrderListSuccess,
+  getOrderListFailure,
+  getOrderInfoSuccess,
+  getOrderInfoFailure,
+} from './order.actions'
 import OrderService from '../../services/order.service'
 
 // get order list
@@ -29,90 +34,6 @@ function* getList({ payload: filterConditions }) {
   try {
     let orderList = yield OrderService.getOrderList(filterConditions)
     orderList = formatOrderList(orderList || [])
-    // const numberOfContracts = yield TransactionService.countTransactions(filterConditions)
-    // const orderList =
-    //   filterConditions.pageIndex === 0
-    //     ? [
-    //         {
-    //           id: 'TNX1001',
-    //           state: { name: 'Có vấn đề', class: 'data-state-pending' },
-    //           date: '2018-08-24 10:20 PM',
-    //           type: { name: 'Mua', class: 'badge-success' },
-    //           key: 'Trống',
-    //         },
-    //         {
-    //           id: 'TNX1002',
-    //           state: { name: 'Đang xử lý', class: 'data-state-progress' },
-    //           date: '2018-08-24 10:20 PM',
-    //           type: { name: 'Tặng', class: 'badge-warning' },
-    //           key: 'Trống',
-    //         },
-    //         {
-    //           id: 'TNX1003',
-    //           state: { name: 'Thành công', class: 'data-state-approved' },
-    //           date: '2018-08-24 10:20 PM',
-    //           type: { name: 'Miễn phí', class: 'badge-warning' },
-    //           key: 'eyJh...0ur8',
-    //         },
-    //         {
-    //           id: 'TNX1004',
-    //           state: { name: 'Có vấn đề', class: 'data-state-pending' },
-    //           date: '2018-08-24 10:20 PM',
-    //           type: { name: 'Mua', class: 'badge-success' },
-    //           key: 'Trống',
-    //         },
-    //         {
-    //           id: 'TNX1005',
-    //           state: { name: 'Đang xử lý', class: 'data-state-progress' },
-    //           date: '2018-08-24 10:20 PM',
-    //           type: { name: 'Tặng', class: 'badge-warning' },
-    //           key: 'Trống',
-    //         },
-    //         // {
-    //         //   id: 'TNX1006',
-    //         //   state: { name: 'Thành công', class: 'data-state-approved' },
-    //         //   date: '2018-08-24 10:20 PM',
-    //         //   type: { name: 'Miễn phí', class: 'badge-warning' },
-    //         //   key: 'eyJh...0ur8',
-    //         // },
-    //         // {
-    //         //   id: 'TNX1007',
-    //         //   state: { name: 'Có vấn đề', class: 'data-state-pending' },
-    //         //   date: '2018-08-24 10:20 PM',
-    //         //   type: { name: 'Mua', class: 'badge-success' },
-    //         //   key: 'Trống',
-    //         // },
-    //         // {
-    //         //   id: 'TNX1008',
-    //         //   state: { name: 'Đang xử lý', class: 'data-state-progress' },
-    //         //   date: '2018-08-24 10:20 PM',
-    //         //   type: { name: 'Tặng', class: 'badge-warning' },
-    //         //   key: 'Trống',
-    //         // },
-    //       ]
-    //     : [
-    //         {
-    //           id: 'TNX1006',
-    //           state: { name: 'Thành công', class: 'data-state-approved' },
-    //           date: '2018-08-24 10:20 PM',
-    //           type: { name: 'Miễn phí', class: 'badge-warning' },
-    //           key: 'eyJh...0ur8',
-    //         },
-    //         {
-    //           id: 'TNX1007',
-    //           state: { name: 'Có vấn đề', class: 'data-state-pending' },
-    //           date: '2018-08-24 10:20 PM',
-    //           type: { name: 'Mua', class: 'badge-success' },
-    //           key: 'Trống',
-    //         },
-    //         {
-    //           id: 'TNX1008',
-    //           state: { name: 'Đang xử lý', class: 'data-state-progress' },
-    //           date: '2018-08-24 10:20 PM',
-    //           type: { name: 'Tặng', class: 'badge-warning' },
-    //           key: 'Trống',
-    //         },
-    //       ]
     yield put(getOrderListSuccess(orderList))
   } catch (err) {
     yield put(getOrderListFailure(err.message))
@@ -120,6 +41,40 @@ function* getList({ payload: filterConditions }) {
 }
 export function* getOrderListSaga() {
   yield takeLatest(OrderTypes.GET_ORDER_LIST, getList)
+}
+
+// get order info
+const formatOrderInfo = order => {
+  let info = { ...order }
+  info = {
+    ...info,
+    tokenType: {
+      ...info.tokenType,
+      name: TOKEN_TYPE[info.tokenType.name].viText,
+      class: TOKEN_TYPE[info.tokenType.name].cssClass,
+      saleOffPrice:
+        ((100 - Number(info.tokenType.salePercent || 0)) * Number(info.tokenType.price)) / 100,
+    },
+    status: {
+      status: info.status,
+      name: ORDER_STATUS[info.status].viText,
+      class: ORDER_STATUS[info.status].cssClass,
+    },
+  }
+  return info
+}
+
+function* getOrderInfo({ payload: { id, tokenId } }) {
+  try {
+    let order = yield OrderService.getOrderInfo({ id, tokenId })
+    order = formatOrderInfo(order)
+    yield put(getOrderInfoSuccess(order))
+  } catch (err) {
+    yield put(getOrderInfoFailure(err.message))
+  }
+}
+export function* getOrderInfotSaga() {
+  yield takeLatest(OrderTypes.GET_ORDER_INFO, getOrderInfo)
 }
 
 // create new transaction
@@ -139,8 +94,5 @@ export function* getOrderListSaga() {
 // =================================
 
 export function* orderSaga() {
-  yield all([
-    call(getOrderListSaga),
-    // call(createTransactionSaga),
-  ])
+  yield all([call(getOrderListSaga), call(getOrderInfotSaga)])
 }

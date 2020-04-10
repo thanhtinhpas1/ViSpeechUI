@@ -1,39 +1,34 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/prop-types */
-
-import LandingPage from 'components/common/LandingPage/LandingPage.component'
-import LoginPage from 'components/common/LoginPage/LoginPage.component'
-import RegisterPage from 'components/common/RegisterPage/RegisterPage.component'
+import 'antd/dist/antd.css'
 import React, { useEffect, useState } from 'react'
-// import ChangePasswordContainer from 'components/common/ChangePassword/ChangePassword.container'
-import { connect } from 'react-redux'
-import { Redirect, Route, Switch } from 'react-router-dom'
-import RouteAdmin from 'routes/admin.route'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import RouteCustomer from 'routes/customer.route'
-import Utils from 'utils'
-import { ADMIN_PATH, CUSTOMER_PATH } from 'utils/constant'
-import loadLink from 'utils/loadLink'
+import RouteAdmin from 'routes/admin.route'
 import loadScript from 'utils/loadScript'
-// import NotFound404 from 'components/common/NotFound404/NotFound404.component'
-// import ErrorPage from 'components/common/ErrorPage/ErrorPage.component'
+import loadLink from 'utils/loadLink'
+import { connect } from 'react-redux'
+import Utils from 'utils'
+import { CUSTOMER_PATH, ADMIN_PATH } from 'utils/constant'
 
-// import ActiveEmailContainer from 'components/common/ActiveEmail/ActiveEmail.container'
-// import ForgetPasswordContainer from 'components/common/ForgetPassword/ForgetPassword.container'
-// import ResetPasswordContainer from 'components/common/ResetPassword/ResetPassword.container'
-// import RegisterPageContainer from 'components/common/RegisterPage/RegisterPage.container'
-import SocketService from './services/socket.service';
+import LandingPage from 'components/common/LandingPage/LandingPage.container'
+import LoginPage from 'components/common/LoginPage/LoginPage.container'
+import RegisterPage from 'components/common/RegisterPage/RegisterPage.container'
+import SocketService from './services/socket.service'
 
 const App = ({ currentUser }) => {
-  const socketService = new SocketService();
-  socketService.emitEventOnUserCreated();
-  socketService.consumeEventOnUserCreated();
+  const socketService = new SocketService()
+  socketService.emitEventOnUserCreated()
+  socketService.consumeEventOnUserCreated()
   socketService.invokeCheckUserCreated.subscribe(result => {
-    const data = JSON.parse(result);
-    console.log(data);
+    const data = JSON.parse(result)
+    console.log(data)
   })
+
   const [isCssLoaded, setIsCssLoaded] = useState(false)
   const [isUser, setIsUser] = useState(null)
+
   useEffect(() => {
     async function loadAllLibraries() {
       const currentPath = window.location.pathname
@@ -402,18 +397,18 @@ const App = ({ currentUser }) => {
               </Route>
             </>
           ) : (
-              <>
-                <Route exact path="/">
-                  <LandingPage />
-                </Route>
-                <Route path="/login">
-                  <LoginPage />
-                </Route>
-                <Route path="/register">
-                  <RegisterPage />
-                </Route>
-              </>
-            )}
+            <>
+              <Route exact path="/">
+                <LandingPage />
+              </Route>
+              <Route path="/login">
+                <LoginPage />
+              </Route>
+              <Route path="/register">
+                <RegisterPage />
+              </Route>
+            </>
+          )}
         </>
       )}
     </Switch>

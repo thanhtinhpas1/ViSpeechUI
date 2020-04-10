@@ -7,6 +7,12 @@ const INITIAL_STATE = {
     isSuccess: null,
     message: null,
   },
+  getInfo: {
+    order: {},
+    isLoading: false,
+    isSuccess: null,
+    message: null,
+  },
   newOrder: {},
 }
 
@@ -16,6 +22,7 @@ const orderReducer = (state = INITIAL_STATE, action) => {
       return {
         ...INITIAL_STATE,
       }
+    // GET ORDER LIST
     case OrderTypes.GET_ORDER_LIST:
       return {
         ...state,
@@ -38,6 +45,34 @@ const orderReducer = (state = INITIAL_STATE, action) => {
         ...state,
         getList: {
           ...state.getList,
+          isLoading: false,
+          isSuccess: false,
+          message: action.payload,
+        },
+      }
+    // GET ORDER INFO
+    case OrderTypes.GET_ORDER_INFO:
+      return {
+        ...state,
+        getInfo: {
+          ...state.getInfo,
+          isLoading: true,
+        },
+      }
+    case OrderTypes.GET_ORDER_INFO_SUCCESS:
+      return {
+        ...state,
+        getInfo: {
+          isLoading: false,
+          isSuccess: true,
+          order: action.payload.data,
+        },
+      }
+    case OrderTypes.GET_ORDER_INFO_FAILURE:
+      return {
+        ...state,
+        getInfo: {
+          ...state.getInfo,
           isLoading: false,
           isSuccess: false,
           message: action.payload,

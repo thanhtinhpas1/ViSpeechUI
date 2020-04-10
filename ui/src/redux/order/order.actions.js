@@ -20,6 +20,22 @@ export const getOrderListFailure = message => ({
   payload: message,
 })
 
+// get order info
+export const getOrderInfo = ({ id, tokenId }) => ({
+  type: OrderTypes.GET_ORDER_INFO,
+  payload: { id, tokenId },
+})
+
+export const getOrderInfoSuccess = data => ({
+  type: OrderTypes.GET_ORDER_INFO_SUCCESS,
+  payload: { data },
+})
+
+export const getOrderInfoFailure = message => ({
+  type: OrderTypes.GET_ORDER_INFO_FAILURE,
+  payload: message,
+})
+
 export const createOrder = data => ({
   type: OrderTypes.CREATE_ORDER,
   payload: data,

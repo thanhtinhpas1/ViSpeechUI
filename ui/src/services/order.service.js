@@ -65,9 +65,43 @@ export default class OrderService {
     const offset = pageIndex * pageSize
     const limit = pageSize
 
-    const api = `${apiUrl}/orders/userId?userId=${encodeURIComponent(
-      userId
-    )}&offset=${offset}&limit=${limit}`
+    const api =
+      pageIndex && pageSize
+        ? `${apiUrl}/orders/userId?userId=${encodeURIComponent(
+            userId
+          )}&offset=${offset}&limit=${limit}`
+        : `${apiUrl}/orders/userId?userId=${encodeURIComponent(userId)}`
+    const jwtToken = STORAGE.getPreferences(JWT_TOKEN)
+
+    let status = 400
+    // eslint-disable-next-line no-undef
+    return fetch(api, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    })
+      .then(response => {
+        status = response.status
+        return response.json()
+      })
+      .then(result => {
+        if (status !== 200) {
+          throw new Error(result.message || DEFAULT_ERR_MESSAGE)
+        }
+        return result
+      })
+      .catch(err => {
+        throw new Error(err.message || DEFAULT_ERR_MESSAGE)
+      })
+  }
+
+  static getOrderInfo = ({ id, tokenId }) => {
+    let api = `${apiUrl}/orders/${encodeURIComponent(id)}`
+    if (tokenId) {
+      api = `${apiUrl}/orders/get-by-token/${encodeURIComponent(tokenId)}`
+    }
     const jwtToken = STORAGE.getPreferences(JWT_TOKEN)
 
     let status = 400

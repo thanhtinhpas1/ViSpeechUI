@@ -28,4 +28,10 @@ export const STATUS = {
   REJECTED: { name: 'REJECTED', viText: 'Từ chối', cssClass: 'data-state-canceled' },
   // -canceled -missing
 }
+export const ORDER_STATUS = {
+  PENDING: { name: 'PENDING', viText: 'Đang xử lý', cssClass: 'badge-primary' },
+  SUCCESS: { name: 'SUCCESS', viText: 'Thành công', cssClass: 'badge-success' },
+  FAILURE: { name: 'FAILURE', viText: 'Thất bại', cssClass: 'badge-danger' },
+  // -canceled -missing
+}
 export const DEFAULT_ERR_MESSAGE = 'Đã có lỗi xảy ra. Vui lòng thử lại sau ít phút.'

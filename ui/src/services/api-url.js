@@ -4,6 +4,6 @@
 //     : 'http://localhost:4500'
 
 // const apiUrl = 'http://localhost:7070/v1'
-const apiUrl = 'http://localhost:3000/v1'
+const apiUrl = 'http://localhost:3200/api'
 
 export default apiUrl
