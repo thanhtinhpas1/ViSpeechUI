@@ -41,7 +41,7 @@ pipeline {
         stage('delivery') {
             steps {
                 sh 'docker rm -f vispeechui || true'
-                sh 'docker run --name=vispeechui -d --restart=always -p 8080:8080 vispeechui'
+                sh 'docker run --name=vispeechui -d --restart=always -p 3200:3200 vispeechui'
             }
         }
     }
