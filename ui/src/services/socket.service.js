@@ -43,6 +43,9 @@ export default class SocketService {
         this.socket.on('CONNECTED', (msg) => {
             console.log(msg);
         })
+        this.socket.on('DISCONNECTED', (msg) => {
+            console.warn(msg);
+        })
     }
     invokeCheckUserCreated = new Subject();
     invokeEmailVerified = new Subject();

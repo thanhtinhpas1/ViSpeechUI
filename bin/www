@@ -31,12 +31,12 @@ io.sockets.on('connection', function (socket) {
   console.log('Socket connected');
   socket.emit('CONNECTED', "Connect socket success");
 
-  socket.on(topics.USER_CREATED_SUCCESS_EVENT, () => {
+  // socket.on(topics.USER_CREATED_SUCCESS_EVENT, () => {
     consumer.run(topics.USER_CREATED_SUCCESS_EVENT, socket);
-  })
-  socket.on(topics.USER_CREATED_FAILED_EVENT, () => {
+  // })
+  // socket.on(topics.USER_CREATED_FAILED_EVENT, () => {
     consumer.run(topics.USER_CREATED_FAILED_EVENT, socket);
-  })
+  // })
   socket.on(topics.USER_DELETED_SUCCESS_EVENT, () => {
     consumer.run(topics.USER_DELETED_SUCCESS_EVENT, socket);
   })
@@ -117,6 +117,7 @@ io.sockets.on('connection', function (socket) {
   socket.on('disconnect', function () {
     console.log('Socket disconnect!');
     consumer.disconnect();
+    socket.emit('DISCONNECTED', 'Connected socket disconnected');
   });
 });
 

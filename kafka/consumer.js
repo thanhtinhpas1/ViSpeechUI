@@ -1,6 +1,6 @@
 const { Kafka, logLevel } = require('kafkajs');
 
-const host = 'localhost'
+const host = 'asr.vietspeech.com'
 
 const kafka = new Kafka({
   logLevel: logLevel.INFO,
@@ -14,7 +14,7 @@ module.exports = {
   run: async (topic, socket) => {
     console.info(`Kafka consumer subscribed ${topic}`);
     await consumer.connect()
-    await consumer.subscribe({ topic: topic, fromBeginning: true})
+    await consumer.subscribe({ topic: topic, fromBeginning: false})
     await consumer.run({
       eachMessage: async ({ topic, partition, message }) => {
         socket.emit(topic, message.value);

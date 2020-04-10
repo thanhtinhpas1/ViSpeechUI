@@ -4,7 +4,6 @@
 import React, { useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { ROLES } from 'utils/constant'
-import SocketService from '../../../services/socket.service';
 
 const RegisterPage = ({ registerObj, register, onClearUserState }) => {
   useEffect(() => {
