@@ -2,7 +2,7 @@
 import * as io from 'socket.io-client';
 import { Subject } from 'rxjs';
 
-const apiSocket = 'http://localhost:8080';
+const apiSocket = 'http://localhost:3200';
 
 const topics = {
     // USER

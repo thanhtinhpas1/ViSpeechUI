@@ -1,7 +1,9 @@
 var createError = require('http-errors');
 var express = require('express');
+var proxy = require('express-http-proxy');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser')
 var logger = require('morgan');
 var cors = require('cors');
 var http = require('http');
@@ -15,33 +17,22 @@ app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser());
 app.use(cors());
-app.use(express.static(path.join(__dirname, 'ui/build')));
+app.use(express.static(path.join(__dirname, 'ui/public')));
 
-app.use('/api', (client_req, client_res, next) => {
-  console.log('proxy: ' + client_req.url);
-  var options = {
-    hostname: global.proxy.host || 'localhost',
-    port: global.proxy.port || 7070,
-    path: client_req.url,
-    method: client_req.method,
-    headers: client_req.headers,
-    socketPath: client_req.socketPath,
-  };
-
-  var proxy = http.request(options, function (res) {
-    client_res.writeHead(res.statusCode, res.headers)
-    res.pipe(client_res, {
-      end: true
+const url = `${global.proxy.protocol}://${global.proxy.host}:${global.proxy.port}`;
+app.use('/api', proxy(url, {
+  proxyReqPathResolver: function (req) {
+    return new Promise(function (resolve, reject) {
+      setTimeout(function () {   // simulate async
+        const path = `${global.proxy.basePath}${req.url}`;
+        resolve(path);
+      }, 200);
     });
-  });
-
-  client_req.pipe(proxy, {
-    end: true
-  });
-});
+  }
+}));
 
 app.use('*', function (req, res, next) {
   res.sendFile(path.join(__dirname, 'ui/build/index.html'));
