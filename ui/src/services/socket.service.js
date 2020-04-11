@@ -1,8 +1,4 @@
-/* eslint-disable func-names */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-var */
-/* eslint-disable lines-between-class-members */
-/* eslint-disable prettier/prettier */
+/* eslint-disable */
 import * as io from 'socket.io-client';
 import { Subject } from 'rxjs';
 
