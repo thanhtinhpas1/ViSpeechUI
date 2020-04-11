@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser')
 var logger = require('morgan');
 var cors = require('cors');
-var http = require('http');
 const global = require('./global');
 
 var app = express();

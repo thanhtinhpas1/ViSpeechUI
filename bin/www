@@ -7,7 +7,15 @@
 var app = require('../app');
 var debug = require('debug')('vispeechui:server');
 var http = require('http');
-var consumer = require('../kafka/consumer');
+var { Kafka, logLevel } = require('kafkajs');
+
+const host = 'asr.vietspeech.com'
+const kafka = new Kafka({
+  logLevel: logLevel.INFO,
+  brokers: [`${host}:9092`],
+  clientId: 'vispeech',
+})
+
 
 /**
  * Get port from environment and store in Express.
@@ -22,100 +30,100 @@ app.set('port', port);
 var server = http.createServer(app);
 var topics = require('../kafka/event').TOPICS;
 var io = require('socket.io').listen(server);
-// admin.run().catch(e => console.error(`[example/admin] ${e.message}`, e));
-
+var consumerUtil = require('../kafka/consumer');
 app.set('socket', io);
 
 io.sockets.on('connection', function (socket) {
+  const consumer = kafka.consumer({ groupId: socket.id })
+
   console.log('Socket connected');
   socket.emit('CONNECTED', "Connect socket success");
-
   socket.on(topics.USER_CREATED_SUCCESS_EVENT, () => {
-    consumer.run(topics.USER_CREATED_SUCCESS_EVENT, socket);
+    consumerUtil.run(consumer, topics.USER_CREATED_SUCCESS_EVENT, socket);
   })
   socket.on(topics.USER_CREATED_FAILED_EVENT, () => {
-    consumer.run(topics.USER_CREATED_FAILED_EVENT, socket);
+    consumerUtil.run(consumer, topics.USER_CREATED_FAILED_EVENT, socket);
   })
   socket.on(topics.USER_DELETED_SUCCESS_EVENT, () => {
-    consumer.run(topics.USER_DELETED_SUCCESS_EVENT, socket);
+    consumerUtil.run(consumer, topics.USER_DELETED_SUCCESS_EVENT, socket);
   })
   socket.on(topics.USER_DELETED_SUCCESS_EVENT, () => {
-    consumer.run(topics.USER_DELETED_SUCCESS_EVENT, socket);
+    consumerUtil.run(consumer, topics.USER_DELETED_SUCCESS_EVENT, socket);
   })
   socket.on(topics.USER_UPDATE_SUCCESS_EVENT, () => {
-    consumer.run(topics.USER_UPDATE_SUCCESS_EVENT, socket);
+    consumerUtil.run(consumer, topics.USER_UPDATE_SUCCESS_EVENT, socket);
   })
   socket.on(topics.USER_UPDATE_FAILED_EVENT, () => {
-    consumer.run(topics.USER_UPDATE_FAILED_EVENT, socket);
+    consumerUtil.run(consumer, topics.USER_UPDATE_FAILED_EVENT, socket);
   })
   socket.on(topics.VERIFY_EMAIL_SENT_SUCCESS_EVENT, () => {
-    consumer.run(topics.VERIFY_EMAIL_SENT_SUCCESS_EVENT, socket);
+    consumerUtil.run(consumer, topics.VERIFY_EMAIL_SENT_SUCCESS_EVENT, socket);
   })
   socket.on(topics.VERIFY_EMAIL_SENT_FAILED_EVENT, () => {
-    consumer.run(topics.VERIFY_EMAIL_SENT_FAILED_EVENT, socket);
+    consumerUtil.run(consumer, topics.VERIFY_EMAIL_SENT_FAILED_EVENT, socket);
   })
   socket.on(topics.FREE_TOKEN_CREATED_SUCCESS_EVENT, () => {
-    consumer.run(topics.FREE_TOKEN_CREATED_SUCCESS_EVENT);
+    consumerUtil.run(consumer, topics.FREE_TOKEN_CREATED_SUCCESS_EVENT);
   })
   // TOKEN
   socket.on(topics.FREE_TOKEN_CREATED_FAILED_EVENT, () => {
-    consumer.run(topics.FREE_TOKEN_CREATED_FAILED_EVENT);
+    consumerUtil.run(consumer, topics.FREE_TOKEN_CREATED_FAILED_EVENT);
   })
   socket.on(topics.TOKEN_CREATED_SUCCESS_EVENT, () => {
-    consumer.run(topics.TOKEN_CREATED_SUCCESS_EVENT);
+    consumerUtil.run(consumer, topics.TOKEN_CREATED_SUCCESS_EVENT);
   })
   socket.on(topics.TOKEN_CREATED_FAILED_EVENT, () => {
-    consumer.run(topics.TOKEN_CREATED_FAILED_EVENT);
+    consumerUtil.run(consumer, topics.TOKEN_CREATED_FAILED_EVENT);
   })
   socket.on(topics.TOKEN_DELETED_SUCCESS_EVENT, () => {
-    consumer.run(topics.TOKEN_DELETED_SUCCESS_EVENT);
+    consumerUtil.run(consumer, topics.TOKEN_DELETED_SUCCESS_EVENT);
   })
   socket.on(topics.TOKEN_DELETED_FAILED_EVENT, () => {
-    consumer.run(topics.TOKEN_DELETED_FAILED_EVENT);
+    consumerUtil.run(consumer, topics.TOKEN_DELETED_FAILED_EVENT);
   })
   socket.on(topics.PASSWORD_CHANGED_SUCCESS_EVENT, () => {
-    consumer.run(topics.PASSWORD_CHANGED_SUCCESS_EVENT, socket);
+    consumerUtil.run(consumer, topics.PASSWORD_CHANGED_SUCCESS_EVENT, socket);
   })
   socket.on(topics.PASSWORD_CHANGED_FAILED_EVENT, () => {
-    consumer.run(topics.PASSWORD_CHANGED_FAILED_EVENT, socket);
+    consumerUtil.run(consumer, topics.PASSWORD_CHANGED_FAILED_EVENT, socket);
   })
   // ORDER
   socket.on(topics.ORDERED_TOKEN_CREATED_SUCCESS_EVENT, () => {
-    consumer.run(topics.ORDERED_TOKEN_CREATED_SUCCESS_EVENT, socket);
+    consumerUtil.run(consumer, topics.ORDERED_TOKEN_CREATED_SUCCESS_EVENT, socket);
   })
   socket.on(topics.ORDERED_TOKEN_CREATED_FAILED_EVENT, () => {
-    consumer.run(topics.ORDERED_TOKEN_CREATED_FAILED_EVENT, socket);
+    consumerUtil.run(consumer, topics.ORDERED_TOKEN_CREATED_FAILED_EVENT, socket);
   })
   socket.on(topics.ORDER_CREATED_SUCCESS_EVENT, () => {
-    consumer.run(topics.ORDER_CREATED_SUCCESS_EVENT, socket);
+    consumerUtil.run(consumer, topics.ORDER_CREATED_SUCCESS_EVENT, socket);
   })
   socket.on(topics.ORDER_CREATED_FAILED_EVENT, () => {
-    consumer.run(topics.ORDER_CREATED_FAILED_EVENT, socket);
+    consumerUtil.run(consumer, topics.ORDER_CREATED_FAILED_EVENT, socket);
   })
   // PROJECT
   socket.on(topics.PROJECT_CREATED_SUCCESS_EVENT, () => {
-    consumer.run(topics.PROJECT_CREATED_SUCCESS_EVENT, socket);
+    consumerUtil.run(consumer, topics.PROJECT_CREATED_SUCCESS_EVENT, socket);
   })
   socket.on(topics.PROJECT_CREATED_FAILED_EVENT, () => {
-    consumer.run(topics.PROJECT_CREATED_FAILED_EVENT, socket);
+    consumerUtil.run(consumer, topics.PROJECT_CREATED_FAILED_EVENT, socket);
   })
   // PERMISSION
   socket.on(topics.PERMISSION_CREATED_SUCCESS_EVENT, () => {
-    consumer.run(topics.PERMISSION_CREATED_SUCCESS_EVENT, socket);
+    consumerUtil.run(consumer, topics.PERMISSION_CREATED_SUCCESS_EVENT, socket);
   })
   socket.on(topics.PERMISSION_CREATED_FAILED_EVENT, () => {
-    consumer.run(topics.PERMISSION_CREATED_FAILED_EVENT, socket);
+    consumerUtil.run(consumer, topics.PERMISSION_CREATED_FAILED_EVENT, socket);
   })
   socket.on(topics.PERMISSION_ASSIGN_EMAIL_SENT_SUCCESS_EVENT, () => {
-    consumer.run(topics.PERMISSION_ASSIGN_EMAIL_SENT_SUCCESS_EVENT, socket);
+    consumerUtil.run(consumer, topics.PERMISSION_ASSIGN_EMAIL_SENT_SUCCESS_EVENT, socket);
   })
   socket.on(topics.PERMISSION_ASSIGN_EMAIL_SENT_FAILED_EVENT, () => {
-    consumer.run(topics.PERMISSION_ASSIGN_EMAIL_SENT_FAILED_EVENT, socket);
+    consumerUtil.run(consumer, topics.PERMISSION_ASSIGN_EMAIL_SENT_FAILED_EVENT, socket);
   })
 
-  socket.on('disconnect', function () {
+  socket.on('disconnect', async function () {
     console.log('Socket disconnect!');
-    consumer.disconnect();
+    await consumer.disconnect();
     socket.emit('DISCONNECTED', 'Connected socket disconnected');
   });
 });
