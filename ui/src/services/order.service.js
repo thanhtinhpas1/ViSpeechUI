@@ -66,7 +66,7 @@ export default class OrderService {
     const limit = pageSize
 
     const api =
-      pageIndex && pageSize
+      pageIndex != null && pageSize != null
         ? `${apiUrl}/orders/userId?userId=${encodeURIComponent(
             userId
           )}&offset=${offset}&limit=${limit}`

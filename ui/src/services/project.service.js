@@ -38,7 +38,7 @@ export default class ProjectService {
     const limit = pageSize
 
     const api =
-      pageIndex && pageSize
+      pageIndex != null && pageSize != null
         ? `${apiUrl}/projects/user-projects?userId=${encodeURIComponent(
             userId
           )}&offset=${offset}&limit=${limit}`

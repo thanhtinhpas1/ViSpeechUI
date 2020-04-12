@@ -55,8 +55,8 @@ const TransactionsTab = ({ userInfoObj, orderListObj, getOrderList }) => {
     {
       Header: 'Token',
       accessor: 'token',
-      headerClassName: 'data-col dt-usd-account',
-      className: 'data-col dt-account',
+      headerClassName: 'data-col dt-type',
+      className: 'data-col dt-type',
       Cell: props => {
         const { cell } = props
         return (

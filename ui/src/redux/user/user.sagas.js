@@ -121,9 +121,9 @@ const formatUserList = userList => {
   return userList.map(mapFunc)
 }
 
-export function* getUserList() {
+export function* getUserList({ payload: filterConditions }) {
   try {
-    let userList = yield UserService.getUserList()
+    let userList = yield UserService.getUserList(filterConditions)
     userList = formatUserList(userList)
     yield put(getUserListSuccess(userList))
   } catch (err) {
