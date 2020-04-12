@@ -4,7 +4,6 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { ADMIN_PATH } from 'utils/constant'
 import * as moment from 'moment'
 import ReactTable from 'components/admin/ReactTable/ReactTable.component'
@@ -14,41 +13,6 @@ const UserListPage = ({ currentUser, userListObj, deleteUserObj, getUserList, de
     if (deleteUserObj.isLoading === false && deleteUserObj.isSuccess === true) {
       getUserList()
     }
-    //  else if (userListObj.isLoading === false && userListObj.isSuccess === null) {
-    //   getUserList()
-    // }
-    // if (userListObj.isLoading === false && userListObj.isSuccess === true && isJsLoaded) {
-    //   window.$('#userListDataTable').DataTable({
-    //     pagingType: 'full_numbers',
-    //     lengthMenu: [
-    //       [10, 25, 50, -1],
-    //       [10, 25, 50, 'All'],
-    //     ],
-    //     responsive: true,
-    //     language: {
-    //       search: '',
-    //       // searchPlaceholder: 'Type in to Search',
-    //       info: 'Hiển thị _START_ đến _END_ trên _TOTAL_ dòng',
-    //       infoEmpty: 'Không có dữ liệu',
-    //       infoFiltered: '(filtered from _MAX_ total entries)',
-    //       paginate: {
-    //         first: 'Trang đầu',
-    //         last: 'Trang cuối',
-    //         next: 'Tiếp theo',
-    //         previous: 'Quay lại',
-    //       },
-    //     },
-    //   })
-
-    //   const table = window.$('#userListDataTable').DataTable()
-
-    //   // Like record
-    //   table.on('click', '.like', function a() {
-    //     alert('You clicked on Like button')
-    //   })
-
-    //   window.$('.card .material-datatables label').addClass('form-group')
-    // }
   }, [deleteUserObj, getUserList])
 
   const columns = [
@@ -99,18 +63,18 @@ const UserListPage = ({ currentUser, userListObj, deleteUserObj, getUserList, de
         const { cell } = props
         return (
           <>
-            <Link
-              to={`${ADMIN_PATH}/user-info/${cell.value}`}
-              className="btn btn-simple btn-warning btn-icon edit"
+            <a
+              href={`${ADMIN_PATH}/user-info/${cell.value}`}
+              className="btn btn-simple btn-secondary btn-just-icon"
             >
-              <i className="material-icons">dvr</i>
-            </Link>
+              <i className="zmdi zmdi-eye" />
+            </a>
             <a
               href="#"
-              className="btn btn-simple btn-danger btn-icon remove"
+              className="btn btn-simple btn-danger btn-just-icon"
               onClick={() => deleteUser(cell.value)}
             >
-              <i className="material-icons">close</i>
+              <i className="zmdi zmdi-close-circle-o" />
             </a>
           </>
         )
@@ -127,7 +91,7 @@ const UserListPage = ({ currentUser, userListObj, deleteUserObj, getUserList, de
               <span>Danh sách khách hàng</span>
               <a
                 href={`${ADMIN_PATH}/create-user`}
-                className="btn btn-just-icon btn-simple btn-behance m-0"
+                className="btn btn-just-icon btn-simple btn-primary m-0"
                 rel="tooltip"
                 title="Thêm mới"
               >
@@ -136,69 +100,6 @@ const UserListPage = ({ currentUser, userListObj, deleteUserObj, getUserList, de
             </h4>
             <div className="toolbar" />
             <div className="material-datatables">
-              {/* {userListObj.isLoading === false && userListObj.isSuccess === true && isJsLoaded && (
-                <table
-                  id="userListDataTable"
-                  className="table table-striped table-no-bordered table-hover"
-                  cellSpacing={0}
-                  width="100%"
-                  style={{ width: '100%' }}
-                >
-                  <thead>
-                    <tr>
-                      <th>Họ tên</th>
-                      <th>Tên đăng nhập</th>
-                      <th>Email</th>
-                      <th>Vai trò</th>
-                      <th>Tạo ngày</th>
-                      <th className="disabled-sorting text-right">Thao tác</th>
-                    </tr>
-                  </thead>
-                  <tfoot>
-                    <tr>
-                      <th>Họ tên</th>
-                      <th>Tên đăng nhập</th>
-                      <th>Email</th>
-                      <th>Vai trò</th>
-                      <th>Tạo ngày</th>
-                      <th className="text-right">Actions</th>
-                    </tr>
-                  </tfoot>
-                  <tbody>
-                    {userListObj.userList.map(user => {
-                      return (
-                        <tr key={user._id}>
-                          <td>
-                            {user.lastName} {user.firstName}
-                          </td>
-                          <td>{user.username}</td>
-                          <td>{user.email}</td>
-                          <td>{Utils.getRolesInText(user.roles)}</td>
-                          <td>{moment(user.createdDate).format('DD/MM/YYYY HH:MM')}</td>
-                          <td className="text-right">
-                            <a href="#" className="btn btn-simple btn-info btn-icon like">
-                              <i className="material-icons">favorite</i>
-                            </a>
-                            <Link
-                              to={`/admin/user-info/${user._id}`}
-                              className="btn btn-simple btn-warning btn-icon edit"
-                            >
-                              <i className="material-icons">dvr</i>
-                            </Link>
-                            <a
-                              href="#"
-                              className="btn btn-simple btn-danger btn-icon remove"
-                              onClick={e => onDeleteUser(e, user._id)}
-                            >
-                              <i className="material-icons">close</i>
-                            </a>
-                          </td>
-                        </tr>
-                      )
-                    })}
-                  </tbody>
-                </table>
-              )} */}
               {currentUser._id && (
                 <ReactTable
                   columns={columns}

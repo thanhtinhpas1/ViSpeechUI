@@ -6,13 +6,12 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react'
 import { Redirect, useParams } from 'react-router-dom'
-import { ROLES, ADMIN_PATH } from 'utils/constant'
-import Utils from 'utils'
-import InfoTab from './components/InfoTab.component'
-import ActivitiesTab from './components/ActivitiesTab.component'
-import ChangePasswordTab from './components/ChangePasswordTab.component'
+import { ADMIN_PATH } from 'utils/constant'
+import InfoTab from './components/InfoTab/InfoTab.container'
+import TransactionsTab from './components/TransactionsTab/TransactionsTab.container'
+import ProjectsTab from './components/ProjectsTab/ProjectsTab.container'
 
-const UserInfoPage = ({ userInfoObj, deleteUserObj, getUserInfo, updateUserInfo, deleteUser }) => {
+const UserInfoPage = ({ userInfoObj, deleteUserObj, getUserInfo, deleteUser }) => {
   const { id } = useParams()
 
   useEffect(() => {
@@ -20,30 +19,6 @@ const UserInfoPage = ({ userInfoObj, deleteUserObj, getUserInfo, updateUserInfo,
       getUserInfo(id)
     }
   }, [id, getUserInfo])
-
-  const onSubmit = event => {
-    event.preventDefault()
-    if (!id) {
-      return
-    }
-
-    const form = event.target
-    const selectedRoles = Object.values(ROLES).map(role => {
-      return {
-        name: role,
-        isSelected: form.elements[role].checked,
-      }
-    })
-    const formattedRoles = Utils.formatRolesToSubmit(selectedRoles)
-
-    const user = {
-      firstName: form.elements.firstName.value,
-      lastName: form.elements.lastName.value,
-      email: form.elements.email.value,
-      roles: formattedRoles,
-    }
-    updateUserInfo(id, user)
-  }
 
   const onDeleteUser = (e, userId) => {
     deleteUser(userId)
@@ -55,10 +30,10 @@ const UserInfoPage = ({ userInfoObj, deleteUserObj, getUserInfo, updateUserInfo,
 
   return (
     <div className="row">
-      <div className="col-md-8">
+      <div className="col-md-12">
         <div className="card" id="profile-main">
-          <div className="card-content">
-            <h3 className="card-title" style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div className="card-header">
+            <h4 className="card-title" style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span>Thông tin chi tiết khách hàng</span>
               {userInfoObj.isLoading === false && userInfoObj.isSuccess === true && (
                 <button
@@ -70,62 +45,47 @@ const UserInfoPage = ({ userInfoObj, deleteUserObj, getUserInfo, updateUserInfo,
                   <i className="zmdi zmdi-delete" />
                 </button>
               )}
-            </h3>
-            <div role="tabpanel">
-              <ul className="nav nav-pills">
-                <li className="active">
-                  <a href="#info-tab" aria-controls="info-tab" role="tab" data-toggle="tab">
-                    Thông tin
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#activities-tab"
-                    aria-controls="activities-tab"
-                    role="tab"
-                    data-toggle="tab"
-                  >
-                    Hoạt động
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#change-password-tab"
-                    aria-controls="change-password-tab"
-                    role="tab"
-                    data-toggle="tab"
-                  >
-                    Cài đặt
-                  </a>
-                </li>
-              </ul>
-              <div className="tab-content">
-                <InfoTab userInfoObj={userInfoObj} onSubmit={onSubmit} />
-                <ActivitiesTab />
-                <ChangePasswordTab />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="col-md-4">
-        <div className="card card-profile">
-          <div className="card-avatar">
-            <a href="#pablo">
-              <img className="img" src="/images/admin/faces/avatar.png" />
-            </a>
+            </h4>
           </div>
           <div className="card-content">
-            <h6 className="category text-gray">CEO / Co-Founder</h6>
-            <h4 className="card-title">Alec Thompson</h4>
-            <p className="description">
-              Don&apos;t be scared of the truth because we need to restart the human foundation in
-              truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back
-              is...
-            </p>
-            <a href="#pablo" className="btn btn-rose btn-round">
-              Follow
-            </a>
+            <div className="row">
+              <div className="col-md-2">
+                <ul className="nav nav-pills nav-pills-rose nav-stacked">
+                  <li className="active">
+                    <a href="#info-tab" aria-controls="info-tab" role="tab" data-toggle="tab">
+                      Thông tin
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#projects-tab"
+                      aria-controls="projects-tab"
+                      role="tab"
+                      data-toggle="tab"
+                    >
+                      Dự án
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#transactions-tab"
+                      aria-controls="transactions-tab"
+                      role="tab"
+                      data-toggle="tab"
+                    >
+                      Lịch sử giao dịch
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div className="col-md-10">
+                <div className="tab-content">
+                  <InfoTab userInfoObj={userInfoObj} />
+                  <ProjectsTab userInfoObj={userInfoObj} />
+                  <TransactionsTab userInfoObj={userInfoObj} />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

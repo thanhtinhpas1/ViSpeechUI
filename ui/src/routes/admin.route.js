@@ -10,6 +10,9 @@ import AdminHomePage from 'components/admin/HomePage/HomePage.container'
 import AdminUserListPage from 'components/admin/UserListPage/UserListPage.container'
 import AdminUserInfoPage from 'components/admin/UserInfoPage/UserInfoPage.container'
 import AdminUserCreatePage from 'components/admin/UserCreatePage/UserCreatePage.container'
+import AdminProjectDetailsPage from 'components/admin/ProjectDetailsPage/ProjectDetailsPage.container'
+import AdminTransactionDetailsPage from 'components/admin/TransactionDetailsPage/TransactionDetailsPage.container'
+
 import StatisticsPage from 'components/admin/StatisticsPage/StatisticsPage.component'
 
 const RouteAdmin = ({ currentUser }) => {
@@ -30,9 +33,9 @@ const RouteAdmin = ({ currentUser }) => {
           </Route>
           <Route
             path={`${ADMIN_PATH}/user-info/:id`}
-            render={props => (
+            render={() => (
               <AdminLayout>
-                <AdminUserInfoPage {...props} />
+                <AdminUserInfoPage />
               </AdminLayout>
             )}
           />
@@ -46,6 +49,30 @@ const RouteAdmin = ({ currentUser }) => {
               <StatisticsPage />
             </AdminLayout>
           </Route>
+          <Route
+            path={`${ADMIN_PATH}/transaction-details`}
+            render={() => (
+              <AdminLayout>
+                <AdminTransactionDetailsPage />
+              </AdminLayout>
+            )}
+          />
+          <Route
+            path={`${ADMIN_PATH}/user-project/:id`}
+            render={props => (
+              <AdminLayout>
+                <AdminProjectDetailsPage {...props} />
+              </AdminLayout>
+            )}
+          />
+          <Route
+            path={`${ADMIN_PATH}/user-accepted-project/:id`}
+            render={props => (
+              <AdminLayout>
+                <AdminProjectDetailsPage {...props} />
+              </AdminLayout>
+            )}
+          />
         </>
       ) : (
         <>
@@ -62,6 +89,12 @@ const RouteAdmin = ({ currentUser }) => {
             <Redirect to="/" />
           </Route>
           <Route path={`${ADMIN_PATH}/reports`}>
+            <Redirect to="/" />
+          </Route>
+          <Route path={`${ADMIN_PATH}/user-project/:id`}>
+            <Redirect to="/" />
+          </Route>
+          <Route path={`${ADMIN_PATH}/user-accepted-project/:id`}>
             <Redirect to="/" />
           </Route>
         </>

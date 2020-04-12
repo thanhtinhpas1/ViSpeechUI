@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { getUserInfo, updateUserInfo, deleteUser } from 'redux/user/user.actions'
+import { getUserInfo, deleteUser } from 'redux/user/user.actions'
 import UserInfoPage from './UserInfoPage.component'
 
 const mapStateToProps = state => ({
@@ -9,7 +9,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getUserInfo: id => dispatch(getUserInfo(id)),
-  updateUserInfo: (id, userInfo) => dispatch(updateUserInfo(id, userInfo)),
   deleteUser: id => dispatch(deleteUser(id)),
 })
 

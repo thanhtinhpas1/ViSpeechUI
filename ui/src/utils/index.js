@@ -3,6 +3,9 @@ import { ROLES } from './constant'
 
 const Utils = {
   checkIfIsUser: roleList => {
+    // if (!Array.isArray(roleList)) {
+    //   return ''
+    // }
     return (
       roleList.findIndex(role => role.name === ROLES.USER || role.name === ROLES.MANAGER_USER) !==
       -1

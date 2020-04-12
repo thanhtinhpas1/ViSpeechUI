@@ -30,42 +30,6 @@ const Navbar = ({ currentUser, logout }) => {
           <ul className="nav navbar-nav navbar-right">
             <li className="dropdown">
               <a href="#!" className="dropdown-toggle" data-toggle="dropdown">
-                <i className="material-icons">notifications</i>
-                <span className="notification">6</span>
-                <p className="hidden-lg hidden-md">
-                  Notifications
-                  <b className="caret" />
-                </p>
-              </a>
-              <ul className="dropdown-menu">
-                <li>
-                  <a href="#!">You have 5 new messages</a>
-                </li>
-                <li>
-                  <a href="#!">You&apos;re now friend with Mike</a>
-                </li>
-                <li>
-                  <a href="#!">Wish Mary on her birthday!</a>
-                </li>
-                <li>
-                  <a href="#!">5 warnings in Server Console</a>
-                </li>
-                <li>
-                  <a href="#!">Jane completed &apos;Induction Training&apos;</a>
-                </li>
-                <li>
-                  <a href="#!">&apos;Prepare Marketing Report&apos; is overdue</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a href="#pablo" className="dropdown-toggle" data-toggle="dropdown">
-                <i className="material-icons">apps</i>
-                <p className="hidden-lg hidden-md">Apps</p>
-              </a>
-            </li>
-            <li className="dropdown">
-              <a href="#!" className="dropdown-toggle" data-toggle="dropdown">
                 <i className="material-icons">person</i>
                 <p className="hidden-lg hidden-md">
                   Trang cá nhân
@@ -92,12 +56,6 @@ const Navbar = ({ currentUser, logout }) => {
                   </a>
                 </li>
               </ul>
-            </li>
-            <li>
-              <a href="#pablo" className="dropdown-toggle" data-toggle="dropdown">
-                <i className="material-icons">settings</i>
-                <p className="hidden-lg hidden-md">Settings</p>
-              </a>
             </li>
             <li className="separator hidden-lg hidden-md" />
           </ul>

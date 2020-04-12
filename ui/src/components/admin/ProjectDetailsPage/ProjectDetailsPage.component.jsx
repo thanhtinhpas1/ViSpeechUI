@@ -8,7 +8,7 @@ import * as moment from 'moment'
 import { CUSTOMER_PATH } from 'utils/constant'
 import ReactTable from 'components/customer/ReactTable/ReactTable.component'
 
-const TokensWalletPage = ({
+const ProjectDetailsPage = ({
   currentUser,
   getProjectInfoObj,
   getProjectTokenListObj,
@@ -110,10 +110,10 @@ const TokensWalletPage = ({
   const getProjectTokensList = useCallback(
     ({ pageIndex, pageSize }) => {
       const projectOwnerId = getProjectInfoObj.project.userId
-      if (pathname.includes('accepted-project') && projectOwnerId) {
+      if (pathname.includes('user-accepted-project') && projectOwnerId) {
         getProjectTokens({ userId: projectOwnerId, projectId: id, pageIndex, pageSize })
       }
-      if (pathname.includes('my-project')) {
+      if (pathname.includes('user-project')) {
         getProjectTokens({ userId: currentUser._id, projectId: id, pageIndex, pageSize })
       }
     },
@@ -195,4 +195,4 @@ const TokensWalletPage = ({
   )
 }
 
-export default TokensWalletPage
+export default ProjectDetailsPage
