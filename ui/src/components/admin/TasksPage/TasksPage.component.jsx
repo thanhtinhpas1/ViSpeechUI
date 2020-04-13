@@ -8,7 +8,7 @@ import { ADMIN_PATH } from 'utils/constant'
 import * as moment from 'moment'
 import ReactTable from 'components/admin/ReactTable/ReactTable.component'
 
-const TasksPage = ({ currentUser, taskListObj, getTaskList }) => {
+const TasksPage = ({ taskListObj, getTaskList }) => {
   const columns = [
     {
       Header: 'Họ tên',
@@ -73,31 +73,20 @@ const TasksPage = ({ currentUser, taskListObj, getTaskList }) => {
     <div className="row">
       <div className="col-md-12">
         <div className="card">
+          <div className="card-header">
+            <h4 className="card-title">Danh sách task</h4>
+          </div>
           <div className="card-content">
-            <h4 className="card-title" style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span>Danh sách task</span>
-              <a
-                href={`${ADMIN_PATH}/create-user`}
-                className="btn btn-just-icon btn-simple btn-primary m-0"
-                rel="tooltip"
-                title="Thêm mới"
-              >
-                <i className="zmdi zmdi-plus-circle-o" />
-              </a>
-            </h4>
-            <div className="toolbar" />
             <div className="material-datatables">
-              {currentUser._id && (
-                <ReactTable
-                  columns={columns}
-                  data={taskListObj.taskList}
-                  fetchData={getTaskList}
-                  loading={taskListObj.isLoading}
-                  pageCount={Math.ceil(taskListObj.taskList.length / 10)}
-                  defaultPageSize={10}
-                  pageSize={10}
-                />
-              )}
+              <ReactTable
+                columns={columns}
+                data={taskListObj.taskList.data}
+                fetchData={getTaskList}
+                loading={taskListObj.isLoading}
+                pageCount={Math.ceil(taskListObj.taskList.count / 10)}
+                defaultPageSize={10}
+                pageSize={10}
+              />
             </div>
           </div>
         </div>

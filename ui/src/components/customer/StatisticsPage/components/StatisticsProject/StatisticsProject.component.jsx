@@ -27,8 +27,8 @@ const StatisticsProject = ({
   }, [currentUser._id, getMyProjects])
 
   useEffect(() => {
-    if (getMyProjectListObj.myProjectList.length > 0) {
-      const projects = getMyProjectListObj.myProjectList.map(project => {
+    if (getMyProjectListObj.myProjectList.data.length > 0) {
+      const projects = getMyProjectListObj.myProjectList.data.map(project => {
         return {
           ...project,
           display: project.name,

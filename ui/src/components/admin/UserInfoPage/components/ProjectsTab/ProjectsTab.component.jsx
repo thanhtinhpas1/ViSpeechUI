@@ -204,10 +204,10 @@ const ProjectsTab = ({
           {userInfoObj.user._id && (
             <ReactTable
               columns={userProjectTableColumns}
-              data={getMyProjectListObj.myProjectList}
+              data={getMyProjectListObj.myProjectList.data}
               fetchData={getUserProjectList}
               loading={getMyProjectListObj.isLoading}
-              pageCount={Math.ceil(getMyProjectListObj.myProjectList.length / 5)}
+              pageCount={Math.ceil(getMyProjectListObj.myProjectList.count / 5)}
               defaultPageSize={5}
               pageSize={5}
             />
@@ -217,10 +217,10 @@ const ProjectsTab = ({
           {userInfoObj.user._id && (
             <ReactTable
               columns={userAcceptedProjectTableColumns}
-              data={getAcceptedProjectListObj.acceptedProjectList}
+              data={getAcceptedProjectListObj.acceptedProjectList.data}
               fetchData={getUserAcceptedProjectList}
               loading={getAcceptedProjectListObj.isLoading}
-              pageCount={Math.ceil(getAcceptedProjectListObj.acceptedProjectList.length / 5)}
+              pageCount={Math.ceil(getAcceptedProjectListObj.acceptedProjectList.count / 5)}
               defaultPageSize={5}
               pageSize={5}
             />

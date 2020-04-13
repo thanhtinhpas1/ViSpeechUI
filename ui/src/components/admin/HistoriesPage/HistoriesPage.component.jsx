@@ -8,7 +8,7 @@ import { ADMIN_PATH } from 'utils/constant'
 import * as moment from 'moment'
 import ReactTable from 'components/admin/ReactTable/ReactTable.component'
 
-const HistoriesPage = ({ currentUser, requestListObj, getRequestList }) => {
+const HistoriesPage = ({ requestListObj, getRequestList }) => {
   const columns = [
     {
       Header: 'Họ tên',
@@ -73,31 +73,20 @@ const HistoriesPage = ({ currentUser, requestListObj, getRequestList }) => {
     <div className="row">
       <div className="col-md-12">
         <div className="card">
+          <div className="card-header">
+            <h4 className="card-title">Lịch sử</h4>
+          </div>
           <div className="card-content">
-            <h4 className="card-title" style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span>Lịch sử</span>
-              <a
-                href={`${ADMIN_PATH}/create-user`}
-                className="btn btn-just-icon btn-simple btn-primary m-0"
-                rel="tooltip"
-                title="Thêm mới"
-              >
-                <i className="zmdi zmdi-plus-circle-o" />
-              </a>
-            </h4>
-            <div className="toolbar" />
             <div className="material-datatables">
-              {currentUser._id && (
-                <ReactTable
-                  columns={columns}
-                  data={requestListObj.requestList}
-                  fetchData={getRequestList}
-                  loading={requestListObj.isLoading}
-                  pageCount={Math.ceil(requestListObj.requestList.length / 10)}
-                  defaultPageSize={10}
-                  pageSize={10}
-                />
-              )}
+              <ReactTable
+                columns={columns}
+                data={requestListObj.requestList.data}
+                fetchData={getRequestList}
+                loading={requestListObj.isLoading}
+                pageCount={Math.ceil(requestListObj.requestList.count / 10)}
+                defaultPageSize={10}
+                pageSize={10}
+              />
             </div>
           </div>
         </div>

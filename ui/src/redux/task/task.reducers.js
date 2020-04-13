@@ -2,7 +2,7 @@ import TaskTypes from './task.types'
 
 const INITIAL_STATE = {
   getList: {
-    taskList: [],
+    taskList: { data: [], count: 0 },
     isLoading: false,
     isSuccess: null,
     message: null,
@@ -30,7 +30,7 @@ const taskReducer = (state = INITIAL_STATE, action) => {
         getList: {
           isLoading: false,
           isSuccess: true,
-          requestList: action.payload.data,
+          taskList: action.payload.data,
         },
       }
     case TaskTypes.GET_TASK_LIST_FAILURE:

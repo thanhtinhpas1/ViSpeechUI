@@ -20,29 +20,24 @@ const TransactionDetailsPage = ({ getInfoObj, getOrderInfo }) => {
   }, [orderId, tokenId, getOrderInfo])
 
   return (
-    <div className="page-content">
-      <div className="container">
-        <div className="card content-area">
-          <div className="card-innr">
-            <div className="card-head d-flex justify-content-between align-items-center">
-              <h4 className="card-title mb-0">Chi tiết giao dịch</h4>
-              <a
-                href="#!"
-                onClick={history.goBack}
-                className="btn btn-sm btn-auto btn-primary d-sm-block d-none"
-              >
-                <em className="fas fa-arrow-left mr-3" />
-                Trở lại
-              </a>
-              <a
-                href="#!"
-                onClick={history.goBack}
-                className="btn btn-icon btn-sm btn-primary d-sm-none"
-              >
-                <em className="fas fa-arrow-left" />
-              </a>
-            </div>
-            <div className="gaps-1-5x" />
+    <div className="row">
+      <div className="col-md-12">
+        <div className="card">
+          <div className="card-header d-flex justify-content-between align-items-center">
+            <h4 className="card-title">Chi tiết giao dịch</h4>
+            <a
+              href="#!"
+              onClick={history.goBack}
+              className="btn btn-auto btn-primary d-sm-block d-none"
+            >
+              <em className="fas fa-arrow-left" style={{ marginRight: '10px' }} />
+              Trở lại
+            </a>
+            <a href="#!" onClick={history.goBack} className="btn btn-icon btn-primary d-sm-none">
+              <em className="fas fa-arrow-left" />
+            </a>
+          </div>
+          <div className="card-content">
             <div className="data-details d-md-flex">
               <div className="fake-class">
                 <span className="data-details-title">Mã giao dịch</span>

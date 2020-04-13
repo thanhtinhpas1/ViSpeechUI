@@ -180,10 +180,10 @@ const ProjectDetailsPage = ({
             {currentUser._id && (
               <ReactTable
                 columns={columns}
-                data={getProjectTokenListObj.projectTokenList}
+                data={getProjectTokenListObj.projectTokenList.data}
                 fetchData={getProjectTokensList}
                 loading={getProjectTokenListObj.isLoading}
-                pageCount={Math.ceil(getProjectTokenListObj.projectTokenList.length / 5)}
+                pageCount={Math.ceil(getProjectTokenListObj.projectTokenList.count / 5)}
                 defaultPageSize={5}
                 pageSize={5}
               />

@@ -133,10 +133,10 @@ const TransactionsTab = ({ userInfoObj, orderListObj, getOrderList }) => {
       {userInfoObj.user._id && (
         <ReactTable
           columns={columns}
-          data={orderListObj.orderList}
+          data={orderListObj.orderList.data}
           fetchData={getList}
           loading={orderListObj.isLoading}
-          pageCount={Math.ceil(orderListObj.orderList.length / 5)}
+          pageCount={Math.ceil(orderListObj.orderList.count / 5)}
           defaultPageSize={5}
           pageSize={5}
         />

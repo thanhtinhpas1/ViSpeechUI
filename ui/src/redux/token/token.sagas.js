@@ -21,7 +21,7 @@ import {
 export function* getUserTokens({ payload: filterConditions }) {
   try {
     const userTokenList = yield TokenService.getUserTokenList(filterConditions)
-    yield put(getUserTokenListSuccess(userTokenList || []))
+    yield put(getUserTokenListSuccess(userTokenList))
   } catch (err) {
     yield put(getUserTokenListFailure(err.message))
   }
@@ -53,8 +53,8 @@ const formatProjectTokenList = tokenList => {
 
 export function* getProjectTokens({ payload: filterConditions }) {
   try {
-    let projectTokenList = yield TokenService.getProjectTokenList(filterConditions)
-    projectTokenList = formatProjectTokenList(projectTokenList || [])
+    const projectTokenList = yield TokenService.getProjectTokenList(filterConditions)
+    projectTokenList.data = formatProjectTokenList(projectTokenList.data)
     yield put(getProjectTokenListSuccess(projectTokenList))
   } catch (err) {
     yield put(getProjectTokenListFailure(err.message))

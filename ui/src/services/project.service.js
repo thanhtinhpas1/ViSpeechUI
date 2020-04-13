@@ -129,4 +129,35 @@ export default class ProjectService {
         throw new Error(err.message || DEFAULT_ERR_MESSAGE)
       })
   }
+
+  static updateProjectInfo = (id, info) => {
+    const api = `${apiUrl}/projects/${id}`
+    const jwtToken = STORAGE.getPreferences(JWT_TOKEN)
+
+    let status = 400
+    return fetch(api, {
+      method: 'PUT',
+      body: JSON.stringify({
+        ...info,
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    })
+      .then(response => {
+        status = response.status
+        return response.text()
+      })
+      .then(result => {
+        const resultObj = result ? JSON.parse(result) : {}
+        if (status !== 200) {
+          throw new Error(resultObj.message || DEFAULT_ERR_MESSAGE)
+        }
+        return resultObj
+      })
+      .catch(err => {
+        throw new Error(err.message || DEFAULT_ERR_MESSAGE)
+      })
+  }
 }

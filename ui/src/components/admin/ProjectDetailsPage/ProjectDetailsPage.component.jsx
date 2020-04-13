@@ -3,24 +3,30 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useCallback, useEffect } from 'react'
-import { useParams, useLocation, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import * as moment from 'moment'
-import { CUSTOMER_PATH } from 'utils/constant'
 import ReactTable from 'components/customer/ReactTable/ReactTable.component'
+import { ADMIN_PATH } from '../../../utils/constant'
 
 const ProjectDetailsPage = ({
-  currentUser,
   getProjectInfoObj,
   getProjectTokenListObj,
+  updateInfoObj,
   getProjectInfo,
   getProjectTokens,
+  updateProjectInfo,
 }) => {
   const { id } = useParams()
-  const { pathname } = useLocation()
 
   useEffect(() => {
     getProjectInfo(id)
   }, [id, getProjectInfo])
+
+  useEffect(() => {
+    if (updateInfoObj.isLoading === false && updateInfoObj.isSuccess === true) {
+      getProjectInfo(id)
+    }
+  }, [updateInfoObj, id, getProjectInfo])
 
   const columns = [
     {
@@ -81,7 +87,7 @@ const ProjectDetailsPage = ({
       headerClassName: 'data-col dt-amount',
       headerStyle: { textAlign: 'center' },
       style: { textAlign: 'center' },
-      className: 'data-col dt-account',
+      className: 'data-col dt-amount',
       Cell: props => {
         const { cell } = props
         return <span className="lead">{cell.value} phút</span>
@@ -97,10 +103,10 @@ const ProjectDetailsPage = ({
         const { cell } = props
         return (
           <a
-            href={`${CUSTOMER_PATH}/transaction-details?tokenId=${cell.value}`}
-            className="btn btn-light-alt btn-xs btn-icon"
+            href={`${ADMIN_PATH}/transaction-details?tokenId=${cell.value}`}
+            className="btn btn-just-icon btn-secondary btn-simple"
           >
-            <em className="ti ti-eye" />
+            <i className="zmdi zmdi-eye" />
           </a>
         )
       },
@@ -110,84 +116,111 @@ const ProjectDetailsPage = ({
   const getProjectTokensList = useCallback(
     ({ pageIndex, pageSize }) => {
       const projectOwnerId = getProjectInfoObj.project.userId
-      if (pathname.includes('user-accepted-project') && projectOwnerId) {
+      if (projectOwnerId) {
         getProjectTokens({ userId: projectOwnerId, projectId: id, pageIndex, pageSize })
       }
-      if (pathname.includes('user-project')) {
-        getProjectTokens({ userId: currentUser._id, projectId: id, pageIndex, pageSize })
-      }
     },
-    [currentUser._id, id, pathname, getProjectInfoObj.project.userId, getProjectTokens]
+    [id, getProjectInfoObj.project.userId, getProjectTokens]
   )
 
+  const onSubmit = event => {
+    event.preventDefault()
+    const projectId = getProjectInfoObj.project._id
+    if (!projectId) {
+      return
+    }
+
+    const form = event.target
+    const data = {
+      name: form.elements.name.value,
+      description: form.elements.description.value,
+    }
+    updateProjectInfo(projectId, data)
+  }
+
   return (
-    <div className="page-content">
-      <div className="container">
-        <div className="card content-area">
-          <div className="card-innr">
-            <div className="card-head d-flex justify-content-between align-items-center">
-              {getProjectInfoObj.project && (
-                <>
-                  <h4 className="card-title mb-0">{getProjectInfoObj.project.name}</h4>
-                  {currentUser && getProjectInfoObj.project.userId === currentUser._id && (
-                    <>
-                      <Link
-                        to={`${CUSTOMER_PATH}/assign-permission?projectName=${getProjectInfoObj.project.name}`}
-                        className="btn btn-sm btn-auto btn-primary d-sm-block d-none"
+    <div className="row">
+      <div className="col-md-12">
+        <div className="card">
+          <div className="card-header">
+            <h4 className="card-title">{getProjectInfoObj.project.name}</h4>
+          </div>
+          <div className="card-content">
+            <form onSubmit={onSubmit}>
+              <div className="data-details" style={{ flexDirection: 'column' }}>
+                <div className="row d-md-flex" style={{ margin: '0px 0px' }}>
+                  <div className="fake-class" style={{ paddingRight: '10px' }}>
+                    <span className="data-details-title">Tên dự án</span>
+                    <span className="data-details-info">
+                      <div
+                        className="form-group label-floating is-empty"
+                        style={{ padding: '0px', margin: '0px' }}
                       >
-                        Mời tham gia
-                        <em className="fas fa-user-plus ml-3" />
-                      </Link>
-                      <Link
-                        to={`${CUSTOMER_PATH}/assign-permission?projectName=${getProjectInfoObj.project.name}`}
-                        className="btn btn-icon btn-sm btn-primary d-sm-none"
+                        <label className="control-label" />
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Tên dự án"
+                          name="name"
+                          defaultValue={getProjectInfoObj.project.name}
+                        />
+                      </div>
+                    </span>
+                  </div>
+                  <div className="fake-class" style={{ paddingRight: '10px' }}>
+                    <span className="data-details-title">Mô tả</span>
+                    <span className="data-details-info">
+                      <div
+                        className="form-group label-floating is-empty"
+                        style={{ padding: '0px', margin: '0px' }}
                       >
-                        <em className="fas fa-user-plus" />
-                      </Link>
-                    </>
-                  )}
-                </>
-              )}
-            </div>
-            <div className="gaps-2x" />
-            <div className="data-details d-md-flex">
-              <div className="fake-class">
-                <span className="data-details-title">Tên dự án</span>
-                <span className="data-details-info">
-                  <strong>{getProjectInfoObj.project.name}</strong>
-                </span>
+                        <label className="control-label" />
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Mô tả"
+                          name="description"
+                          defaultValue={getProjectInfoObj.project.description}
+                        />
+                      </div>
+                    </span>
+                  </div>
+                  <div className="fake-class">
+                    <span className="data-details-title">Thời gian tạo</span>
+                    <span className="data-details-info">
+                      {moment(getProjectInfoObj.project.createdDate).format('DD/MM/YYYY hh:mm:ss')}
+                    </span>
+                  </div>
+                  <div className="fake-class">
+                    <span className="data-details-title">Thời gian cập nhật</span>
+                    <span className="data-details-info">
+                      {moment(getProjectInfoObj.project.updatedDate).format('DD/MM/YYYY hh:mm:ss')}
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  className="row"
+                  style={{ display: 'flex', justifyContent: 'flex-end', margin: '0px 0px' }}
+                >
+                  <button type="submit" className="btn btn-primary">
+                    Cập nhật
+                  </button>
+                </div>
               </div>
-              <div className="fake-class">
-                <span className="data-details-title">Mô tả</span>
-                <span className="data-details-info">
-                  <strong>{getProjectInfoObj.project.description}</strong>
-                </span>
-              </div>
-              <div className="fake-class">
-                <span className="data-details-title">Thời gian tạo</span>
-                <span className="data-details-info">
-                  {moment(getProjectInfoObj.project.createdDate).format('DD/MM/YYYY hh:mm:ss')}
-                </span>
-              </div>
-              <div className="fake-class">
-                <span className="data-details-title">Thời gian cập nhật</span>
-                <span className="data-details-info">
-                  {moment(getProjectInfoObj.project.updatedDate).format('DD/MM/YYYY hh:mm:ss')}
-                </span>
-              </div>
-            </div>
+            </form>
             <div className="gaps-5x" />
-            {currentUser._id && (
+            <div className="material-datatables">
               <ReactTable
                 columns={columns}
-                data={getProjectTokenListObj.projectTokenList}
+                data={getProjectTokenListObj.projectTokenList.data}
                 fetchData={getProjectTokensList}
                 loading={getProjectTokenListObj.isLoading}
-                pageCount={Math.ceil(getProjectTokenListObj.projectTokenList.length / 5)}
+                pageCount={Math.ceil(getProjectTokenListObj.projectTokenList.count / 5)}
                 defaultPageSize={5}
                 pageSize={5}
               />
-            )}
+            </div>
           </div>
         </div>
       </div>

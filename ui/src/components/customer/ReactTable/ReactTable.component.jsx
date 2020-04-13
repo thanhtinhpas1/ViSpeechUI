@@ -105,7 +105,7 @@ const ReactTable = ({ columns, data, fetchData, loading, pageCount: controlledPa
         Pagination can be built however you'd like. 
         This is just a very basic UI implementation:
       */}
-        <div className="row align-items-center">
+        <div className="row align-items-center" style={{ marginRight: '0px', marginLeft: '0px' }}>
           <div className="text-left" style={{ whiteSpace: 'nowrap' }}>
             <div className="pagination dataTables_paginate">
               <ul className="pagination">
@@ -153,7 +153,10 @@ const ReactTable = ({ columns, data, fetchData, loading, pageCount: controlledPa
             </div>
           </div>
         </div>
-        <div className="row align-items-center justify-content-end" style={{ color: '#23406c' }}>
+        <div
+          className="row align-items-center justify-content-end"
+          style={{ color: '#23406c', marginRight: '0px', marginLeft: '0px' }}
+        >
           <div>
             Trang{' '}
             <strong>

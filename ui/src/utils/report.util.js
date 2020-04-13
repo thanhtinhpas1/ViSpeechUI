@@ -20,10 +20,10 @@ const ReportUtils = {
   getDateNow: () => {
     return moment(new Date(Date.now()))
   },
-  getTenDatesFromNow: () => {
+  getPreviousTenDatesFromNow: () => {
     return moment(
       new Date(
-        Date.now() + ReportUtils.ONE_DAY_IN_MILLISECONDS * (ReportUtils.RANGE_PICKER_LIMIT - 3)
+        Date.now() - ReportUtils.ONE_DAY_IN_MILLISECONDS * (ReportUtils.RANGE_PICKER_LIMIT - 3)
       )
     )
   },

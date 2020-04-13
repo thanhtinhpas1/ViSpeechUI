@@ -11,6 +11,8 @@ import {
   createProjectFailure,
   getProjectInfoSuccess,
   getProjectInfoFailure,
+  updateProjectInfoSuccess,
+  updateProjectInfoFailure,
 } from './project.actions'
 import ProjectService from '../../services/project.service'
 
@@ -18,7 +20,7 @@ import ProjectService from '../../services/project.service'
 function* getMyProjectList({ payload: filterConditions }) {
   try {
     const projectList = yield ProjectService.getMyProjectList(filterConditions)
-    yield put(getMyProjectListSuccess(projectList || []))
+    yield put(getMyProjectListSuccess(projectList))
   } catch (err) {
     yield put(getMyProjectListFailure(err.message))
   }
@@ -44,8 +46,8 @@ const formatAcceptedProjectList = acceptedProjectList => {
 
 function* getAcceptedProjectList({ payload: filterConditions }) {
   try {
-    let projectList = yield ProjectService.getAcceptedProjectList(filterConditions)
-    projectList = formatAcceptedProjectList(projectList || [])
+    const projectList = yield ProjectService.getAcceptedProjectList(filterConditions)
+    projectList.data = formatAcceptedProjectList(projectList.data)
     yield put(getAcceptedProjectListSuccess(projectList))
   } catch (err) {
     yield put(getAcceptedProjectListFailure(err.message))
@@ -82,6 +84,19 @@ export function* getProjectInfoSaga() {
   yield takeLatest(ProjectTypes.GET_PROJECT_INFO, getProjectInfo)
 }
 
+// ==== update project info
+function* updateProjectInfo({ payload: { id, data } }) {
+  try {
+    yield ProjectService.updateProjectInfo(id, data)
+    yield put(updateProjectInfoSuccess({ ...data, _id: id }))
+  } catch (err) {
+    yield put(updateProjectInfoFailure(err.message))
+  }
+}
+function* updateProjectInfoSaga() {
+  yield takeLatest(ProjectTypes.UPDATE_PROJECT_INFO, updateProjectInfo)
+}
+
 // =================================
 
 export function* projectSaga() {
@@ -90,5 +105,6 @@ export function* projectSaga() {
     call(getAcceptedProjectListSaga),
     call(createProjectSaga),
     call(getProjectInfoSaga),
+    call(updateProjectInfoSaga),
   ])
 }

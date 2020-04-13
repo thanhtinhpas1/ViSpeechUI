@@ -11,7 +11,7 @@ import InfoTab from './components/InfoTab/InfoTab.container'
 import TransactionsTab from './components/TransactionsTab/TransactionsTab.container'
 import ProjectsTab from './components/ProjectsTab/ProjectsTab.container'
 
-const UserInfoPage = ({ userInfoObj, deleteUserObj, getUserInfo, deleteUser }) => {
+const UserInfoPage = ({ userInfoObj, deleteUserObj, updateInfoObj, getUserInfo, deleteUser }) => {
   const { id } = useParams()
 
   useEffect(() => {
@@ -19,6 +19,12 @@ const UserInfoPage = ({ userInfoObj, deleteUserObj, getUserInfo, deleteUser }) =
       getUserInfo(id)
     }
   }, [id, getUserInfo])
+
+  useEffect(() => {
+    if (updateInfoObj.isLoading === false && updateInfoObj.isSuccess === true) {
+      getUserInfo(id)
+    }
+  }, [updateInfoObj, id, getUserInfo])
 
   const onDeleteUser = (e, userId) => {
     deleteUser(userId)

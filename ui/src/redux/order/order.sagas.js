@@ -32,8 +32,8 @@ const formatOrderList = orderList => {
 
 function* getList({ payload: filterConditions }) {
   try {
-    let orderList = yield OrderService.getOrderList(filterConditions)
-    orderList = formatOrderList(orderList || [])
+    const orderList = yield OrderService.getOrderList(filterConditions)
+    orderList.data = formatOrderList(orderList.data)
     yield put(getOrderListSuccess(orderList))
   } catch (err) {
     yield put(getOrderListFailure(err.message))

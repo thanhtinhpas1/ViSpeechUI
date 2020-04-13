@@ -10,9 +10,9 @@ export const getMyProjectList = filterConditions => ({
   payload: filterConditions,
 })
 
-export const getMyProjectListSuccess = myProjectList => ({
+export const getMyProjectListSuccess = data => ({
   type: ProjectTypes.GET_MY_PROJECT_LIST_SUCCESS,
-  payload: { myProjectList },
+  payload: { data },
 })
 
 export const getMyProjectListFailure = message => ({
@@ -26,9 +26,9 @@ export const getAcceptedProjectList = filterConditions => ({
   payload: filterConditions,
 })
 
-export const getAcceptedProjectListSuccess = acceptedProjectList => ({
+export const getAcceptedProjectListSuccess = data => ({
   type: ProjectTypes.GET_ACCEPTED_PROJECT_LIST_SUCCESS,
-  payload: { acceptedProjectList },
+  payload: { data },
 })
 
 export const getAcceptedProjectListFailure = message => ({
@@ -42,9 +42,9 @@ export const createProject = data => ({
   payload: data,
 })
 
-export const createProjectSuccess = project => ({
+export const createProjectSuccess = data => ({
   type: ProjectTypes.CREATE_PROJECT_SUCCESS,
-  payload: { project },
+  payload: { data },
 })
 
 export const createProjectFailure = message => ({
@@ -60,10 +60,26 @@ export const getProjectInfo = id => ({
 
 export const getProjectInfoSuccess = data => ({
   type: ProjectTypes.GET_PROJECT_INFO_SUCCESS,
-  payload: data,
+  payload: { data },
 })
 
 export const getProjectInfoFailure = message => ({
   type: ProjectTypes.GET_PROJECT_INFO_FAILURE,
+  payload: message,
+})
+
+// update project info
+export const updateProjectInfo = (id, data) => ({
+  type: ProjectTypes.UPDATE_PROJECT_INFO,
+  payload: { id, data },
+})
+
+export const updateProjectInfoSuccess = data => ({
+  type: ProjectTypes.UPDATE_PROJECT_INFO_SUCCESS,
+  payload: data,
+})
+
+export const updateProjectInfoFailure = message => ({
+  type: ProjectTypes.UPDATE_PROJECT_INFO_FAILURE,
   payload: message,
 })

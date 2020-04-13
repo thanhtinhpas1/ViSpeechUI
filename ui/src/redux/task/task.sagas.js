@@ -28,7 +28,7 @@ const formatOrderList = orderList => {
 function* getList({ payload: filterConditions }) {
   try {
     let taskList = yield TaskService.getTaskList(filterConditions)
-    taskList = formatOrderList(taskList || [])
+    taskList = formatOrderList(taskList)
     yield put(getTaskListSuccess(taskList))
   } catch (err) {
     yield put(getTaskListFailure(err.message))

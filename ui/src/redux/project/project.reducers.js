@@ -7,19 +7,24 @@ const INITIAL_STATE = {
     message: null,
   },
   getMyProjectList: {
-    myProjectList: [],
+    myProjectList: { data: [], count: 0 },
     isLoading: false,
     isSuccess: null,
     message: null,
   },
   getAcceptedProjectList: {
-    acceptedProjectList: [],
+    acceptedProjectList: { data: [], count: 0 },
     isLoading: false,
     isSuccess: null,
     message: null,
   },
   getInfo: {
     project: {},
+    isLoading: false,
+    isSuccess: null,
+    message: null,
+  },
+  updateInfo: {
     isLoading: false,
     isSuccess: null,
     message: null,
@@ -73,7 +78,7 @@ const projectReducer = (state = INITIAL_STATE, action) => {
         getMyProjectList: {
           isLoading: false,
           isSuccess: true,
-          myProjectList: action.payload.myProjectList,
+          myProjectList: action.payload.data,
         },
       }
     case ProjectTypes.GET_MY_PROJECT_LIST_FAILURE:
@@ -101,7 +106,7 @@ const projectReducer = (state = INITIAL_STATE, action) => {
         getAcceptedProjectList: {
           isLoading: false,
           isSuccess: true,
-          acceptedProjectList: action.payload.acceptedProjectList,
+          acceptedProjectList: action.payload.data,
         },
       }
     case ProjectTypes.GET_ACCEPTED_PROJECT_LIST_FAILURE:
@@ -127,7 +132,7 @@ const projectReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         getInfo: {
-          project: action.payload,
+          project: action.payload.data,
           isLoading: false,
           isSuccess: true,
         },
@@ -137,6 +142,32 @@ const projectReducer = (state = INITIAL_STATE, action) => {
         ...state,
         getInfo: {
           ...state.getInfo,
+          isLoading: false,
+          isSuccess: false,
+          message: action.payload,
+        },
+      }
+    // UPDATE INFO
+    case ProjectTypes.UPDATE_PROJECT_INFO:
+      return {
+        ...state,
+        updateInfo: {
+          ...state.updateInfo,
+          isLoading: true,
+        },
+      }
+    case ProjectTypes.UPDATE_PROJECT_INFO_SUCCESS:
+      return {
+        ...state,
+        updateInfo: {
+          isLoading: false,
+          isSuccess: true,
+        },
+      }
+    case ProjectTypes.UPDATE_PROJECT_INFO_FAILURE:
+      return {
+        ...state,
+        updateInfo: {
           isLoading: false,
           isSuccess: false,
           message: action.payload,

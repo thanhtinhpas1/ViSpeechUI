@@ -15,8 +15,7 @@ const INITIAL_STATE = {
     message: null,
   },
   getList: {
-    userList: [],
-    numberOfUsers: 0,
+    userList: { data: [], count: 0 },
     isLoading: false,
     isSuccess: null,
     message: null,

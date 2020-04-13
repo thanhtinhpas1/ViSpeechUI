@@ -123,8 +123,8 @@ const formatUserList = userList => {
 
 export function* getUserList({ payload: filterConditions }) {
   try {
-    let userList = yield UserService.getUserList(filterConditions)
-    userList = formatUserList(userList)
+    const userList = yield UserService.getUserList(filterConditions)
+    userList.data = formatUserList(userList.data)
     yield put(getUserListSuccess(userList))
   } catch (err) {
     yield put(getUserListFailure(err.message))

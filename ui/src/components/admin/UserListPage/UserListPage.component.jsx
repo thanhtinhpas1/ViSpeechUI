@@ -8,7 +8,7 @@ import { ADMIN_PATH } from 'utils/constant'
 import * as moment from 'moment'
 import ReactTable from 'components/admin/ReactTable/ReactTable.component'
 
-const UserListPage = ({ currentUser, userListObj, deleteUserObj, getUserList, deleteUser }) => {
+const UserListPage = ({ userListObj, deleteUserObj, getUserList, deleteUser }) => {
   useEffect(() => {
     if (deleteUserObj.isLoading === false && deleteUserObj.isSuccess === true) {
       getUserList()
@@ -86,7 +86,7 @@ const UserListPage = ({ currentUser, userListObj, deleteUserObj, getUserList, de
     <div className="row">
       <div className="col-md-12">
         <div className="card">
-          <div className="card-content">
+          <div className="card-header">
             <h4 className="card-title" style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span>Danh sách khách hàng</span>
               <a
@@ -98,19 +98,18 @@ const UserListPage = ({ currentUser, userListObj, deleteUserObj, getUserList, de
                 <i className="zmdi zmdi-plus-circle-o" />
               </a>
             </h4>
-            <div className="toolbar" />
+          </div>
+          <div className="card-content">
             <div className="material-datatables">
-              {currentUser._id && (
-                <ReactTable
-                  columns={columns}
-                  data={userListObj.userList}
-                  fetchData={getUserList}
-                  loading={userListObj.isLoading}
-                  pageCount={Math.ceil(userListObj.userList.length / 5)}
-                  defaultPageSize={5}
-                  pageSize={5}
-                />
-              )}
+              <ReactTable
+                columns={columns}
+                data={userListObj.userList.data}
+                fetchData={getUserList}
+                loading={userListObj.isLoading}
+                pageCount={Math.ceil(userListObj.userList.count / 5)}
+                defaultPageSize={5}
+                pageSize={5}
+              />
             </div>
           </div>
         </div>

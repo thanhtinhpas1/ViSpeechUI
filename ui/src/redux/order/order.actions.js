@@ -10,9 +10,9 @@ export const getOrderList = filterConditions => ({
   payload: filterConditions,
 })
 
-export const getOrderListSuccess = orderList => ({
+export const getOrderListSuccess = data => ({
   type: OrderTypes.GET_ORDER_LIST_SUCCESS,
-  payload: { orderList },
+  payload: { data },
 })
 
 export const getOrderListFailure = message => ({

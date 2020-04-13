@@ -2,7 +2,7 @@ import RequestTypes from './request.types'
 
 const INITIAL_STATE = {
   getList: {
-    requestList: [],
+    requestList: { data: [], count: 0 },
     isLoading: false,
     isSuccess: null,
     message: null,

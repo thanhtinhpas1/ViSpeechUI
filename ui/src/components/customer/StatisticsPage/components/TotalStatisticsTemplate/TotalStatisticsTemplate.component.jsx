@@ -17,7 +17,7 @@ const {
   ONE_DAY_IN_MILLISECONDS,
   RANGE_PICKER_LIMIT,
   getDateNow,
-  getTenDatesFromNow,
+  getPreviousTenDatesFromNow,
   getTotalWeeksOfYear,
   getTotalQuarters,
   getOnlyDate,
@@ -37,7 +37,10 @@ const TotalStatisticsTemplate = ({
     'Ngày bắt đầu',
     'Ngày kết thúc',
   ])
-  const [valueRangePicker, setValueRangePicker] = useState([getDateNow(), getTenDatesFromNow()])
+  const [valueRangePicker, setValueRangePicker] = useState([
+    getPreviousTenDatesFromNow(),
+    getDateNow(),
+  ])
 
   const defaultQuarterData = {
     from: { quarter: 0, year: 2020 },
@@ -49,8 +52,8 @@ const TotalStatisticsTemplate = ({
 
   useEffect(() => {
     if (userId) {
-      const fromDate = getDateNow().valueOf()
-      const toDate = getTenDatesFromNow().valueOf()
+      const fromDate = getPreviousTenDatesFromNow().valueOf()
+      const toDate = getDateNow().valueOf()
       setIsButtonDisabled(false)
       getUserTotalStatistics(userId, statisticsType, TIME_TYPE.DATE, { fromDate, toDate })
     }
