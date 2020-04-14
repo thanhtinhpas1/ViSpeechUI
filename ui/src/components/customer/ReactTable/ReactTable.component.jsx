@@ -3,7 +3,14 @@
 import React, { useEffect } from 'react'
 import { useTable, usePagination } from 'react-table'
 
-const ReactTable = ({ columns, data, fetchData, loading, pageCount: controlledPageCount }) => {
+const ReactTable = ({
+  columns,
+  data,
+  fetchData,
+  loading,
+  pageCount: controlledPageCount,
+  defaultPageSize,
+}) => {
   // Use the state and functions returned from useTable to build your UI
   const {
     getTableProps,
@@ -27,7 +34,7 @@ const ReactTable = ({ columns, data, fetchData, loading, pageCount: controlledPa
     {
       columns,
       data,
-      initialState: { pageIndex: 0, pageSize: 5 }, // Pass our hoisted table state
+      initialState: { pageIndex: 0, pageSize: defaultPageSize }, // Pass our hoisted table state
       manualPagination: true, // Tell the usePagination
       // hook that we'll handle our own data fetching
       // This means we'll also have to provide our own

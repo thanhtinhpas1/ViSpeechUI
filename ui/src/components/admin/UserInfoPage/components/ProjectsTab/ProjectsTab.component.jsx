@@ -7,7 +7,7 @@
 import React, { useCallback } from 'react'
 import * as moment from 'moment'
 import ReactTable from 'components/admin/ReactTable/ReactTable.component'
-import { ADMIN_PATH } from '../../../../../utils/constant'
+import { ADMIN_PATH } from 'utils/constant'
 
 const ProjectsTab = ({
   userInfoObj,

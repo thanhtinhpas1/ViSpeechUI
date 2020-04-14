@@ -4,68 +4,63 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react'
-import { ADMIN_PATH } from 'utils/constant'
 import * as moment from 'moment'
 import ReactTable from 'components/admin/ReactTable/ReactTable.component'
 
 const HistoriesPage = ({ requestListObj, getRequestList }) => {
   const columns = [
     {
-      Header: 'Họ tên',
-      accessor: 'fullName',
+      Header: 'Mã token',
+      accessor: 'tokenId',
       Cell: props => {
         const { cell } = props
         return <span>{cell.value}</span>
       },
     },
     {
-      Header: 'Tên đăng nhập',
-      accessor: 'username',
+      Header: 'Tên file',
+      accessor: 'fileName',
       Cell: props => {
         const { cell } = props
         return <span>{cell.value}</span>
       },
     },
     {
-      Header: 'Email',
-      accessor: 'email',
+      Header: 'Định dạng',
+      accessor: 'mimeType',
       Cell: props => {
         const { cell } = props
         return <span>{cell.value}</span>
       },
     },
     {
-      Header: 'Vai trò',
-      accessor: 'rolesInText',
+      Header: 'Kích thước',
+      accessor: 'size',
       Cell: props => {
         const { cell } = props
         return <span>{cell.value}</span>
       },
     },
     {
-      Header: 'Tạo ngày',
+      Header: 'Mã dự án',
+      accessor: 'projectId',
+      Cell: props => {
+        const { cell } = props
+        return <span>{cell.value}</span>
+      },
+    },
+    {
+      Header: 'Thời gian sử dụng (phút)',
+      accessor: 'duration',
+      Cell: props => {
+        const { cell } = props
+        return <span>{cell.value}</span>
+      },
+    },
+    {
+      Header: 'Thời gian tạo',
       accessor: 'createdDate',
       Cell: props => moment(props.cell.value).format('DD/MM/YYYY HH:mm'),
-    },
-    {
-      Header: '',
-      accessor: '_id',
-      id: 'action',
-      headerClassName: 'text-right',
-      className: 'text-right',
-      Cell: props => {
-        const { cell } = props
-        return (
-          <>
-            <a
-              href={`${ADMIN_PATH}/user-info/${cell.value}`}
-              className="btn btn-simple btn-secondary btn-just-icon"
-            >
-              <i className="zmdi zmdi-eye" />
-            </a>
-          </>
-        )
-      },
     },
   ]
 

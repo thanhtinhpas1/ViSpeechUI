@@ -6,7 +6,7 @@ import React, { useCallback, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import * as moment from 'moment'
 import ReactTable from 'components/customer/ReactTable/ReactTable.component'
-import { ADMIN_PATH } from '../../../utils/constant'
+import { ADMIN_PATH } from 'utils/constant'
 
 const ProjectDetailsPage = ({
   getProjectInfoObj,

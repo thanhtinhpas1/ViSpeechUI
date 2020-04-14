@@ -64,6 +64,18 @@ const Sidebar = ({ currentUser, onAuthenticate }) => {
               <p>Thống kê</p>
             </a>
           </li>
+          <li className={`${location.pathname === `${ADMIN_PATH}/histories` ? 'active' : ''} `}>
+            <a href={`${ADMIN_PATH}/histories`}>
+              <i className="material-icons">library_books</i>
+              <p>Lịch sử sử dụng dịch vụ</p>
+            </a>
+          </li>
+          <li className={`${location.pathname === `${ADMIN_PATH}/tasks` ? 'active' : ''} `}>
+            <a href={`${ADMIN_PATH}/tasks`}>
+              <i className="material-icons">library_books</i>
+              <p>Danh sách task</p>
+            </a>
+          </li>
         </ul>
       </div>
     </div>

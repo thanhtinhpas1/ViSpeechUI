@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
+import { registerStart, onClearUserState } from 'redux/user/user.actions'
 import RegisterPage from './RegisterPage.component'
-import { registerStart, onClearUserState } from '../../../redux/user/user.actions'
 
 const mapStateToProps = state => ({
   currentUser: state.user.currentUser,

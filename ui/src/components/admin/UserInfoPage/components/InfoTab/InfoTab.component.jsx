@@ -5,8 +5,8 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react'
-import { ROLES } from '../../../../../utils/constant'
-import Utils from '../../../../../utils'
+import { ROLES } from 'utils/constant'
+import Utils from 'utils'
 
 const InfoTab = ({ userInfoObj, updateUserInfo }) => {
   useEffect(() => {

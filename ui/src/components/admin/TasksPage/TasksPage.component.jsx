@@ -4,67 +4,47 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react'
-import { ADMIN_PATH } from 'utils/constant'
 import * as moment from 'moment'
 import ReactTable from 'components/admin/ReactTable/ReactTable.component'
 
 const TasksPage = ({ taskListObj, getTaskList }) => {
   const columns = [
     {
-      Header: 'Họ tên',
-      accessor: 'fullName',
+      Header: 'Tên',
+      accessor: 'name',
       Cell: props => {
         const { cell } = props
         return <span>{cell.value}</span>
       },
     },
     {
-      Header: 'Tên đăng nhập',
-      accessor: 'username',
-      Cell: props => {
-        const { cell } = props
-        return <span>{cell.value}</span>
-      },
+      Header: 'Thời gian chạy kế tiếp',
+      accessor: 'nextRun',
+      Cell: props => moment(props.cell.value).format('DD/MM/YYYY HH:mm:ss'),
     },
     {
-      Header: 'Email',
-      accessor: 'email',
-      Cell: props => {
-        const { cell } = props
-        return <span>{cell.value}</span>
-      },
+      Header: 'Thời gian chạy trước đó',
+      accessor: 'previousRun',
+      Cell: props => moment(props.cell.value).format('DD/MM/YYYY HH:mm:ss'),
     },
     {
-      Header: 'Vai trò',
-      accessor: 'rolesInText',
-      Cell: props => {
-        const { cell } = props
-        return <span>{cell.value}</span>
-      },
-    },
-    {
-      Header: 'Tạo ngày',
-      accessor: 'createdDate',
-      Cell: props => moment(props.cell.value).format('DD/MM/YYYY HH:mm'),
-    },
-    {
-      Header: '',
-      accessor: '_id',
-      id: 'action',
-      headerClassName: 'text-right',
-      className: 'text-right',
+      Header: 'Trạng thái chạy trước đó',
+      accessor: 'previousRunStatus',
       Cell: props => {
         const { cell } = props
         return (
-          <>
-            <a
-              href={`${ADMIN_PATH}/user-info/${cell.value}`}
-              className="btn btn-simple btn-secondary btn-just-icon"
-            >
-              <i className="zmdi zmdi-eye" />
-            </a>
-          </>
+          <span className={`badge ${cell.value.status && cell.value.class} ucap`}>
+            {cell.value.name}
+          </span>
         )
+      },
+    },
+    {
+      Header: 'Lỗi',
+      accessor: 'errorLog',
+      Cell: props => {
+        const { cell } = props
+        return <span>{cell.value}</span>
       },
     },
   ]
