@@ -27,8 +27,8 @@ const StatisticsToken = ({
   }, [currentUser._id, getUserTokens])
 
   useEffect(() => {
-    if (getUserTokenListObj.userTokenList.length > 0) {
-      const tokens = getUserTokenListObj.userTokenList.map(token => {
+    if (getUserTokenListObj.userTokenList.data.length > 0) {
+      const tokens = getUserTokenListObj.userTokenList.data.map(token => {
         return {
           ...token,
           display: token._id,

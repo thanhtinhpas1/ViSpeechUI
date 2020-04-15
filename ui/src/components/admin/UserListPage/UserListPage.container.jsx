@@ -9,7 +9,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getUserList: () => dispatch(getUserList()),
+  getUserList: ({ pageIndex, pageSize }) => dispatch(getUserList({ pageIndex, pageSize })),
   deleteUser: id => dispatch(deleteUser(id)),
 })
 

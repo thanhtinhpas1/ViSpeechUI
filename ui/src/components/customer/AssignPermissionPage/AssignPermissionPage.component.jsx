@@ -69,7 +69,7 @@ const AssignPermissionPage = ({
                   required
                   id="selected-project"
                 >
-                  {getMyProjectListObj.myProjectList.map(project => {
+                  {getMyProjectListObj.myProjectList.data.map(project => {
                     if (query.get('projectName') === project.name) {
                       return (
                         <option value={project._id} selected>

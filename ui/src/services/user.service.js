@@ -124,8 +124,15 @@ export default class UserService {
       })
   }
 
-  static getUserList = () => {
-    const api = `${apiUrl}/users`
+  static getUserList = filterConditions => {
+    const { pageIndex, pageSize } = filterConditions
+    const offset = pageIndex * pageSize
+    const limit = pageSize
+
+    const api =
+      pageIndex != null && pageSize != null
+        ? `${apiUrl}/users?offset=${offset}&limit=${limit}`
+        : `${apiUrl}/users`
     const jwtToken = STORAGE.getPreferences(JWT_TOKEN)
 
     let status = 400

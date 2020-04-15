@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { getProjectTokenList } from 'redux/token/token.actions'
 import { getProjectInfo } from 'redux/project/project.actions'
-import TokensWalletPage from './TokensWalletPage.component'
+import ProjectDetailsPage from './ProjectDetailsPage.component'
 
 const mapStateToProps = state => ({
   currentUser: state.user.currentUser,
@@ -15,6 +15,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(getProjectTokenList({ userId, projectId, pageIndex, pageSize })),
 })
 
-const TokensWalletPageContainer = connect(mapStateToProps, mapDispatchToProps)(TokensWalletPage)
+const ProjectDetailsPageContainer = connect(mapStateToProps, mapDispatchToProps)(ProjectDetailsPage)
 
-export default TokensWalletPageContainer
+export default ProjectDetailsPageContainer

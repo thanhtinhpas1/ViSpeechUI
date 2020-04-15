@@ -38,10 +38,12 @@ const StatisticsPage = () => {
     <div className="row statistics-page">
       <div className="col-md-12">
         <div className="card" id="profile-main">
-          <div className="card-content">
-            <h3 className="card-title" style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div className="card-header">
+            <h3 className="card-title">
               <span>Thống kê</span>
             </h3>
+          </div>
+          <div className="card-content">
             <div role="tabpanel">
               <ul className="nav nav-pills">
                 <li className="active">

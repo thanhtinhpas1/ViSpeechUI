@@ -86,7 +86,7 @@ const App = ({ currentUser }) => {
         // }
       }
 
-      if (currentUser && Array.isArray(currentUser.roles)) {
+      if (currentUser) {
         const isUserRole = Utils.checkIfIsUser(currentUser.roles)
         setIsUser(isUserRole)
 
@@ -153,6 +153,13 @@ const App = ({ currentUser }) => {
           console.log(`${link.id} is loaded`)
           // load link
           link = await loadLink(
+            `${process.env.PUBLIC_URL}/assets/css/admin/react-table.css`,
+            'react-table.css',
+            'on'
+          )
+          console.log(`${link.id} is loaded`)
+          // load link
+          link = await loadLink(
             `${process.env.PUBLIC_URL}/assets/css/admin/turbo.css`,
             'admin-turbo.css',
             'on'
@@ -196,7 +203,13 @@ const App = ({ currentUser }) => {
             'on'
           )
           console.log(`${script.id} is loaded`)
-
+          // load script
+          script = await loadScript(
+            `${process.env.PUBLIC_URL}/assets/js/customer/scripta5f5.js`,
+            'customer-scripta5f5.js',
+            'on'
+          )
+          console.log(`${script.id} is loaded`)
           // load script
           script = await loadScript(
             `${process.env.PUBLIC_URL}/assets/vendors/charts/flot/jquery.flot.js`,

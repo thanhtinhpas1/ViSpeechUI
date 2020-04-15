@@ -15,8 +15,7 @@ const INITIAL_STATE = {
     message: null,
   },
   getList: {
-    userList: [],
-    numberOfUsers: 0,
+    userList: { data: [], count: 0 },
     isLoading: false,
     isSuccess: null,
     message: null,
@@ -148,8 +147,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         getList: {
           isLoading: false,
           isSuccess: true,
-          userList: action.payload.userList,
-          // numberOfUsers: action.payload.numberOfUsers,
+          userList: action.payload.data,
         },
       }
     case UserTypes.GET_USER_LIST_FAILURE:

@@ -202,7 +202,7 @@ const PayOnlineModal = ({ payOnlineModal, myProjectList }) => {
                   <CheckoutForm
                     checkoutInfo={payOnlineModal}
                     onOrderSuccess={onOrderSuccess}
-                    myProjectList={myProjectList}
+                    myProjectList={myProjectList.data}
                   />
                 </Elements>
               </div>

@@ -18,7 +18,7 @@ const {
   ONE_DAY_IN_MILLISECONDS,
   RANGE_PICKER_LIMIT,
   getDateNow,
-  getTenDatesFromNow,
+  getPreviousTenDatesFromNow,
   getTotalWeeksOfYear,
   getTotalQuarters,
   getOnlyDate,
@@ -39,7 +39,10 @@ const StatisticsTemplate = ({
     'Ngày bắt đầu',
     'Ngày kết thúc',
   ])
-  const [valueRangePicker, setValueRangePicker] = useState([getDateNow(), getTenDatesFromNow()])
+  const [valueRangePicker, setValueRangePicker] = useState([
+    getPreviousTenDatesFromNow(),
+    getDateNow(),
+  ])
 
   const defaultQuarterData = {
     from: { quarter: 0, year: 2020 },
@@ -53,8 +56,8 @@ const StatisticsTemplate = ({
   useEffect(() => {
     if (data.length > 0 && data[0]._id) {
       const id = data[0]._id
-      const fromDate = getDateNow().valueOf()
-      const toDate = getTenDatesFromNow().valueOf()
+      const fromDate = getPreviousTenDatesFromNow().valueOf()
+      const toDate = getDateNow().valueOf()
       setIdData(id)
       setIsButtonDisabled(false)
       getStatisticsById(id, statisticsType, TIME_TYPE.DATE, { fromDate, toDate })

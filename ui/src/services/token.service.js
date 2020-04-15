@@ -9,7 +9,7 @@ export default class TokenService {
     const limit = pageSize
 
     const api =
-      pageIndex && pageSize
+      pageIndex != null && pageSize != null
         ? `${apiUrl}/tokens/user-tokens?userId=${encodeURIComponent(
             userId
           )}&offset=${offset}&limit=${limit}`

@@ -45,8 +45,10 @@ const UserCreatePage = ({ createUserObj, createUser }) => {
     <div className="row">
       <div className="col-md-12">
         <div className="card">
-          <div className="card-content">
+          <div className="card-header">
             <h4 className="card-title">Thêm khách hàng mới</h4>
+          </div>
+          <div className="card-content">
             <form onSubmit={onSubmit} id="create-user-form">
               <div className="form-group label-floating">
                 <label className="control-label">

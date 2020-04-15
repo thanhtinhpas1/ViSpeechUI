@@ -8,7 +8,7 @@ import * as moment from 'moment'
 import { CUSTOMER_PATH } from 'utils/constant'
 import ReactTable from 'components/customer/ReactTable/ReactTable.component'
 
-const TokensWalletPage = ({
+const ProjectDetailsPage = ({
   currentUser,
   getProjectInfoObj,
   getProjectTokenListObj,
@@ -180,10 +180,10 @@ const TokensWalletPage = ({
             {currentUser._id && (
               <ReactTable
                 columns={columns}
-                data={getProjectTokenListObj.projectTokenList}
+                data={getProjectTokenListObj.projectTokenList.data}
                 fetchData={getProjectTokensList}
                 loading={getProjectTokenListObj.isLoading}
-                pageCount={Math.ceil(getProjectTokenListObj.projectTokenList.length / 5)}
+                pageCount={Math.ceil(getProjectTokenListObj.projectTokenList.count / 5)}
                 defaultPageSize={5}
                 pageSize={5}
               />
@@ -195,4 +195,4 @@ const TokensWalletPage = ({
   )
 }
 
-export default TokensWalletPage
+export default ProjectDetailsPage

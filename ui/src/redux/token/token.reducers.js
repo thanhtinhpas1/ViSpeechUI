@@ -8,13 +8,13 @@ const INITIAL_STATE = {
     errorMessage: null,
   },
   getUserTokenList: {
-    userTokenList: [],
+    userTokenList: { data: [], count: 0 },
     isLoading: false,
     isSuccess: null,
     errorMessage: null,
   },
   getProjectTokenList: {
-    projectTokenList: [],
+    projectTokenList: { data: [], count: 0 },
     isLoading: false,
     isSuccess: null,
     errorMessage: null,

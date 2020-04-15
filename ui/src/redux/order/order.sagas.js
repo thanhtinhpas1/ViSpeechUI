@@ -1,6 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import { call, all, takeLatest, put } from 'redux-saga/effects'
 import { TOKEN_TYPE, STATUS, ORDER_STATUS } from 'utils/constant'
+import OrderService from 'services/order.service'
 import OrderTypes from './order.types'
 import {
   getOrderListSuccess,
@@ -8,7 +9,6 @@ import {
   getOrderInfoSuccess,
   getOrderInfoFailure,
 } from './order.actions'
-import OrderService from '../../services/order.service'
 
 // get order list
 const formatOrderList = orderList => {
@@ -32,8 +32,8 @@ const formatOrderList = orderList => {
 
 function* getList({ payload: filterConditions }) {
   try {
-    let orderList = yield OrderService.getOrderList(filterConditions)
-    orderList = formatOrderList(orderList || [])
+    const orderList = yield OrderService.getOrderList(filterConditions)
+    orderList.data = formatOrderList(orderList.data)
     yield put(getOrderListSuccess(orderList))
   } catch (err) {
     yield put(getOrderListFailure(err.message))

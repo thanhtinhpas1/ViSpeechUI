@@ -9,7 +9,7 @@ import CustomerLayout from 'components/customer/CustomerLayout'
 import CustomerHomePage from 'components/customer/HomePage/HomePage.container'
 import TransactionsPage from 'components/customer/TransactionsPage/TransactionsPage.container'
 import TransactionDetailsPage from 'components/customer/TransactionDetailsPage/TransactionDetailsPage.container'
-import TokensWalletPage from 'components/customer/TokensWalletPage/TokensWalletPage.container'
+import ProjectDetailsPage from 'components/customer/ProjectDetailsPage/ProjectDetailsPage.container'
 import ProfilePage from 'components/customer/ProfilePage/ProfilePage.container'
 import VerifyEmailPage from 'components/customer/VerifyEmailPage/VerifyEmailPage.container'
 import ProjectPage from 'components/customer/ProjectPage/ProjectPage.container'
@@ -85,7 +85,7 @@ const RouteCustomer = ({ currentUser }) => {
             path={`${CUSTOMER_PATH}/my-project/:id`}
             render={props => (
               <CustomerLayout>
-                <TokensWalletPage {...props} />
+                <ProjectDetailsPage {...props} />
               </CustomerLayout>
             )}
           />
@@ -93,7 +93,7 @@ const RouteCustomer = ({ currentUser }) => {
             path={`${CUSTOMER_PATH}/accepted-project/:id`}
             render={props => (
               <CustomerLayout>
-                <TokensWalletPage {...props} />
+                <ProjectDetailsPage {...props} />
               </CustomerLayout>
             )}
           />

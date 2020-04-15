@@ -2,7 +2,7 @@ import OrderTypes from './order.types'
 
 const INITIAL_STATE = {
   getList: {
-    orderList: [],
+    orderList: { data: [], count: 0 },
     isLoading: false,
     isSuccess: null,
     message: null,
@@ -37,7 +37,7 @@ const orderReducer = (state = INITIAL_STATE, action) => {
         getList: {
           isLoading: false,
           isSuccess: true,
-          orderList: action.payload.orderList,
+          orderList: action.payload.data,
         },
       }
     case OrderTypes.GET_ORDER_LIST_FAILURE:

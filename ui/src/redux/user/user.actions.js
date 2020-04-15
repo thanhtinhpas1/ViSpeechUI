@@ -175,13 +175,14 @@ export const updateAvatarClear = () => ({
 })
 
 // get user list
-export const getUserList = () => ({
+export const getUserList = filterConditions => ({
   type: UserTypes.GET_USER_LIST,
+  payload: filterConditions,
 })
 
-export const getUserListSuccess = userList => ({
+export const getUserListSuccess = data => ({
   type: UserTypes.GET_USER_LIST_SUCCESS,
-  payload: { userList },
+  payload: { data },
 })
 
 export const getUserListFailure = message => ({
