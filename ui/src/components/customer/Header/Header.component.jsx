@@ -143,7 +143,7 @@ const Header = ({ currentUser, onAuthenticate, logout }) => {
                     </ul>
                     <ul className="user-links bg-light">
                       <li>
-                        <a href="javascript:void(0)" onClick={logout}>
+                        <a href="#!" onClick={logout}>
                           <i className="ti ti-power-off" />
                           Đăng xuất
                         </a>

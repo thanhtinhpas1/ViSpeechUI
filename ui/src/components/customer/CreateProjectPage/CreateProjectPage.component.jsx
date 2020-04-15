@@ -3,24 +3,67 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CUSTOMER_PATH } from 'utils/constant'
+import SocketService from 'services/socket.service'
+import ProjectService from 'services/project.service'
+import SocketUtils from 'utils/socket.util'
+import InfoModal from 'components/customer/InfoModal/InfoModal.component'
 
-const CreateProjectPage = ({ currentUser, createProjectObj, createProject }) => {
+const { KAFKA_TOPIC, invokeCheckSubject } = SocketUtils
+const { PROJECT_CREATED_SUCCESS_EVENT, PROJECT_CREATED_FAILED_EVENT } = KAFKA_TOPIC
+
+const CreateProjectPage = ({
+  currentUser,
+  createProjectObj,
+  createProjectSuccess,
+  createProjectFailure,
+}) => {
+  SocketService.socketEmitEvent(PROJECT_CREATED_SUCCESS_EVENT)
+  SocketService.socketEmitEvent(PROJECT_CREATED_FAILED_EVENT)
+  SocketService.socketOnListeningEvent(PROJECT_CREATED_SUCCESS_EVENT)
+  SocketService.socketOnListeningEvent(PROJECT_CREATED_FAILED_EVENT)
+
+  const [infoModal, setInfoModal] = useState({})
+
   const emptyAllInputField = () => {
     window.$('#create-project-form')[0].reset()
   }
 
   useEffect(() => {
-    if (createProjectObj.isLoading === false && createProjectObj.isSuccess === true) {
-      emptyAllInputField()
+    if (createProjectObj.isLoading === false && createProjectObj.isSuccess != null) {
+      if (createProjectObj.isSuccess === true) {
+        setInfoModal({
+          title: 'Tạo dự án thành công',
+          message: '',
+          icon: { isSuccess: true },
+          button: {
+            content: 'Đóng',
+            clickFunc: () => {
+              window.$('#info-modal').modal('hide')
+              emptyAllInputField()
+            },
+          },
+        })
+      } else {
+        setInfoModal({
+          title: 'Tạo dự án thất bại',
+          message: createProjectObj.message,
+          icon: { isSuccess: false },
+          button: {
+            content: 'Đóng',
+            clickFunc: () => {
+              window.$('#info-modal').modal('hide')
+            },
+          },
+        })
+      }
     }
   }, [createProjectObj])
 
-  const onSubmit = event => {
+  const onSubmit = async event => {
     event.preventDefault()
-
     if (!currentUser._id) return
 
     const form = event.target
@@ -29,7 +72,24 @@ const CreateProjectPage = ({ currentUser, createProjectObj, createProject }) => 
       description: form.elements.description.value.trim(),
       userId: currentUser._id,
     }
-    createProject(project)
+    setInfoModal({
+      title: 'Tạo dự án',
+      message: 'Vui lòng chờ giây lát...',
+      icon: {
+        isLoading: true,
+      },
+    })
+    window.$('#info-modal').modal('show')
+
+    await ProjectService.createProject(project)
+
+    invokeCheckSubject.ProjectCreated.subscribe(data => {
+      if (data.error) {
+        createProjectFailure(data.errorObj.message)
+      } else {
+        createProjectSuccess(project)
+      }
+    })
   }
 
   return (
@@ -75,6 +135,7 @@ const CreateProjectPage = ({ currentUser, createProjectObj, createProject }) => 
           </div>
         </div>
       </div>
+      <InfoModal infoModal={infoModal} />
     </div>
   )
 }

@@ -2,6 +2,7 @@ import ProjectTypes from './project.types'
 
 const INITIAL_STATE = {
   createProject: {
+    data: {},
     isLoading: false,
     isSuccess: null,
     message: null,
@@ -50,6 +51,7 @@ const projectReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         createProject: {
+          data: action.payload.data,
           isLoading: false,
           isSuccess: true,
         },

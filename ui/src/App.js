@@ -15,17 +15,8 @@ import { CUSTOMER_PATH, ADMIN_PATH } from 'utils/constant'
 import LandingPage from 'components/common/LandingPage/LandingPage.container'
 import LoginPage from 'components/common/LoginPage/LoginPage.container'
 import RegisterPage from 'components/common/RegisterPage/RegisterPage.container'
-import SocketService from './services/socket.service'
 
 const App = ({ currentUser }) => {
-  const socketService = new SocketService()
-  socketService.emitEventOnUserCreated()
-  socketService.consumeEventOnUserCreated()
-  socketService.invokeCheckUserCreated.subscribe(result => {
-    const data = JSON.parse(result)
-    console.log(data)
-  })
-
   const [isCssLoaded, setIsCssLoaded] = useState(false)
   const [isUser, setIsUser] = useState(null)
 

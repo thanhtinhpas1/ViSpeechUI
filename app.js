@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser());
 app.use(cors());
-app.use(express.static(path.join(__dirname, 'ui/public')));
+app.use(express.static(path.join(__dirname, 'ui/build')));
 
 const url = `${global.proxy.protocol}://${global.proxy.host}:${global.proxy.port}`;
 app.use('/api', proxy(url, {

@@ -50,11 +50,11 @@ io.sockets.on('connection', function (socket) {
   socket.on(topics.USER_DELETED_SUCCESS_EVENT, () => {
     consumerUtil.run(consumer, topics.USER_DELETED_SUCCESS_EVENT, socket);
   })
-  socket.on(topics.USER_UPDATE_SUCCESS_EVENT, () => {
-    consumerUtil.run(consumer, topics.USER_UPDATE_SUCCESS_EVENT, socket);
+  socket.on(topics.USER_UPDATED_SUCCESS_EVENT, () => {
+    consumerUtil.run(consumer, topics.USER_UPDATED_SUCCESS_EVENT, socket);
   })
-  socket.on(topics.USER_UPDATE_FAILED_EVENT, () => {
-    consumerUtil.run(consumer, topics.USER_UPDATE_FAILED_EVENT, socket);
+  socket.on(topics.USER_UPDATED_FAILED_EVENT, () => {
+    consumerUtil.run(consumer, topics.USER_UPDATED_FAILED_EVENT, socket);
   })
   socket.on(topics.VERIFY_EMAIL_SENT_SUCCESS_EVENT, () => {
     consumerUtil.run(consumer, topics.VERIFY_EMAIL_SENT_SUCCESS_EVENT, socket);
@@ -102,9 +102,11 @@ io.sockets.on('connection', function (socket) {
   })
   // PROJECT
   socket.on(topics.PROJECT_CREATED_SUCCESS_EVENT, () => {
+    console.log('project success')
     consumerUtil.run(consumer, topics.PROJECT_CREATED_SUCCESS_EVENT, socket);
   })
   socket.on(topics.PROJECT_CREATED_FAILED_EVENT, () => {
+    console.log('project failed')
     consumerUtil.run(consumer, topics.PROJECT_CREATED_FAILED_EVENT, socket);
   })
   // PERMISSION

@@ -8,8 +8,8 @@ import {
   getMyProjectListFailure,
   getAcceptedProjectListSuccess,
   getAcceptedProjectListFailure,
-  createProjectSuccess,
-  createProjectFailure,
+  // createProjectSuccess,
+  // createProjectFailure,
   getProjectInfoSuccess,
   getProjectInfoFailure,
   updateProjectInfoSuccess,
@@ -58,17 +58,17 @@ export function* getAcceptedProjectListSaga() {
 }
 
 // create new project
-function* createProject({ payload: project }) {
-  try {
-    yield ProjectService.createProject(project)
-    yield put(createProjectSuccess(project))
-  } catch (err) {
-    yield put(createProjectFailure(err.message))
-  }
-}
-export function* createProjectSaga() {
-  yield takeLatest(ProjectTypes.CREATE_PROJECT, createProject)
-}
+// function* createProject({ payload: project }) {
+//   try {
+//     yield ProjectService.createProject(project)
+//     yield put(createProjectSuccess(project))
+//   } catch (err) {
+//     yield put(createProjectFailure(err.message))
+//   }
+// }
+// export function* createProjectSaga() {
+//   yield takeLatest(ProjectTypes.CREATE_PROJECT, createProject)
+// }
 
 // ==== get project info
 export function* getProjectInfo({ payload: id }) {
@@ -103,7 +103,7 @@ export function* projectSaga() {
   yield all([
     call(getMyProjectListSaga),
     call(getAcceptedProjectListSaga),
-    call(createProjectSaga),
+    // call(createProjectSaga),
     call(getProjectInfoSaga),
     call(updateProjectInfoSaga),
   ])
