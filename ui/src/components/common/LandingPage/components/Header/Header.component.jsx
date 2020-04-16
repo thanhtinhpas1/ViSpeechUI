@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react'
-import { withRouter } from 'react-router'
 
 const Header = () => {
   const [navbarMenu, setNavbarMenu] = useState([])
@@ -77,5 +76,5 @@ const Header = () => {
   )
 }
 
-export default withRouter(Header)
+export default Header
 // You can get access to the history object’s properties and the closest <Route>'s match via the withRouter higher-order component. withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.

@@ -5,6 +5,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { CUSTOMER_PATH } from 'utils/constant'
 import ReactTable from 'components/customer/ReactTable/ReactTable.component'
 import * as moment from 'moment'
@@ -107,12 +108,12 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
       Cell: props => {
         const { cell } = props
         return (
-          <a
-            href={`${CUSTOMER_PATH}/transaction-details?id=${cell.value}`}
+          <Link
+            to={`${CUSTOMER_PATH}/transaction-details?id=${cell.value}`}
             className="btn btn-light-alt btn-xs btn-icon"
           >
             <em className="ti ti-eye" />
-          </a>
+          </Link>
         )
       },
     },

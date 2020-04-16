@@ -7,7 +7,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  onAuthenticate: token => dispatch(authenticate(token)),
+  authenticate: token => dispatch(authenticate(token)),
   logout: () => dispatch(logout()),
 })
 

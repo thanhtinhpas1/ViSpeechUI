@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { CUSTOMER_PATH } from 'utils/constant'
 
 const TokenCalculator = ({ keyQuantity }) => {
@@ -14,9 +15,9 @@ const TokenCalculator = ({ keyQuantity }) => {
         {keyQuantity}
       </h1>
       <div className="token-buy">
-        <a href={`${CUSTOMER_PATH}/transactions`} className="btn btn-primary">
+        <Link to={`${CUSTOMER_PATH}/transactions`} className="btn btn-primary">
           Xem lịch sử giao dịch
-        </a>
+        </Link>
       </div>
     </div>
   )

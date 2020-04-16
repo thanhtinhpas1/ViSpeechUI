@@ -1,6 +1,7 @@
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { CUSTOMER_PATH } from 'utils/constant'
 
 const TokenTransaction = () => {
@@ -35,9 +36,9 @@ const TokenTransaction = () => {
       <div className="card-head has-aside">
         <h4 className="card-title">Lịch sử giao dịch</h4>
         <div className="card-opt">
-          <a href={`${CUSTOMER_PATH}/transactions`} className="link ucap">
+          <Link to={`${CUSTOMER_PATH}/transactions`} className="link ucap">
             Xem tất cả <em className="fas fa-angle-right ml-2" />
-          </a>
+          </Link>
         </div>
       </div>
       <table className="table tnx-table">

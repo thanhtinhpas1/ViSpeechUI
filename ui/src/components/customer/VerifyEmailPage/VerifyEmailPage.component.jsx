@@ -19,15 +19,17 @@ const VerifyEmailPage = ({
   verifyEmailFailure,
   onAuthenticate,
 }) => {
-  SocketService.socketEmitEvent(EMAIL_VERIFIED_SUCCESS_EVENT)
-  SocketService.socketEmitEvent(EMAIL_VERIFIED_FAILED_EVENT)
-  SocketService.socketOnListeningEvent(EMAIL_VERIFIED_SUCCESS_EVENT)
-  SocketService.socketOnListeningEvent(EMAIL_VERIFIED_FAILED_EVENT)
-
   const [infoModal, setInfoModal] = useState({})
   const [infoTemplate, setInfoTemplate] = useState({})
   const { emailToken } = useParams()
   const history = useHistory()
+
+  useEffect(() => {
+    SocketService.socketEmitEvent(EMAIL_VERIFIED_SUCCESS_EVENT)
+    SocketService.socketEmitEvent(EMAIL_VERIFIED_FAILED_EVENT)
+    SocketService.socketOnListeningEvent(EMAIL_VERIFIED_SUCCESS_EVENT)
+    SocketService.socketOnListeningEvent(EMAIL_VERIFIED_FAILED_EVENT)
+  }, [])
 
   useEffect(() => {
     const token = STORAGE.getPreferences(JWT_TOKEN)

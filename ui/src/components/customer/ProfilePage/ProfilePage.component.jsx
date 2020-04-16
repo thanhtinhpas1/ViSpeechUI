@@ -27,12 +27,14 @@ const ProfilePage = ({
   sendVerifyEmailFailure,
   onAuthenticate,
 }) => {
-  SocketService.socketEmitEvent(VERIFY_EMAIL_SENT_SUCCESS_EVENT)
-  SocketService.socketEmitEvent(VERIFY_EMAIL_SENT_FAILED_EVENT)
-  SocketService.socketOnListeningEvent(VERIFY_EMAIL_SENT_SUCCESS_EVENT)
-  SocketService.socketOnListeningEvent(VERIFY_EMAIL_SENT_FAILED_EVENT)
-
   const [infoModal, setInfoModal] = useState({})
+
+  useEffect(() => {
+    SocketService.socketEmitEvent(VERIFY_EMAIL_SENT_SUCCESS_EVENT)
+    SocketService.socketEmitEvent(VERIFY_EMAIL_SENT_FAILED_EVENT)
+    SocketService.socketOnListeningEvent(VERIFY_EMAIL_SENT_SUCCESS_EVENT)
+    SocketService.socketOnListeningEvent(VERIFY_EMAIL_SENT_FAILED_EVENT)
+  }, [])
 
   useEffect(() => {
     const token = STORAGE.getPreferences(JWT_TOKEN)

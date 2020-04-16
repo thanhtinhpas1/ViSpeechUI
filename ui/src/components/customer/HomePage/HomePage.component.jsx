@@ -82,7 +82,7 @@ const Home = ({
           </div>
           <div className="col-xl-4 col-lg-5">
             <div className="token-calculator card card-full-height">
-              <TokenCalculator keyQuantity={orderListObj.orderList.length} />
+              <TokenCalculator keyQuantity={orderListObj.orderList.data.length} />
             </div>
           </div>
         </div>

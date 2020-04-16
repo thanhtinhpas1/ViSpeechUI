@@ -143,12 +143,12 @@ const App = ({ currentUser }) => {
           )
           console.log(`${link.id} is loaded`)
           // load link
-          link = await loadLink(
-            `${process.env.PUBLIC_URL}/assets/css/admin/react-table.css`,
-            'react-table.css',
-            'on'
-          )
-          console.log(`${link.id} is loaded`)
+          // link = await loadLink(
+          //   `${process.env.PUBLIC_URL}/assets/css/admin/react-table.css`,
+          //   'react-table.css',
+          //   'on'
+          // )
+          // console.log(`${link.id} is loaded`)
           // load link
           link = await loadLink(
             `${process.env.PUBLIC_URL}/assets/css/admin/turbo.css`,
@@ -174,14 +174,14 @@ const App = ({ currentUser }) => {
           setIsCssLoaded(true)
           // if (isCssLoaded) {
           // load script
-          let script = await loadScript(
-            `${process.env.PUBLIC_URL}/assets/vendors/jquery.datatables.js`,
-            'admin-jquery.datatables.js',
-            'on'
-          )
-          console.log(`${script.id} is loaded`)
+          // let script = await loadScript(
+          //   `${process.env.PUBLIC_URL}/assets/vendors/jquery.datatables.js`,
+          //   'admin-jquery.datatables.js',
+          //   'on'
+          // )
+          // console.log(`${script.id} is loaded`)
           // load script
-          script = await loadScript(
+          let script = await loadScript(
             `${process.env.PUBLIC_URL}/assets/vendors/bootstrap.min.js`,
             'admin-bootstrap.min.js',
             'on'
@@ -194,7 +194,7 @@ const App = ({ currentUser }) => {
             'on'
           )
           console.log(`${script.id} is loaded`)
-          // load script
+          // load script because of ClipboardJS
           script = await loadScript(
             `${process.env.PUBLIC_URL}/assets/js/customer/scripta5f5.js`,
             'customer-scripta5f5.js',
@@ -202,26 +202,26 @@ const App = ({ currentUser }) => {
           )
           console.log(`${script.id} is loaded`)
           // load script
-          script = await loadScript(
-            `${process.env.PUBLIC_URL}/assets/vendors/charts/flot/jquery.flot.js`,
-            'admin-jquery.flot.js',
-            'on'
-          )
-          console.log(`${script.id} is loaded`)
+          // script = await loadScript(
+          //   `${process.env.PUBLIC_URL}/assets/vendors/charts/flot/jquery.flot.js`,
+          //   'admin-jquery.flot.js',
+          //   'on'
+          // )
+          // console.log(`${script.id} is loaded`)
           // load script
-          script = await loadScript(
-            `${process.env.PUBLIC_URL}/assets/js/admin/charts/flot-charts.js`,
-            'admin-flot-charts.js',
-            'on'
-          )
-          console.log(`${script.id} is loaded`)
+          // script = await loadScript(
+          //   `${process.env.PUBLIC_URL}/assets/js/admin/charts/flot-charts.js`,
+          //   'admin-flot-charts.js',
+          //   'on'
+          // )
+          // console.log(`${script.id} is loaded`)
           // load script
-          script = await loadScript(
-            `${process.env.PUBLIC_URL}/assets/js/admin/charts/chartjs-charts.js`,
-            'admin-chartjs-charts.js',
-            'on'
-          )
-          console.log(`${script.id} is loaded`)
+          // script = await loadScript(
+          //   `${process.env.PUBLIC_URL}/assets/js/admin/charts/chartjs-charts.js`,
+          //   'admin-chartjs-charts.js',
+          //   'on'
+          // )
+          // console.log(`${script.id} is loaded`)
           // }
         }
       }
@@ -287,33 +287,33 @@ const App = ({ currentUser }) => {
       )
       console.log(`${script.id} is ${status}`)
 
-      script = await loadScript(
-        `${process.env.PUBLIC_URL}/assets/vendors/jquery.datatables.js`,
-        'admin-jquery.datatables.js',
-        action
-      )
-      console.log(`${script.id} is ${status}`)
+      // script = await loadScript(
+      //   `${process.env.PUBLIC_URL}/assets/vendors/jquery.datatables.js`,
+      //   'admin-jquery.datatables.js',
+      //   action
+      // )
+      // console.log(`${script.id} is ${status}`)
 
-      script = await loadScript(
-        `${process.env.PUBLIC_URL}/assets/vendors/charts/flot/jquery.flot.js`,
-        'admin-jquery.flot.js',
-        action
-      )
-      console.log(`${script.id} is ${status}`)
+      // script = await loadScript(
+      //   `${process.env.PUBLIC_URL}/assets/vendors/charts/flot/jquery.flot.js`,
+      //   'admin-jquery.flot.js',
+      //   action
+      // )
+      // console.log(`${script.id} is ${status}`)
 
-      script = await loadScript(
-        `${process.env.PUBLIC_URL}/assets/js/admin/charts/flot-charts.js`,
-        'admin-flot-charts.js',
-        action
-      )
-      console.log(`${script.id} is ${status}`)
+      // script = await loadScript(
+      //   `${process.env.PUBLIC_URL}/assets/js/admin/charts/flot-charts.js`,
+      //   'admin-flot-charts.js',
+      //   action
+      // )
+      // console.log(`${script.id} is ${status}`)
 
-      script = await loadScript(
-        `${process.env.PUBLIC_URL}/assets/js/admin/charts/chartjs-charts.js`,
-        'admin-chartjs-charts.js',
-        action
-      )
-      console.log(`${script.id} is ${status}`)
+      // script = await loadScript(
+      //   `${process.env.PUBLIC_URL}/assets/js/admin/charts/chartjs-charts.js`,
+      //   'admin-chartjs-charts.js',
+      //   action
+      // )
+      // console.log(`${script.id} is ${status}`)
 
       loadAllLibraries()
     }

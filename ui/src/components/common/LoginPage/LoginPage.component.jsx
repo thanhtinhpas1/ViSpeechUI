@@ -2,21 +2,13 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from 'react'
-import { Redirect } from 'react-router-dom'
-import { CUSTOMER_PATH, ADMIN_PATH } from 'utils/constant'
-import Utils from 'utils'
 import AuthenWithFacebook from '../AuthenWithFacebook/AuthenWithFacebook.container'
 import AuthenWithGoogle from '../AuthenWithGoogle/AuthenWithGoogle.container'
 
-const LoginPage = ({ currentUser, loginObj, login, onClearUserState }) => {
+const LoginPage = ({ loginObj, login, onClearUserState }) => {
   useEffect(() => {
     onClearUserState()
   }, [onClearUserState])
-
-  if (currentUser) {
-    const isUser = Utils.checkIfIsUser(currentUser.roles)
-    return <Redirect to={isUser ? CUSTOMER_PATH : ADMIN_PATH} />
-  }
 
   const handleOnSubmit = e => {
     e.preventDefault()

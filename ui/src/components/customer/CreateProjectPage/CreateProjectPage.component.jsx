@@ -20,12 +20,14 @@ const CreateProjectPage = ({
   createProjectSuccess,
   createProjectFailure,
 }) => {
-  SocketService.socketEmitEvent(PROJECT_CREATED_SUCCESS_EVENT)
-  SocketService.socketEmitEvent(PROJECT_CREATED_FAILED_EVENT)
-  SocketService.socketOnListeningEvent(PROJECT_CREATED_SUCCESS_EVENT)
-  SocketService.socketOnListeningEvent(PROJECT_CREATED_FAILED_EVENT)
-
   const [infoModal, setInfoModal] = useState({})
+
+  useEffect(() => {
+    SocketService.socketEmitEvent(PROJECT_CREATED_SUCCESS_EVENT)
+    SocketService.socketEmitEvent(PROJECT_CREATED_FAILED_EVENT)
+    SocketService.socketOnListeningEvent(PROJECT_CREATED_SUCCESS_EVENT)
+    SocketService.socketOnListeningEvent(PROJECT_CREATED_FAILED_EVENT)
+  }, [])
 
   const emptyAllInputField = () => {
     window.$('#create-project-form')[0].reset()

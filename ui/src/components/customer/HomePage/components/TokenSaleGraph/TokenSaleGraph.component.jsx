@@ -9,6 +9,7 @@ const TokenSaleGraph = () => {
     setDropdownList(dropdownListArr)
 
     const chart = document.getElementById('tknSale').getContext('2d')
+    // eslint-disable-next-line no-new
     new window.Chart(chart, {
       type: 'line',
       data: {
@@ -77,7 +78,7 @@ const TokenSaleGraph = () => {
             },
           ],
         },
-      }, 
+      },
     })
   }, [])
 

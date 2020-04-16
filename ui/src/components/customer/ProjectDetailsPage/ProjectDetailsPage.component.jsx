@@ -96,12 +96,12 @@ const ProjectDetailsPage = ({
       Cell: props => {
         const { cell } = props
         return (
-          <a
-            href={`${CUSTOMER_PATH}/transaction-details?tokenId=${cell.value}`}
+          <Link
+            to={`${CUSTOMER_PATH}/transaction-details?tokenId=${cell.value}`}
             className="btn btn-light-alt btn-xs btn-icon"
           >
             <em className="ti ti-eye" />
-          </a>
+          </Link>
         )
       },
     },

@@ -23,14 +23,16 @@ const RegisterPage = ({
   registerSuccess,
   registerFailure,
 }) => {
-  SocketService.socketEmitEvent(USER_CREATED_FAILED_EVENT)
-  SocketService.socketEmitEvent(FREE_TOKEN_CREATED_SUCCESS_EVENT)
-  SocketService.socketEmitEvent(FREE_TOKEN_CREATED_FAILED_EVENT)
-  SocketService.socketOnListeningEvent(USER_CREATED_FAILED_EVENT)
-  SocketService.socketOnListeningEvent(FREE_TOKEN_CREATED_SUCCESS_EVENT)
-  SocketService.socketOnListeningEvent(FREE_TOKEN_CREATED_FAILED_EVENT)
-
   const history = useHistory()
+
+  useEffect(() => {
+    SocketService.socketEmitEvent(USER_CREATED_FAILED_EVENT)
+    SocketService.socketEmitEvent(FREE_TOKEN_CREATED_SUCCESS_EVENT)
+    SocketService.socketEmitEvent(FREE_TOKEN_CREATED_FAILED_EVENT)
+    SocketService.socketOnListeningEvent(USER_CREATED_FAILED_EVENT)
+    SocketService.socketOnListeningEvent(FREE_TOKEN_CREATED_SUCCESS_EVENT)
+    SocketService.socketOnListeningEvent(FREE_TOKEN_CREATED_FAILED_EVENT)
+  }, [])
 
   useEffect(() => {
     onClearUserState()

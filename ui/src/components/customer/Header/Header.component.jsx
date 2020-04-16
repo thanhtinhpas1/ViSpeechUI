@@ -2,13 +2,14 @@
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react'
-import { withRouter } from 'react-router'
+import { Link, useHistory, withRouter } from 'react-router-dom'
 import { CUSTOMER_PATH, JWT_TOKEN } from 'utils/constant'
 import STORAGE from 'utils/storage'
 
-const Header = ({ currentUser, onAuthenticate, logout }) => {
+const Header = ({ currentUser, authenticate, logout }) => {
   const [userLinks, setUserLinks] = useState([])
   const [navbarMenu, setNavbarMenu] = useState([])
+  const history = useHistory()
 
   useEffect(() => {
     const userLinksArr = [
@@ -32,7 +33,7 @@ const Header = ({ currentUser, onAuthenticate, logout }) => {
       {
         href: `${CUSTOMER_PATH}/projects`,
         emClass: 'ikon-coins',
-        name: 'Project',
+        name: 'Dự án',
       },
       {
         href: `${CUSTOMER_PATH}/transactions`,
@@ -51,43 +52,13 @@ const Header = ({ currentUser, onAuthenticate, logout }) => {
 
   useEffect(() => {
     const token = STORAGE.getPreferences(JWT_TOKEN)
-    if ((!currentUser._id && token) || !token) onAuthenticate(token)
-  }, [currentUser._id, onAuthenticate])
+    if ((!currentUser._id && token) || !token) authenticate(token)
+  }, [currentUser._id, authenticate])
 
-  // useEffect(() => {
-  //   let interval
-  //   onClearNotificationState()
-  //   if (currentUser) {
-  //     const userId = currentUser._id
-  //     getNotificationList({
-  //       userId,
-  //       currentPage: 1,
-  //       currentLimit: ITEMS_PER_PAGE,
-  //     })
-  //     interval = setInterval(
-  //       () =>
-  //         getNotificationList({
-  //           userId,
-  //           currentPage: 1,
-  //           currentLimit: ITEMS_PER_PAGE,
-  //         }),
-  //       30000
-  //     )
-  //   }
-
-  //   // returned function will be called on component unmount
-  //   return () => {
-  //     clearTimeout(interval)
-  //   }
-  // }, [currentUser, onClearNotificationState, getNotificationList])
-
-  // const onSearch = value => {
-  //   // const {history} = props;
-  //   // console.log('on search push: ', value)
-  //   history.push({
-  //     pathname: `/teacher/search/${value}`,
-  //   })
-  // }
+  const onLogout = () => {
+    logout()
+    history.push(`/`)
+  }
 
   return (
     <>
@@ -133,17 +104,17 @@ const Header = ({ currentUser, onAuthenticate, logout }) => {
                       {userLinks.map(link => {
                         return (
                           <li key={link.href}>
-                            <a href={link.href}>
+                            <Link to={link.href}>
                               <i className={`ti ${link.iconClass}`} />
                               {link.name}
-                            </a>
+                            </Link>
                           </li>
                         )
                       })}
                     </ul>
                     <ul className="user-links bg-light">
                       <li>
-                        <a href="#!" onClick={logout}>
+                        <a href="#!" onClick={onLogout}>
                           <i className="ti ti-power-off" />
                           Đăng xuất
                         </a>
@@ -162,10 +133,10 @@ const Header = ({ currentUser, onAuthenticate, logout }) => {
                 {navbarMenu.map(menuItem => {
                   return (
                     <li key={menuItem.href}>
-                      <a href={menuItem.href}>
+                      <Link to={menuItem.href}>
                         <em className={`ikon ${menuItem.emClass}`} />
                         {menuItem.name}
-                      </a>
+                      </Link>
                     </li>
                   )
                 })}

@@ -102,7 +102,11 @@ const CheckoutForm = ({ checkoutInfo, onOrderSuccess, myProjectList }) => {
         <h5 className="font-mid">Chọn project</h5>
         <select className="custom-select" required name="selectedProject">
           {myProjectList.map(project => {
-            return <option value={project._id}>{project.name}</option>
+            return (
+              <option value={project._id} key={project._id}>
+                {project.name}
+              </option>
+            )
           })}
         </select>
         {/* <select
