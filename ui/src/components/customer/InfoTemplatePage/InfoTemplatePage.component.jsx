@@ -40,19 +40,11 @@ const InfoTemplatePage = ({ infoTemplate, infoModal }) => {
                               <td className="pdl-3x pdr-3x pdb-2x">
                                 {infoTemplate.user && (
                                   <p className="mgb-1x">
-                                    Hi {infoTemplate.user.lastName} {infoTemplate.user.firstName},
+                                    Xin chào {infoTemplate.user.lastName}{' '}
+                                    {infoTemplate.user.firstName},
                                   </p>
                                 )}
-                                <p className="mgb-1x">
-                                  Welcome! <br /> You are receiving this email because you have
-                                  registered on our site.
-                                </p>
-                                <p className="mgb-1x">
-                                  Click the link below to active your Tokenwiz account.
-                                </p>
-                                <p className="mgb-2-5x">
-                                  This link will expire in 15 minutes and can only be used once.
-                                </p>
+                                <p className="mgb-1x">{infoTemplate.content}</p>
                                 <div className="d-flex justify-content-end align-items-center">
                                   {infoTemplate.positiveButton && (
                                     <button

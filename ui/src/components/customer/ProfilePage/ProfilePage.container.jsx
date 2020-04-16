@@ -1,5 +1,10 @@
 import { connect } from 'react-redux'
-import { sendVerifyEmail, authenticate } from 'redux/user/user.actions'
+import {
+  sendVerifyEmail,
+  sendVerifyEmailSuccess,
+  sendVerifyEmailFailure,
+  authenticate,
+} from 'redux/user/user.actions'
 import ProfilePage from './ProfilePage.component'
 
 const mapStateToProps = state => ({
@@ -9,6 +14,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   sendVerifyEmail: userId => dispatch(sendVerifyEmail(userId)),
+  sendVerifyEmailSuccess: () => dispatch(sendVerifyEmailSuccess()),
+  sendVerifyEmailFailure: message => dispatch(sendVerifyEmailFailure(message)),
   onAuthenticate: token => dispatch(authenticate(token)),
 })
 

@@ -98,7 +98,7 @@ const CreateProjectPage = ({
         <div className="content-area card">
           <div className="card-innr card-innr-fix">
             <div className="card-head d-flex justify-content-between align-items-center">
-              <h4 className="card-title mb-0">Tạo project</h4>
+              <h4 className="card-title mb-0">Tạo dự án</h4>
               <Link
                 to={`${CUSTOMER_PATH}/projects`}
                 className="btn btn-sm btn-auto btn-primary d-sm-block d-none"
@@ -116,7 +116,7 @@ const CreateProjectPage = ({
             <div className="gaps-1x" />
             <form onSubmit={onSubmit} id="create-project-form" style={{ overflow: 'auto' }}>
               <div className="input-item input-with-label">
-                <label className="input-item-label text-exlight">Tên project *</label>
+                <label className="input-item-label text-exlight">Tên dự án *</label>
                 <input className="input-bordered" type="text" name="name" required />
               </div>
               <div className="input-item input-with-label">

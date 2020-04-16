@@ -212,7 +212,7 @@ const ProjectPage = ({
         <div className="card content-area">
           <div className="card-innr">
             <div className="card-head d-flex justify-content-between align-items-center">
-              <h4 className="card-title mb-0">Danh sách project</h4>
+              <h4 className="card-title mb-0">Danh sách dự án</h4>
               {currentUser &&
                 (Utils.isEmailVerified(currentUser.roles) ? (
                   <>
@@ -254,12 +254,12 @@ const ProjectPage = ({
             <ul className="nav nav-tabs nav-tabs-line" role="tablist">
               <li className="nav-item">
                 <a className="nav-link active" data-toggle="tab" href="#my-project-list">
-                  Project của bạn
+                  Dự án của bạn
                 </a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" data-toggle="tab" href="#accepted-project-list">
-                  Project đã tham gia
+                  Dự án đã tham gia
                 </a>
               </li>
             </ul>

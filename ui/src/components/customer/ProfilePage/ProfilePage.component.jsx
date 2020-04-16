@@ -8,12 +8,30 @@ import * as moment from 'moment'
 import Utils from 'utils'
 import STORAGE from 'utils/storage'
 import { JWT_TOKEN } from 'utils/constant'
+import SocketUtils from 'utils/socket.util'
+import SocketService from 'services/socket.service'
+import UserService from 'services/user.service'
 import PersonalDataTab from './components/PersonalDataTab/PersonalDataTab.component'
 import SettingsTab from './components/SettingsTab/SettingsTab.component'
 import PasswordTab from './components/PasswordTab/PasswordTab.component'
 import InfoModal from '../InfoModal/InfoModal.component'
 
-const ProfilePage = ({ currentUser, sendVerifyEmailObj, sendVerifyEmail, onAuthenticate }) => {
+const { KAFKA_TOPIC, invokeCheckSubject } = SocketUtils
+const { VERIFY_EMAIL_SENT_SUCCESS_EVENT, VERIFY_EMAIL_SENT_FAILED_EVENT } = KAFKA_TOPIC
+
+const ProfilePage = ({
+  currentUser,
+  sendVerifyEmailObj,
+  sendVerifyEmail,
+  sendVerifyEmailSuccess,
+  sendVerifyEmailFailure,
+  onAuthenticate,
+}) => {
+  SocketService.socketEmitEvent(VERIFY_EMAIL_SENT_SUCCESS_EVENT)
+  SocketService.socketEmitEvent(VERIFY_EMAIL_SENT_FAILED_EVENT)
+  SocketService.socketOnListeningEvent(VERIFY_EMAIL_SENT_SUCCESS_EVENT)
+  SocketService.socketOnListeningEvent(VERIFY_EMAIL_SENT_FAILED_EVENT)
+
   const [infoModal, setInfoModal] = useState({})
 
   useEffect(() => {
@@ -39,7 +57,7 @@ const ProfilePage = ({ currentUser, sendVerifyEmailObj, sendVerifyEmail, onAuthe
     }
   }, [sendVerifyEmailObj])
 
-  const onSendVerifyEmail = () => {
+  const onSendVerifyEmail = async () => {
     const infoObj = {
       title: 'Kích hoạt tài khoản',
       message: 'Vui lòng chờ giây lát...',
@@ -49,10 +67,16 @@ const ProfilePage = ({ currentUser, sendVerifyEmailObj, sendVerifyEmail, onAuthe
     }
     setInfoModal(infoObj)
     window.$('#info-modal').modal('show')
-    // setTimeout(() => {
-    //   setInfoModal({ message: 'Đã gửi mail.', icon: { isSuccess: true } })
-    // }, 5000)
+
     sendVerifyEmail(currentUser._id)
+    await UserService.sendVerifyEmail(currentUser._id)
+    invokeCheckSubject.VerifyEmailSent.subscribe(data => {
+      if (data.error) {
+        sendVerifyEmailFailure(data.errorObj.message)
+      } else {
+        sendVerifyEmailSuccess()
+      }
+    })
   }
 
   return (

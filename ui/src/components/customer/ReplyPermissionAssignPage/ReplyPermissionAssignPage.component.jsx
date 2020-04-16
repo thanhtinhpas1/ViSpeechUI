@@ -63,6 +63,7 @@ const ReplyPermissionAssignPage = ({
     const infoTemplateObj = {
       title: 'Phản hồi lời mời',
       user: currentUser,
+      content: 'Bạn được mời tham gia dự án. Nhấn chấp nhận hoặc từ chối để phản hồi lời mời.',
       positiveButton: {
         content: STATUS.ACCEPTED.viText,
         clickFunc: () => onReplyPermissionAssign(STATUS.ACCEPTED.name),

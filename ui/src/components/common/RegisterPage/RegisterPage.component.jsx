@@ -2,16 +2,47 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react'
-import { Redirect } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
+import { Button } from 'antd'
 import { ROLES } from 'utils/constant'
-// import SocketService from 'services/socket.service'
+import SocketService from 'services/socket.service'
+import UserService from 'services/user.service'
+import SocketUtils from 'utils/socket.util'
 
-const RegisterPage = ({ registerObj, register, onClearUserState }) => {
+const { KAFKA_TOPIC, invokeCheckSubject } = SocketUtils
+const {
+  FREE_TOKEN_CREATED_SUCCESS_EVENT,
+  FREE_TOKEN_CREATED_FAILED_EVENT,
+  USER_CREATED_FAILED_EVENT,
+} = KAFKA_TOPIC
+
+const RegisterPage = ({
+  registerObj,
+  onClearUserState,
+  registerStart,
+  registerSuccess,
+  registerFailure,
+}) => {
+  SocketService.socketEmitEvent(USER_CREATED_FAILED_EVENT)
+  SocketService.socketEmitEvent(FREE_TOKEN_CREATED_SUCCESS_EVENT)
+  SocketService.socketEmitEvent(FREE_TOKEN_CREATED_FAILED_EVENT)
+  SocketService.socketOnListeningEvent(USER_CREATED_FAILED_EVENT)
+  SocketService.socketOnListeningEvent(FREE_TOKEN_CREATED_SUCCESS_EVENT)
+  SocketService.socketOnListeningEvent(FREE_TOKEN_CREATED_FAILED_EVENT)
+
+  const history = useHistory()
+
   useEffect(() => {
     onClearUserState()
   }, [onClearUserState])
 
-  const handleOnSubmit = e => {
+  useEffect(() => {
+    if (registerObj.data) {
+      history.push(`/login`)
+    }
+  }, [registerObj.data, history])
+
+  const handleOnSubmit = async e => {
     e.preventDefault()
 
     const form = e.target
@@ -24,11 +55,20 @@ const RegisterPage = ({ registerObj, register, onClearUserState }) => {
       roles: [{ name: ROLES.USER }],
     }
 
-    register(user)
-  }
-
-  if (registerObj.newUser) {
-    return <Redirect to="/login" />
+    registerStart()
+    await UserService.register(user)
+    invokeCheckSubject.UserCreated.subscribe(data => {
+      if (data.error) {
+        registerFailure(data.errorObj.message)
+      }
+    })
+    invokeCheckSubject.FreeTokenCreated.subscribe(data => {
+      if (data.error) {
+        registerFailure(data.errorObj.message)
+      } else {
+        registerSuccess(user)
+      }
+    })
   }
 
   return (
@@ -107,9 +147,16 @@ const RegisterPage = ({ registerObj, register, onClearUserState }) => {
                   <a href="#"> Terms.</a>
                 </label>
               </div>
-              <button type="submit" className="btn btn-primary btn-block">
+              {/* <button type="submit" className="btn btn-primary btn-block">
                 Đăng ký
-              </button>
+              </button> */}
+              <Button
+                htmlType="submit"
+                loading={registerObj.isLoading}
+                className="btn btn-primary btn-block"
+              >
+                Đăng ký
+              </Button>
             </form>
             <div className="gaps-2x" />
             <div className="gaps-2x" />

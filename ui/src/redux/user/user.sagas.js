@@ -9,8 +9,8 @@ import UserTypes from './user.types'
 import {
   loginSuccess,
   loginFailure,
-  registerSuccess,
-  registerFailure,
+  // registerSuccess,
+  // registerFailure,
   getUserListSuccess,
   getUserListFailure,
   getUserInfoSuccess,
@@ -21,10 +21,10 @@ import {
   createUserFailure,
   deleteUserSuccess,
   deleteUserFailure,
-  sendVerifyEmailSuccess,
-  sendVerifyEmailFailure,
-  verifyEmailSuccess,
-  verifyEmailFailure,
+  // sendVerifyEmailSuccess,
+  // sendVerifyEmailFailure,
+  // verifyEmailSuccess,
+  // verifyEmailFailure,
   sendEmailResetPasswordSuccess,
   sendEmailResetPasswordFailure,
   verifyTokenResetPasswordSuccess,
@@ -72,18 +72,18 @@ export function* authenWithSocialSaga() {
 }
 
 // ==== register
-export function* register({ payload: user }) {
-  try {
-    yield UserService.register(user)
-    yield put(registerSuccess(user))
-  } catch (err) {
-    yield put(registerFailure(err.message))
-  }
-}
+// export function* register({ payload: user }) {
+//   try {
+//     yield UserService.register(user)
+//     yield put(registerSuccess(user))
+//   } catch (err) {
+//     yield put(registerFailure(err.message))
+//   }
+// }
 
-export function* registerStartSaga() {
-  yield takeLatest(UserTypes.REGISTER_START, register)
-}
+// export function* registerStartSaga() {
+//   yield takeLatest(UserTypes.REGISTER_START, register)
+// }
 
 // ==== logout
 export function* logout() {
@@ -189,32 +189,32 @@ function* deleteUserSaga() {
 }
 
 // send verify email
-function* sendVerifyEmail({ payload }) {
-  try {
-    yield UserService.sendVerifyEmail(payload)
-    yield put(sendVerifyEmailSuccess())
-  } catch (err) {
-    yield put(sendVerifyEmailFailure(err.message))
-  }
-}
+// function* sendVerifyEmail({ payload }) {
+//   try {
+//     yield UserService.sendVerifyEmail(payload)
+//     yield put(sendVerifyEmailSuccess())
+//   } catch (err) {
+//     yield put(sendVerifyEmailFailure(err.message))
+//   }
+// }
 
-function* sendVerifyEmailSaga() {
-  yield takeLatest(UserTypes.SEND_VERIFY_EMAIL, sendVerifyEmail)
-}
+// function* sendVerifyEmailSaga() {
+//   yield takeLatest(UserTypes.SEND_VERIFY_EMAIL, sendVerifyEmail)
+// }
 
 // verify email
-function* verifyEmail({ payload }) {
-  try {
-    yield UserService.verifyEmail(payload)
-    yield put(verifyEmailSuccess())
-  } catch (err) {
-    yield put(verifyEmailFailure(err.message))
-  }
-}
+// function* verifyEmail({ payload }) {
+//   try {
+//     yield UserService.verifyEmail(payload)
+//     yield put(verifyEmailSuccess())
+//   } catch (err) {
+//     yield put(verifyEmailFailure(err.message))
+//   }
+// }
 
-function* verifyEmailSaga() {
-  yield takeLatest(UserTypes.VERIFY_EMAIL, verifyEmail)
-}
+// function* verifyEmailSaga() {
+//   yield takeLatest(UserTypes.VERIFY_EMAIL, verifyEmail)
+// }
 
 // send email reset password
 // payload is email
@@ -299,12 +299,12 @@ export function* userSaga() {
     call(createUserSaga),
     call(deleteUserSaga),
     call(authenWithSocialSaga),
-    call(sendVerifyEmailSaga),
-    call(verifyEmailSaga),
+    // call(sendVerifyEmailSaga),
+    // call(verifyEmailSaga),
     call(sendEmailResetPasswordSaga),
     call(verifyTokenResetPasswordSaga),
     call(resetPasswordSaga),
-    call(registerStartSaga),
+    // call(registerStartSaga),
     call(logoutSaga),
     call(authenticateSaga),
     call(changePasswordSaga),

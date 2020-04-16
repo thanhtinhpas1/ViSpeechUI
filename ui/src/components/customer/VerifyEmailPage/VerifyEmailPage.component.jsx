@@ -1,16 +1,40 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { CUSTOMER_PATH, JWT_TOKEN } from 'utils/constant'
 import STORAGE from 'utils/storage'
 import Utils from 'utils'
 import InfoTemplatePage from 'components/customer/InfoTemplatePage/InfoTemplatePage.component'
+import SocketUtils from 'utils/socket.util'
+import SocketService from 'services/socket.service'
+import UserService from 'services/user.service'
 
-const VerifyEmailPage = ({ currentUser, history, verifyEmailObj, verifyEmail, onAuthenticate }) => {
+const { KAFKA_TOPIC, invokeCheckSubject } = SocketUtils
+const { EMAIL_VERIFIED_SUCCESS_EVENT, EMAIL_VERIFIED_FAILED_EVENT } = KAFKA_TOPIC
+
+const VerifyEmailPage = ({
+  currentUser,
+  verifyEmailObj,
+  verifyEmail,
+  verifyEmailSuccess,
+  verifyEmailFailure,
+  onAuthenticate,
+}) => {
+  SocketService.socketEmitEvent(EMAIL_VERIFIED_SUCCESS_EVENT)
+  SocketService.socketEmitEvent(EMAIL_VERIFIED_FAILED_EVENT)
+  SocketService.socketOnListeningEvent(EMAIL_VERIFIED_SUCCESS_EVENT)
+  SocketService.socketOnListeningEvent(EMAIL_VERIFIED_FAILED_EVENT)
+
   const [infoModal, setInfoModal] = useState({})
   const [infoTemplate, setInfoTemplate] = useState({})
   const { emailToken } = useParams()
+  const history = useHistory()
 
-  const onVerifyEmail = useCallback(() => {
+  useEffect(() => {
+    const token = STORAGE.getPreferences(JWT_TOKEN)
+    onAuthenticate(token)
+  }, [onAuthenticate])
+
+  const onVerifyEmail = useCallback(async () => {
     let infoObj = {
       title: 'Kích hoạt tài khoản',
       message: 'Tài khoản của bạn đã được kích hoạt.',
@@ -43,25 +67,53 @@ const VerifyEmailPage = ({ currentUser, history, verifyEmailObj, verifyEmail, on
     }
     setInfoModal(infoObj)
     window.$('#info-modal').modal('show')
+
     verifyEmail(emailToken)
-  }, [currentUser.roles, history, emailToken, verifyEmail, verifyEmailObj])
+    await UserService.verifyEmail(emailToken)
+    invokeCheckSubject.EmailVerified.subscribe(data => {
+      if (data.error) {
+        verifyEmailFailure(data.errorObj.message)
+      } else {
+        verifyEmailSuccess()
+        if (data.newToken) {
+          STORAGE.setPreferences(JWT_TOKEN, data.newToken)
+        }
+      }
+    })
+  }, [
+    currentUser.roles,
+    history,
+    emailToken,
+    verifyEmailObj,
+    verifyEmail,
+    verifyEmailSuccess,
+    verifyEmailFailure,
+  ])
 
   useEffect(() => {
-    const token = STORAGE.getPreferences(JWT_TOKEN)
-    onAuthenticate(token)
-  }, [onAuthenticate])
-
-  useEffect(() => {
-    const infoTemplateObj = {
-      title: 'Kích hoạt tài khoản',
-      user: currentUser,
-      positiveButton: {
-        content: 'Kích hoạt tài khoản',
-        clickFunc: () => onVerifyEmail(),
-      },
+    if (Utils.isEmailVerified(currentUser.roles)) {
+      setInfoTemplate({
+        title: 'Kích hoạt tài khoản',
+        user: currentUser,
+        content: 'Tài khoản của bạn đã được kích hoạt.',
+        positiveButton: {
+          content: 'Về trang cá nhân',
+          clickFunc: () => history.push(`${CUSTOMER_PATH}/profile`),
+        },
+      })
+    } else {
+      setInfoTemplate({
+        title: 'Kích hoạt tài khoản',
+        user: currentUser,
+        content:
+          'Bạn đã yêu cầu kích hoạt tài khoản. Nhấn vào nút kích hoạt tài khoản để có thể sử dụng nhiều thao tác trên ViSpeech.',
+        positiveButton: {
+          content: 'Kích hoạt tài khoản',
+          clickFunc: () => onVerifyEmail(),
+        },
+      })
     }
-    setInfoTemplate(infoTemplateObj)
-  }, [currentUser, onVerifyEmail])
+  }, [currentUser, history, onVerifyEmail])
 
   useEffect(() => {
     if (verifyEmailObj.isLoading === false && verifyEmailObj.isSuccess === true) {
@@ -83,6 +135,12 @@ const VerifyEmailPage = ({ currentUser, history, verifyEmailObj, verifyEmail, on
         title: 'Kích hoạt tài khoản',
         message: 'Kích hoạt tài khoản thất bại. Vui lòng thử lại sau.',
         icon: { isSuccess: false },
+        button: {
+          content: 'Đóng',
+          clickFunc: () => {
+            window.$('#info-modal').modal('hide')
+          },
+        },
       })
     }
   }, [verifyEmailObj, history])

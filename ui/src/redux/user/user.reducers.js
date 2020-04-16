@@ -9,7 +9,7 @@ const INITIAL_STATE = {
     message: null,
   },
   register: {
-    newUser: null,
+    data: null,
     isLoading: false,
     isSuccess: null,
     message: null,
@@ -117,7 +117,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         register: {
-          newUser: action.payload,
+          data: action.payload,
           isLoading: false,
           isSuccess: true,
         },

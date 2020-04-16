@@ -1,5 +1,10 @@
 import { connect } from 'react-redux'
-import { registerStart, onClearUserState } from 'redux/user/user.actions'
+import {
+  registerStart,
+  registerSuccess,
+  registerFailure,
+  onClearUserState,
+} from 'redux/user/user.actions'
 import RegisterPage from './RegisterPage.component'
 
 const mapStateToProps = state => ({
@@ -8,7 +13,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  register: user => dispatch(registerStart(user)),
+  registerStart: () => dispatch(registerStart()),
+  registerSuccess: user => dispatch(registerSuccess(user)),
+  registerFailure: message => dispatch(registerFailure(message)),
   onClearUserState: () => dispatch(onClearUserState()),
 })
 

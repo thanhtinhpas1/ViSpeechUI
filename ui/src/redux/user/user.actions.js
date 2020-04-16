@@ -22,14 +22,13 @@ export const loginFailure = error => ({
 })
 
 // register
-export const registerStart = user => ({
+export const registerStart = () => ({
   type: UserTypes.REGISTER_START,
-  payload: user,
 })
 
-export const registerSuccess = user => ({
+export const registerSuccess = data => ({
   type: UserTypes.REGISTER_SUCCESS,
-  payload: user,
+  payload: data,
 })
 
 export const registerFailure = error => ({

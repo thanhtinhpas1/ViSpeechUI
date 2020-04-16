@@ -38,6 +38,7 @@ io.sockets.on('connection', function (socket) {
 
   console.log('Socket connected');
   socket.emit('CONNECTED', "Connect socket success");
+  // USER
   socket.on(topics.USER_CREATED_SUCCESS_EVENT, () => {
     consumerUtil.run(consumer, topics.USER_CREATED_SUCCESS_EVENT, socket);
   })
@@ -62,10 +63,16 @@ io.sockets.on('connection', function (socket) {
   socket.on(topics.VERIFY_EMAIL_SENT_FAILED_EVENT, () => {
     consumerUtil.run(consumer, topics.VERIFY_EMAIL_SENT_FAILED_EVENT, socket);
   })
+  socket.on(topics.EMAIL_VERIFIED_SUCCESS_EVENT, () => {
+    consumerUtil.run(consumer, topics.EMAIL_VERIFIED_SUCCESS_EVENT, socket);
+  })
+  socket.on(topics.EMAIL_VERIFIED_FAILED_EVENT, () => {
+    consumerUtil.run(consumer, topics.EMAIL_VERIFIED_FAILED_EVENT, socket);
+  })
+  // TOKEN
   socket.on(topics.FREE_TOKEN_CREATED_SUCCESS_EVENT, () => {
     consumerUtil.run(consumer, topics.FREE_TOKEN_CREATED_SUCCESS_EVENT);
   })
-  // TOKEN
   socket.on(topics.FREE_TOKEN_CREATED_FAILED_EVENT, () => {
     consumerUtil.run(consumer, topics.FREE_TOKEN_CREATED_FAILED_EVENT);
   })
@@ -102,11 +109,9 @@ io.sockets.on('connection', function (socket) {
   })
   // PROJECT
   socket.on(topics.PROJECT_CREATED_SUCCESS_EVENT, () => {
-    console.log('project success')
     consumerUtil.run(consumer, topics.PROJECT_CREATED_SUCCESS_EVENT, socket);
   })
   socket.on(topics.PROJECT_CREATED_FAILED_EVENT, () => {
-    console.log('project failed')
     consumerUtil.run(consumer, topics.PROJECT_CREATED_FAILED_EVENT, socket);
   })
   // PERMISSION
