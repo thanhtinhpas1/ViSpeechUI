@@ -71,14 +71,18 @@ const ProfilePage = ({
     window.$('#info-modal').modal('show')
 
     sendVerifyEmail(currentUser._id)
-    await UserService.sendVerifyEmail(currentUser._id)
-    invokeCheckSubject.VerifyEmailSent.subscribe(data => {
-      if (data.error) {
-        sendVerifyEmailFailure(data.errorObj.message)
-      } else {
-        sendVerifyEmailSuccess()
-      }
-    })
+    try {
+      await UserService.sendVerifyEmail(currentUser._id)
+      invokeCheckSubject.VerifyEmailSent.subscribe(data => {
+        if (data.error) {
+          sendVerifyEmailFailure(data.errorObj.message)
+        } else {
+          sendVerifyEmailSuccess()
+        }
+      })
+    } catch (err) {
+      sendVerifyEmailFailure(err.message)
+    }
   }
 
   return (

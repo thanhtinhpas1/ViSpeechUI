@@ -71,17 +71,21 @@ const VerifyEmailPage = ({
     window.$('#info-modal').modal('show')
 
     verifyEmail(emailToken)
-    await UserService.verifyEmail(emailToken)
-    invokeCheckSubject.EmailVerified.subscribe(data => {
-      if (data.error) {
-        verifyEmailFailure(data.errorObj.message)
-      } else {
-        verifyEmailSuccess()
-        if (data.newToken) {
-          STORAGE.setPreferences(JWT_TOKEN, data.newToken)
+    try {
+      await UserService.verifyEmail(emailToken)
+      invokeCheckSubject.EmailVerified.subscribe(data => {
+        if (data.error) {
+          verifyEmailFailure(data.errorObj.message)
+        } else {
+          verifyEmailSuccess()
+          if (data.newToken) {
+            STORAGE.setPreferences(JWT_TOKEN, data.newToken)
+          }
         }
-      }
-    })
+      })
+    } catch (err) {
+      verifyEmailFailure(err.message)
+    }
   }, [
     currentUser.roles,
     history,
@@ -118,32 +122,33 @@ const VerifyEmailPage = ({
   }, [currentUser, history, onVerifyEmail])
 
   useEffect(() => {
-    if (verifyEmailObj.isLoading === false && verifyEmailObj.isSuccess === true) {
-      setInfoModal({
-        title: 'Kích hoạt tài khoản',
-        message: 'Tài khoản của bạn đã được kích hoạt thành công.',
-        icon: { isSuccess: true },
-        button: {
-          content: 'Về trang cá nhân',
-          clickFunc: () => {
-            window.$('#info-modal').modal('hide')
-            history.push(`${CUSTOMER_PATH}/profile`)
+    if (verifyEmailObj.isLoading === false && verifyEmailObj.isSuccess != null) {
+      if (verifyEmailObj.isSuccess === true) {
+        setInfoModal({
+          title: 'Kích hoạt tài khoản',
+          message: 'Tài khoản của bạn đã được kích hoạt thành công.',
+          icon: { isSuccess: true },
+          button: {
+            content: 'Về trang cá nhân',
+            clickFunc: () => {
+              window.$('#info-modal').modal('hide')
+              history.push(`${CUSTOMER_PATH}/profile`)
+            },
           },
-        },
-      })
-    }
-    if (verifyEmailObj.isLoading === false && verifyEmailObj.isSuccess === false) {
-      setInfoModal({
-        title: 'Kích hoạt tài khoản',
-        message: 'Kích hoạt tài khoản thất bại. Vui lòng thử lại sau.',
-        icon: { isSuccess: false },
-        button: {
-          content: 'Đóng',
-          clickFunc: () => {
-            window.$('#info-modal').modal('hide')
+        })
+      } else {
+        setInfoModal({
+          title: 'Kích hoạt tài khoản',
+          message: 'Kích hoạt tài khoản thất bại. Vui lòng thử lại sau.',
+          icon: { isSuccess: false },
+          button: {
+            content: 'Đóng',
+            clickFunc: () => {
+              window.$('#info-modal').modal('hide')
+            },
           },
-        },
-      })
+        })
+      }
     }
   }, [verifyEmailObj, history])
 

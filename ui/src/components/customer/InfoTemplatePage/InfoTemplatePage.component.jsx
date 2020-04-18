@@ -45,6 +45,7 @@ const InfoTemplatePage = ({ infoTemplate, infoModal }) => {
                                   </p>
                                 )}
                                 <p className="mgb-1x">{infoTemplate.content}</p>
+                                <div className="gaps-1x" />
                                 <div className="d-flex justify-content-end align-items-center">
                                   {infoTemplate.positiveButton && (
                                     <button

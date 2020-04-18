@@ -20,149 +20,65 @@ import StatisticsPage from 'components/customer/StatisticsPage/StatisticsPage.co
 
 const RouteCustomer = ({ currentUser }) => {
   return (
-    <Switch>
+    <>
       {/* WITHOUT login, user can access those links */}
-      {currentUser ? (
-        <>
-          <Route
-            exact
-            path={CUSTOMER_PATH}
-            render={props => (
-              <CustomerLayout>
-                <CustomerHomePage {...props} />
-              </CustomerLayout>
-            )}
-          />
-          <Route
-            path={`${CUSTOMER_PATH}/transactions`}
-            render={() => (
-              <CustomerLayout>
-                <TransactionsPage />
-              </CustomerLayout>
-            )}
-          />
-          <Route
-            path={`${CUSTOMER_PATH}/transaction-details`}
-            render={() => (
-              <CustomerLayout>
-                <TransactionDetailsPage />
-              </CustomerLayout>
-            )}
-          />
-          <Route
-            path={`${CUSTOMER_PATH}/profile`}
-            render={() => (
-              <CustomerLayout>
-                <ProfilePage />
-              </CustomerLayout>
-            )}
-          />
-          <Route
-            path={`${CUSTOMER_PATH}/verify-email/:emailToken`}
-            render={props => (
-              <CustomerLayout>
-                <VerifyEmailPage {...props} />
-              </CustomerLayout>
-            )}
-          />
-          <Route
-            path={`${CUSTOMER_PATH}/projects`}
-            render={props => (
-              <CustomerLayout>
-                <ProjectPage {...props} />
-              </CustomerLayout>
-            )}
-          />
-          <Route
-            path={`${CUSTOMER_PATH}/create-project`}
-            render={() => (
-              <CustomerLayout>
-                <CreateProjectPage />
-              </CustomerLayout>
-            )}
-          />
-          <Route
-            path={`${CUSTOMER_PATH}/my-project/:id`}
-            render={props => (
-              <CustomerLayout>
-                <ProjectDetailsPage {...props} />
-              </CustomerLayout>
-            )}
-          />
-          <Route
-            path={`${CUSTOMER_PATH}/accepted-project/:id`}
-            render={props => (
-              <CustomerLayout>
-                <ProjectDetailsPage {...props} />
-              </CustomerLayout>
-            )}
-          />
-          <Route
-            path={`${CUSTOMER_PATH}/assign-permission`}
-            render={() => (
-              <CustomerLayout>
-                <AssignPermissionPage />
-              </CustomerLayout>
-            )}
-          />
-          <Route
-            path={`${CUSTOMER_PATH}/reply-permission-assign/:emailToken`}
-            render={props => (
-              <CustomerLayout>
-                <ReplyPermissionAssignPage {...props} />
-              </CustomerLayout>
-            )}
-          />
-          <Route
-            path={`${CUSTOMER_PATH}/reports`}
-            render={() => (
-              <CustomerLayout>
-                <StatisticsPage />
-              </CustomerLayout>
-            )}
-          />
-        </>
-      ) : (
-        <>
+      {currentUser && (
+        <CustomerLayout>
+          <Switch>
+            <Route exact path={CUSTOMER_PATH}>
+              <CustomerHomePage />
+            </Route>
+            <Route path={`${CUSTOMER_PATH}/transactions`}>
+              <CustomerHomePage />
+            </Route>
+            <Route path={`${CUSTOMER_PATH}/transaction-details`}>
+              <TransactionDetailsPage />
+            </Route>
+            <Route path={`${CUSTOMER_PATH}/profile`}>
+              <ProfilePage />
+            </Route>
+            <Route path={`${CUSTOMER_PATH}/verify-email/:emailToken`}>
+              <VerifyEmailPage />
+            </Route>
+            <Route path={`${CUSTOMER_PATH}/projects`}>
+              <ProjectPage />
+            </Route>
+            <Route path={`${CUSTOMER_PATH}/create-project`}>
+              <CreateProjectPage />
+            </Route>
+            <Route path={`${CUSTOMER_PATH}/my-project/:id`}>
+              <ProjectDetailsPage />
+            </Route>
+            <Route path={`${CUSTOMER_PATH}/accepted-project/:id`}>
+              <ProjectDetailsPage />
+            </Route>
+            <Route path={`${CUSTOMER_PATH}/assign-permission`}>
+              <AssignPermissionPage />
+            </Route>
+            <Route path={`${CUSTOMER_PATH}/reply-permission-assign/:emailToken`}>
+              <ReplyPermissionAssignPage />
+            </Route>
+            <Route path={`${CUSTOMER_PATH}/reports`}>
+              <StatisticsPage />
+            </Route>
+            <Route path={`${CUSTOMER_PATH}/*`}>
+              <Redirect to="/404" />
+            </Route>
+          </Switch>
+        </CustomerLayout>
+      )}
+
+      {!currentUser && (
+        <Switch>
           <Route exact path={CUSTOMER_PATH}>
             <Redirect to="/" />
           </Route>
-          <Route path={`${CUSTOMER_PATH}/transactions`}>
+          <Route path={`${CUSTOMER_PATH}/*`}>
             <Redirect to="/" />
           </Route>
-          <Route path={`${CUSTOMER_PATH}/transaction-details`}>
-            <Redirect to="/" />
-          </Route>
-          <Route path={`${CUSTOMER_PATH}/profile`}>
-            <Redirect to="/" />
-          </Route>
-          <Route path={`${CUSTOMER_PATH}/verify-email/:emailToken`}>
-            <Redirect to="/" />
-          </Route>
-          <Route path={`${CUSTOMER_PATH}/projects`}>
-            <Redirect to="/" />
-          </Route>
-          <Route path={`${CUSTOMER_PATH}/create-project`}>
-            <Redirect to="/" />
-          </Route>
-          <Route path={`${CUSTOMER_PATH}/my-project/:id`}>
-            <Redirect to="/" />
-          </Route>
-          <Route path={`${CUSTOMER_PATH}/accepted-project/:id`}>
-            <Redirect to="/" />
-          </Route>
-          <Route path={`${CUSTOMER_PATH}/assign-permission`}>
-            <Redirect to="/" />
-          </Route>
-          <Route path={`${CUSTOMER_PATH}/reply-permission-assign/:emailToken`}>
-            <Redirect to="/" />
-          </Route>
-          <Route path={`${CUSTOMER_PATH}/reports`}>
-            <Redirect to="/" />
-          </Route>
-        </>
+        </Switch>
       )}
-    </Switch>
+    </>
   )
 }
 

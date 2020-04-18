@@ -58,19 +58,23 @@ const RegisterPage = ({
     }
 
     registerStart()
-    await UserService.register(user)
-    invokeCheckSubject.UserCreated.subscribe(data => {
-      if (data.error) {
-        registerFailure(data.errorObj.message)
-      }
-    })
-    invokeCheckSubject.FreeTokenCreated.subscribe(data => {
-      if (data.error) {
-        registerFailure(data.errorObj.message)
-      } else {
-        registerSuccess(user)
-      }
-    })
+    try {
+      await UserService.register(user)
+      invokeCheckSubject.UserCreated.subscribe(data => {
+        if (data.error) {
+          registerFailure(data.errorObj.message)
+        }
+      })
+      invokeCheckSubject.FreeTokenCreated.subscribe(data => {
+        if (data.error) {
+          registerFailure(data.errorObj.message)
+        } else {
+          registerSuccess(user)
+        }
+      })
+    } catch (err) {
+      registerFailure(err.message)
+    }
   }
 
   return (

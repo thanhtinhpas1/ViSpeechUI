@@ -15,6 +15,7 @@ import { CUSTOMER_PATH, ADMIN_PATH } from 'utils/constant'
 import LandingPage from 'components/common/LandingPage/LandingPage.container'
 import LoginPage from 'components/common/LoginPage/LoginPage.container'
 import RegisterPage from 'components/common/RegisterPage/RegisterPage.container'
+import NotFound404 from 'components/common/NotFound404/NotFound404.component'
 
 const App = ({ currentUser }) => {
   const [isCssLoaded, setIsCssLoaded] = useState(false)
@@ -383,25 +384,22 @@ const App = ({ currentUser }) => {
   }, [currentUser, isUser])
 
   return (
-    <Switch>
+    <>
       {isCssLoaded && (
-        <>
+        <Switch>
+          <Route path="/404">
+            <NotFound404 />
+          </Route>
           <Route path={CUSTOMER_PATH} render={() => <RouteCustomer currentUser={currentUser} />} />
           <Route path={ADMIN_PATH} render={() => <RouteAdmin currentUser={currentUser} />} />
           {currentUser && isUser != null ? (
-            <>
-              <Route exact path="/">
+            <Switch>
+              <Route path="/*">
                 <Redirect to={isUser ? CUSTOMER_PATH : ADMIN_PATH} />
               </Route>
-              <Route path="/login">
-                <Redirect to={isUser ? CUSTOMER_PATH : ADMIN_PATH} />
-              </Route>
-              <Route path="/register">
-                <Redirect to={isUser ? CUSTOMER_PATH : ADMIN_PATH} />
-              </Route>
-            </>
+            </Switch>
           ) : (
-            <>
+            <Switch>
               <Route exact path="/">
                 <LandingPage />
               </Route>
@@ -411,11 +409,14 @@ const App = ({ currentUser }) => {
               <Route path="/register">
                 <RegisterPage />
               </Route>
-            </>
+              <Route path="*">
+                <Redirect to="/404" />
+              </Route>
+            </Switch>
           )}
-        </>
+        </Switch>
       )}
-    </Switch>
+    </>
   )
 }
 

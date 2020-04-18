@@ -1,20 +1,19 @@
-// import React from 'react'
-// import { Link } from 'react-router-dom'
-// import { Result, Button } from 'antd'
+import React from 'react'
+import { Result, Button } from 'antd'
 
-// const NotFound404 = () => {
-//   return (
-//     <Result
-//       status="404"
-//       title="404"
-//       subTitle="Xin lỗi, không tìm thấy trang"
-//       extra={
-//         <Link to="/">
-//           <Button type="primary">Về trang chủ</Button>
-//         </Link>
-//       }
-//     />
-//   )
-// }
+const NotFound404 = () => {
+  return (
+    <Result
+      status="404"
+      title="404"
+      subTitle="Xin lỗi, không tìm thấy trang"
+      extra={
+        <a href="/">
+          <Button type="primary">Về trang chủ</Button>
+        </a>
+      }
+    />
+  )
+}
 
-// export default NotFound404
+export default NotFound404

@@ -8,7 +8,13 @@ const INITIAL_STATE = {
     message: null,
   },
   replyPermissionAssign: {
-    reply: null,
+    reply: {},
+    isLoading: false,
+    isSuccess: null,
+    message: null,
+  },
+  findPermissionByEmailToken: {
+    data: [],
     isLoading: false,
     isSuccess: null,
     message: null,
@@ -72,6 +78,34 @@ const permissionReducer = (state = INITIAL_STATE, action) => {
         ...state,
         replyPermissionAssign: {
           ...state.replyPermissionAssign,
+          isLoading: false,
+          isSuccess: false,
+          message: action.payload,
+        },
+      }
+    // FIND PERMISSION BY EMAIL TOKEN
+    case PermissionTypes.FIND_PERMISSION_BY_EMAIL_TOKEN:
+      return {
+        ...state,
+        findPermissionByEmailToken: {
+          ...state.findPermissionByEmailToken,
+          isLoading: true,
+        },
+      }
+    case PermissionTypes.FIND_PERMISSION_BY_EMAIL_TOKEN_SUCCESS:
+      return {
+        ...state,
+        findPermissionByEmailToken: {
+          isLoading: false,
+          isSuccess: true,
+          data: action.payload,
+        },
+      }
+    case PermissionTypes.FIND_PERMISSION_BY_EMAIL_TOKEN_FAILURE:
+      return {
+        ...state,
+        findPermissionByEmailToken: {
+          ...state.findPermissionByEmailToken,
           isLoading: false,
           isSuccess: false,
           message: action.payload,

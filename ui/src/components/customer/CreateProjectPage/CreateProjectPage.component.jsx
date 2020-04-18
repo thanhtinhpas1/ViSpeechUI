@@ -17,6 +17,7 @@ const { PROJECT_CREATED_SUCCESS_EVENT, PROJECT_CREATED_FAILED_EVENT } = KAFKA_TO
 const CreateProjectPage = ({
   currentUser,
   createProjectObj,
+  createProject,
   createProjectSuccess,
   createProjectFailure,
 }) => {
@@ -37,8 +38,8 @@ const CreateProjectPage = ({
     if (createProjectObj.isLoading === false && createProjectObj.isSuccess != null) {
       if (createProjectObj.isSuccess === true) {
         setInfoModal({
-          title: 'Tạo dự án thành công',
-          message: '',
+          title: 'Tạo dự án',
+          message: 'Thành công',
           icon: { isSuccess: true },
           button: {
             content: 'Đóng',
@@ -50,8 +51,8 @@ const CreateProjectPage = ({
         })
       } else {
         setInfoModal({
-          title: 'Tạo dự án thất bại',
-          message: createProjectObj.message,
+          title: 'Tạo dự án',
+          message: `Thất bại [${createProjectObj.message}]`,
           icon: { isSuccess: false },
           button: {
             content: 'Đóng',
@@ -74,6 +75,7 @@ const CreateProjectPage = ({
       description: form.elements.description.value.trim(),
       userId: currentUser._id,
     }
+
     setInfoModal({
       title: 'Tạo dự án',
       message: 'Vui lòng chờ giây lát...',
@@ -83,15 +85,19 @@ const CreateProjectPage = ({
     })
     window.$('#info-modal').modal('show')
 
-    await ProjectService.createProject(project)
-
-    invokeCheckSubject.ProjectCreated.subscribe(data => {
-      if (data.error) {
-        createProjectFailure(data.errorObj.message)
-      } else {
-        createProjectSuccess(project)
-      }
-    })
+    createProject(project)
+    try {
+      await ProjectService.createProject(project)
+      invokeCheckSubject.ProjectCreated.subscribe(data => {
+        if (data.error) {
+          createProjectFailure(data.errorObj.message)
+        } else {
+          createProjectSuccess(project)
+        }
+      })
+    } catch (err) {
+      createProjectFailure(err.message)
+    }
   }
 
   return (

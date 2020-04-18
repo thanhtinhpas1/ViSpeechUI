@@ -18,105 +18,59 @@ import StatisticsPage from 'components/admin/StatisticsPage/StatisticsPage.compo
 
 const RouteAdmin = ({ currentUser }) => {
   return (
-    <Switch>
+    <>
       {/* WITHOUT login, user can access those links */}
-      {currentUser ? (
-        <>
-          <Route exact path={ADMIN_PATH}>
-            <AdminLayout>
+      {currentUser && (
+        <AdminLayout>
+          <Switch>
+            <Route exact path={ADMIN_PATH}>
               <AdminHomePage />
-            </AdminLayout>
-          </Route>
-          <Route path={`${ADMIN_PATH}/users`}>
-            <AdminLayout>
+            </Route>
+            <Route path={`${ADMIN_PATH}/users`}>
               <AdminUserListPage />
-            </AdminLayout>
-          </Route>
-          <Route
-            path={`${ADMIN_PATH}/user-info/:id`}
-            render={() => (
-              <AdminLayout>
-                <AdminUserInfoPage />
-              </AdminLayout>
-            )}
-          />
-          <Route path={`${ADMIN_PATH}/create-user`}>
-            <AdminLayout>
+            </Route>
+            <Route path={`${ADMIN_PATH}/user-info/:id`}>
+              <AdminUserInfoPage />
+            </Route>
+            <Route path={`${ADMIN_PATH}/create-user`}>
               <AdminUserCreatePage />
-            </AdminLayout>
-          </Route>
-          <Route path={`${ADMIN_PATH}/reports`}>
-            <AdminLayout>
+            </Route>
+            <Route path={`${ADMIN_PATH}/reports`}>
               <StatisticsPage />
-            </AdminLayout>
-          </Route>
-          <Route
-            path={`${ADMIN_PATH}/transaction-details`}
-            render={() => (
-              <AdminLayout>
-                <AdminTransactionDetailsPage />
-              </AdminLayout>
-            )}
-          />
-          <Route
-            path={`${ADMIN_PATH}/user-project/:id`}
-            render={props => (
-              <AdminLayout>
-                <AdminProjectDetailsPage {...props} />
-              </AdminLayout>
-            )}
-          />
-          <Route
-            path={`${ADMIN_PATH}/user-accepted-project/:id`}
-            render={props => (
-              <AdminLayout>
-                <AdminProjectDetailsPage {...props} />
-              </AdminLayout>
-            )}
-          />
-          <Route path={`${ADMIN_PATH}/histories`}>
-            <AdminLayout>
+            </Route>
+            <Route path={`${ADMIN_PATH}/transaction-details`}>
+              <AdminTransactionDetailsPage />
+            </Route>
+            <Route path={`${ADMIN_PATH}/user-project/:id`}>
+              <AdminProjectDetailsPage />
+            </Route>
+            <Route path={`${ADMIN_PATH}/user-accepted-project/:id`}>
+              <AdminProjectDetailsPage />
+            </Route>
+            <Route path={`${ADMIN_PATH}/histories`}>
               <AdminHistoriesPage />
-            </AdminLayout>
-          </Route>
-          <Route path={`${ADMIN_PATH}/tasks`}>
-            <AdminLayout>
+            </Route>
+            <Route path={`${ADMIN_PATH}/tasks`}>
               <AdminTasksPage />
-            </AdminLayout>
-          </Route>
-        </>
-      ) : (
-        <>
+            </Route>
+            <Route path={`${ADMIN_PATH}/*`}>
+              <Redirect to="/404" />
+            </Route>
+          </Switch>
+        </AdminLayout>
+      )}
+
+      {!currentUser && (
+        <Switch>
           <Route exact path={ADMIN_PATH}>
             <Redirect to="/" />
           </Route>
-          <Route path={`${ADMIN_PATH}/users`}>
+          <Route path={`${ADMIN_PATH}/*`}>
             <Redirect to="/" />
           </Route>
-          <Route path={`${ADMIN_PATH}/user-info/:id`}>
-            <Redirect to="/" />
-          </Route>
-          <Route path={`${ADMIN_PATH}/create-user`}>
-            <Redirect to="/" />
-          </Route>
-          <Route path={`${ADMIN_PATH}/reports`}>
-            <Redirect to="/" />
-          </Route>
-          <Route path={`${ADMIN_PATH}/user-project/:id`}>
-            <Redirect to="/" />
-          </Route>
-          <Route path={`${ADMIN_PATH}/user-accepted-project/:id`}>
-            <Redirect to="/" />
-          </Route>
-          <Route path={`${ADMIN_PATH}/histories`}>
-            <Redirect to="/" />
-          </Route>
-          <Route path={`${ADMIN_PATH}/tasks`}>
-            <Redirect to="/" />
-          </Route>
-        </>
+        </Switch>
       )}
-    </Switch>
+    </>
   )
 }
 

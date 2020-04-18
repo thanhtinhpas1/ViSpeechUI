@@ -2,19 +2,13 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react'
+import LoadingIcon from 'components/common/LoadingIcon/LoadingIcon.component'
 import TokenStatistics from './components/TokenStatistics/TokenStatistics.container'
 import TokenTransaction from './components/TokenTransaction/TokenTransaction.container'
 import TokenCalculator from './components/TokenCalculator/TokenCalculator.component'
 import TokenSaleGraph from './components/TokenSaleGraph/TokenSaleGraph.component'
 
-const Home = ({
-  history,
-  currentUser,
-  orderListObj,
-  getFreeTokenObj,
-  getFreeToken,
-  getOrderList,
-}) => {
+const Home = ({ currentUser, orderListObj, getFreeTokenObj, getFreeToken, getOrderList }) => {
   useEffect(() => {
     if (currentUser._id) {
       getFreeToken(currentUser._id)
@@ -28,7 +22,7 @@ const Home = ({
         <div className="row">
           <div className="col-lg-12">
             <div className="token-statistics card card-token height-auto">
-              <TokenStatistics history={history} />
+              <TokenStatistics />
             </div>
           </div>
           <div className="col-lg-12">
@@ -46,7 +40,7 @@ const Home = ({
                 <div className="card-opt">
                   <span className="lead tnx-id">
                     {getFreeTokenObj.isLoading && getFreeTokenObj.isSuccess == null && (
-                      <div>Đang tải...</div>
+                      <LoadingIcon />
                     )}
                     {getFreeTokenObj.isLoading === false && getFreeTokenObj.isSuccess === false && (
                       <div>Lấy token miễn phí thất bại</div>

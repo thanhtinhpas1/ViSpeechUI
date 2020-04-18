@@ -67,4 +67,31 @@ export default class PermissionService {
         throw new Error(err.message || DEFAULT_ERR_MESSAGE)
       })
   }
+
+  static findPermissionByEmailToken = token => {
+    const api = `${apiUrl}/permissions/email-token/${token}`
+    const jwtToken = STORAGE.getPreferences(JWT_TOKEN)
+
+    let status = 400
+    return fetch(api, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    })
+      .then(response => {
+        status = response.status
+        return response.json()
+      })
+      .then(result => {
+        if (status !== 200) {
+          throw new Error(result.message || DEFAULT_ERR_MESSAGE)
+        }
+        return result
+      })
+      .catch(err => {
+        throw new Error(err.message || DEFAULT_ERR_MESSAGE)
+      })
+  }
 }

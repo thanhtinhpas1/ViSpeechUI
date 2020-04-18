@@ -1,14 +1,19 @@
 import React from 'react'
-import './LoadingIcon.style.scss'
+import { Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
+// import './LoadingIcon.style.scss'
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 function LoadingIcon() {
   return (
-    <div className="loading-icon">
-      <div />
-      <div />
-      <div />
-      <div />
-    </div>
+    <Spin indicator={antIcon} />
+    // <div className="loading-icon">
+    //   <div />
+    //   <div />
+    //   <div />
+    //   <div />
+    // </div>
   )
 }
 

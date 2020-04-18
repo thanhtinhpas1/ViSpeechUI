@@ -3,9 +3,19 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { PERMISSIONS } from 'utils/constant'
 import Utils from 'utils'
+import SocketService from 'services/socket.service'
+import PermissionService from 'services/permission.service'
+import SocketUtils from 'utils/socket.util'
+import InfoModal from 'components/customer/InfoModal/InfoModal.component'
+
+const { KAFKA_TOPIC, invokeCheckSubject } = SocketUtils
+const {
+  PERMISSION_ASSIGN_EMAIL_SENT_SUCCESS_EVENT,
+  PERMISSION_ASSIGN_EMAIL_SENT_FAILED_EVENT,
+} = KAFKA_TOPIC
 
 const AssignPermissionPage = ({
   currentUser,
@@ -13,16 +23,51 @@ const AssignPermissionPage = ({
   assignPermissionObj,
   getMyProjects,
   assignPermission,
+  assignPermissionSuccess,
+  assignPermissionFailure,
 }) => {
   const query = Utils.useQuery()
+  const [infoModal, setInfoModal] = useState({})
+
+  useEffect(() => {
+    SocketService.socketEmitEvent(PERMISSION_ASSIGN_EMAIL_SENT_SUCCESS_EVENT)
+    SocketService.socketEmitEvent(PERMISSION_ASSIGN_EMAIL_SENT_FAILED_EVENT)
+    SocketService.socketOnListeningEvent(PERMISSION_ASSIGN_EMAIL_SENT_SUCCESS_EVENT)
+    SocketService.socketOnListeningEvent(PERMISSION_ASSIGN_EMAIL_SENT_FAILED_EVENT)
+  }, [])
 
   const emptyAllInputField = () => {
     window.$('#assign-permission-form')[0].reset()
   }
 
   useEffect(() => {
-    if (assignPermissionObj.isLoading === false && assignPermissionObj.isSuccess === true) {
-      emptyAllInputField()
+    if (assignPermissionObj.isLoading === false && assignPermissionObj.isSuccess != null) {
+      if (assignPermissionObj.isSuccess === true) {
+        setInfoModal({
+          title: 'Mời tham gia dự án',
+          message: 'Gửi mail thành công',
+          icon: { isSuccess: true },
+          button: {
+            content: 'Đóng',
+            clickFunc: () => {
+              window.$('#info-modal').modal('hide')
+              emptyAllInputField()
+            },
+          },
+        })
+      } else {
+        setInfoModal({
+          title: 'Mời tham gia dự án',
+          message: `Gửi mail thất bại [${assignPermissionObj.message}]`,
+          icon: { isSuccess: false },
+          button: {
+            content: 'Đóng',
+            clickFunc: () => {
+              window.$('#info-modal').modal('hide')
+            },
+          },
+        })
+      }
     }
   }, [assignPermissionObj])
 
@@ -32,9 +77,8 @@ const AssignPermissionPage = ({
     }
   }, [currentUser._id, getMyProjects])
 
-  const onSubmit = event => {
+  const onSubmit = async event => {
     event.preventDefault()
-
     if (!currentUser._id) return
 
     const form = event.target
@@ -44,7 +88,29 @@ const AssignPermissionPage = ({
       permissions: [PERMISSIONS.CSR_USER],
       assignerId: currentUser._id,
     }
+
+    setInfoModal({
+      title: 'Mời tham gia dự án',
+      message: 'Đang gửi mail. Vui lòng chờ giây lát...',
+      icon: {
+        isLoading: true,
+      },
+    })
+    window.$('#info-modal').modal('show')
+
     assignPermission(permission)
+    try {
+      await PermissionService.sendAssignPermissionEmail(permission)
+      invokeCheckSubject.PermissionAssignEmailSent.subscribe(data => {
+        if (data.error) {
+          assignPermissionFailure(data.errorObj.message)
+        } else {
+          assignPermissionSuccess(permission)
+        }
+      })
+    } catch (err) {
+      assignPermissionFailure(err.message)
+    }
   }
 
   return (
@@ -53,7 +119,7 @@ const AssignPermissionPage = ({
         <div className="content-area card">
           <div className="card-innr card-innr-fix">
             <div className="card-head">
-              <h4 className="card-title mb-0">Mời tham gia project</h4>
+              <h4 className="card-title mb-0">Mời tham gia dự án</h4>
             </div>
             <div className="gaps-1x" />
             <form onSubmit={onSubmit} id="assign-permission-form" style={{ overflow: 'auto' }}>
@@ -62,7 +128,7 @@ const AssignPermissionPage = ({
                 <input className="input-bordered" type="text" name="username" required />
               </div>
               <div className="input-item input-with-label">
-                <label className="input-item-label text-exlight">Tên project *</label>
+                <label className="input-item-label text-exlight">Tên dự án *</label>
                 <select
                   className="custom-select input-item__select-project"
                   name="projectId"
@@ -89,6 +155,7 @@ const AssignPermissionPage = ({
           </div>
         </div>
       </div>
+      <InfoModal infoModal={infoModal} />
     </div>
   )
 }

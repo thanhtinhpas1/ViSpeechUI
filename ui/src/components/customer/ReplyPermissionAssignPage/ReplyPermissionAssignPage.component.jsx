@@ -1,31 +1,63 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect, useCallback } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { CUSTOMER_PATH, JWT_TOKEN, STATUS } from 'utils/constant'
 import STORAGE from 'utils/storage'
 import InfoTemplatePage from 'components/customer/InfoTemplatePage/InfoTemplatePage.component'
+import SocketUtils from 'utils/socket.util'
+import SocketService from 'services/socket.service'
+import PermissionService from 'services/permission.service'
+
+const { KAFKA_TOPIC, invokeCheckSubject } = SocketUtils
+const {
+  PERMISSION_ASSIGN_REPLIED_SUCCESS_EVENT,
+  PERMISSION_ASSIGN_REPLIED_FAILED_EVENT,
+} = KAFKA_TOPIC
 
 const ReplyPermissionAssignPage = ({
   currentUser,
-  history,
+  findPermissionByEmailTokenObj,
   replyPermissionAssignObj,
+  findPermissionByEmailToken,
   replyPermissionAssign,
+  replyPermissionAssignSuccess,
+  replyPermissionAssignFailure,
   onAuthenticate,
 }) => {
   const [infoModal, setInfoModal] = useState({})
   const [infoTemplate, setInfoTemplate] = useState({})
   const { emailToken } = useParams()
+  const history = useHistory()
+
+  useEffect(() => {
+    SocketService.socketEmitEvent(PERMISSION_ASSIGN_REPLIED_SUCCESS_EVENT)
+    SocketService.socketEmitEvent(PERMISSION_ASSIGN_REPLIED_FAILED_EVENT)
+    SocketService.socketOnListeningEvent(PERMISSION_ASSIGN_REPLIED_SUCCESS_EVENT)
+    SocketService.socketOnListeningEvent(PERMISSION_ASSIGN_REPLIED_FAILED_EVENT)
+  }, [])
+
+  useEffect(() => {
+    const token = STORAGE.getPreferences(JWT_TOKEN)
+    onAuthenticate(token)
+  }, [onAuthenticate])
+
+  useEffect(() => {
+    if (currentUser._id) {
+      findPermissionByEmailToken(emailToken)
+    }
+  }, [currentUser._id, emailToken, findPermissionByEmailToken])
 
   const onReplyPermissionAssign = useCallback(
-    status => {
+    async status => {
       let infoObj = {
         title: 'Phản hồi lời mời',
-        message: 'Bạn đã phản hồi lời mời tham gia project.',
+        message: 'Bạn đã phản hồi lời mời tham gia dự án.',
         icon: { isSuccess: true },
         button: {
-          content: 'Về trang chủ',
+          content: 'Về trang dự án',
           clickFunc: () => {
             window.$('#info-modal').modal('hide')
-            history.push(`${CUSTOMER_PATH}/`)
+            history.push(`${CUSTOMER_PATH}/projects`)
           },
         },
       }
@@ -49,60 +81,93 @@ const ReplyPermissionAssignPage = ({
       }
       setInfoModal(infoObj)
       window.$('#info-modal').modal('show')
+
       replyPermissionAssign({ emailToken, status })
+      try {
+        await PermissionService.replyPermissionAssign({ emailToken, status })
+        invokeCheckSubject.PermissionAssignReplied.subscribe(data => {
+          if (data.error) {
+            replyPermissionAssignFailure(data.errorObj.message)
+          } else {
+            replyPermissionAssignSuccess({ emailToken, status })
+          }
+        })
+      } catch (err) {
+        replyPermissionAssignFailure(err.message)
+      }
     },
-    [history, emailToken, replyPermissionAssign, replyPermissionAssignObj]
+    [
+      history,
+      emailToken,
+      replyPermissionAssignObj,
+      replyPermissionAssign,
+      replyPermissionAssignSuccess,
+      replyPermissionAssignFailure,
+    ]
   )
 
   useEffect(() => {
-    const token = STORAGE.getPreferences(JWT_TOKEN)
-    onAuthenticate(token)
-  }, [onAuthenticate])
-
-  useEffect(() => {
-    const infoTemplateObj = {
-      title: 'Phản hồi lời mời',
-      user: currentUser,
-      content: 'Bạn được mời tham gia dự án. Nhấn chấp nhận hoặc từ chối để phản hồi lời mời.',
-      positiveButton: {
-        content: STATUS.ACCEPTED.viText,
-        clickFunc: () => onReplyPermissionAssign(STATUS.ACCEPTED.name),
-      },
-      negativeButton: {
-        content: STATUS.REJECTED.viText,
-        clickFunc: () => onReplyPermissionAssign(STATUS.REJECTED.name),
-      },
-    }
-    setInfoTemplate(infoTemplateObj)
-  }, [currentUser, onReplyPermissionAssign])
-
-  useEffect(() => {
-    if (
-      replyPermissionAssignObj.isLoading === false &&
-      replyPermissionAssignObj.isSuccess === true
-    ) {
-      setInfoModal({
-        title: 'Phản hồi lời mời',
-        message: 'Phản hồi lời mời tham gia project thành công.',
-        icon: { isSuccess: true },
-        button: {
-          content: 'Về trang chủ',
-          clickFunc: () => {
-            window.$('#info-modal').modal('hide')
-            history.push(`${CUSTOMER_PATH}/`)
+    const { isLoading, isSuccess, data } = findPermissionByEmailTokenObj
+    if (isLoading === false && isSuccess === true && data.length !== 0 && data[0].status) {
+      if (data[0].status !== STATUS.PENDING.name) {
+        setInfoTemplate({
+          title: 'Phản hồi lời mời',
+          user: currentUser,
+          content: 'Bạn đã phản hồi lời mời.',
+          positiveButton: {
+            content: 'Về trang dự án',
+            clickFunc: () => history.push(`${CUSTOMER_PATH}/projects`),
           },
-        },
-      })
+        })
+      } else {
+        setInfoTemplate({
+          title: 'Phản hồi lời mời',
+          user: currentUser,
+          content: 'Bạn được mời tham gia dự án. Nhấn chấp nhận hoặc từ chối để phản hồi lời mời.',
+          positiveButton: {
+            content: STATUS.ACCEPTED.viText,
+            clickFunc: () => onReplyPermissionAssign(STATUS.ACCEPTED.name),
+          },
+          negativeButton: {
+            content: STATUS.REJECTED.viText,
+            clickFunc: () => onReplyPermissionAssign(STATUS.REJECTED.name),
+          },
+        })
+      }
     }
+  }, [currentUser, findPermissionByEmailTokenObj, history, onReplyPermissionAssign])
+
+  useEffect(() => {
     if (
       replyPermissionAssignObj.isLoading === false &&
-      replyPermissionAssignObj.isSuccess === false
+      replyPermissionAssignObj.isSuccess != null
     ) {
-      setInfoModal({
-        title: 'Phản hồi lời mời',
-        message: 'Phản hồi lời mời tham gia project thất bại. Vui lòng thử lại sau.',
-        icon: { isSuccess: false },
-      })
+      if (replyPermissionAssignObj.isSuccess === true) {
+        setInfoModal({
+          title: 'Phản hồi lời mời',
+          message: 'Phản hồi lời mời tham gia dự án thành công.',
+          icon: { isSuccess: true },
+          button: {
+            content: 'Về trang chủ',
+            clickFunc: () => {
+              window.$('#info-modal').modal('hide')
+              history.push(`${CUSTOMER_PATH}/`)
+            },
+          },
+        })
+      } else {
+        setInfoModal({
+          title: 'Phản hồi lời mời',
+          message: 'Phản hồi lời mời tham gia dự án thất bại. Vui lòng thử lại sau.',
+          icon: { isSuccess: false },
+          button: {
+            content: 'Đóng',
+            clickFunc: () => {
+              window.$('#info-modal').modal('hide')
+            },
+          },
+        })
+      }
     }
   }, [replyPermissionAssignObj, history])
 

@@ -40,3 +40,19 @@ export const replyPermissionAssignFailure = message => ({
   type: PermissionTypes.REPLY_PERMISSION_ASSIGN_FAILURE,
   payload: message,
 })
+
+// find permission by email token
+export const findPermissionByEmailToken = token => ({
+  type: PermissionTypes.FIND_PERMISSION_BY_EMAIL_TOKEN,
+  payload: token,
+})
+
+export const findPermissionByEmailTokenSuccess = data => ({
+  type: PermissionTypes.FIND_PERMISSION_BY_EMAIL_TOKEN_SUCCESS,
+  payload: data,
+})
+
+export const findPermissionByEmailTokenFailure = message => ({
+  type: PermissionTypes.FIND_PERMISSION_BY_EMAIL_TOKEN_FAILURE,
+  payload: message,
+})

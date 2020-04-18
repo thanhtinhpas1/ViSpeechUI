@@ -4,13 +4,12 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react'
 import { Bar } from 'react-chartjs-2'
-import { Row, Spin, Select, DatePicker, Button, Empty } from 'antd'
-import { LoadingOutlined } from '@ant-design/icons'
+import { Row, Select, DatePicker, Button, Empty } from 'antd'
 import STORAGE from 'utils/storage'
 import * as moment from 'moment'
 import ReportUtils from 'utils/report.util'
+import LoadingIcon from 'components/common/LoadingIcon/LoadingIcon.component'
 
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 const { Option } = Select
 const { RangePicker } = DatePicker
 const {
@@ -381,7 +380,7 @@ const StatisticsTemplate = ({
     <div style={{ position: 'relative' }}>
       {getStatisticsByIdObj.isLoading && (
         <div className="statistics-page__loading">
-          <Spin indicator={antIcon} />
+          <LoadingIcon />
         </div>
       )}
       <Row>

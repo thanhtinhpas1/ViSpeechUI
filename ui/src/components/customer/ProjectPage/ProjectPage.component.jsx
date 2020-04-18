@@ -3,15 +3,14 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useCallback, useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import { CUSTOMER_PATH, STATUS } from 'utils/constant'
 import ReactTable from 'components/customer/ReactTable/ReactTable.component'
-import { Link } from 'react-router-dom'
 import * as moment from 'moment'
 import Utils from 'utils'
 import InfoModal from '../InfoModal/InfoModal.component'
 
 const ProjectPage = ({
-  history,
   currentUser,
   getMyProjectListObj,
   getAcceptedProjectListObj,
@@ -19,6 +18,7 @@ const ProjectPage = ({
   getAcceptedProjects,
 }) => {
   const [infoModal, setInfoModal] = useState({})
+  const history = useHistory()
 
   const myProjectTableColumns = [
     {

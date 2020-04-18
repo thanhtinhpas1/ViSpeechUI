@@ -2,6 +2,7 @@
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import Utils from 'utils'
 import InfoModal from 'components/customer/InfoModal/InfoModal.component'
 import { CUSTOMER_PATH, TOKEN_TYPE } from 'utils/constant'
@@ -9,7 +10,6 @@ import TokenType from './components/TokenType/TokenType.component'
 import PayOnlineModal from './components/PayOnlineModal/PayOnlineModal.container'
 
 const TokenStatistics = ({
-  history,
   currentUser,
   getTokenTypeListObj,
   getMyProjectListObj,
@@ -18,6 +18,7 @@ const TokenStatistics = ({
 }) => {
   const [payOnlineModal, setPayOnlineModal] = useState({})
   const [infoModal, setInfoModal] = useState({})
+  const history = useHistory()
 
   useEffect(() => {
     getTokenTypes()
