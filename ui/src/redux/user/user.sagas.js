@@ -19,8 +19,8 @@ import {
   updateUserInfoFailure,
   createUserSuccess,
   createUserFailure,
-  deleteUserSuccess,
-  deleteUserFailure,
+  // deleteUserSuccess,
+  // deleteUserFailure,
   // sendVerifyEmailSuccess,
   // sendVerifyEmailFailure,
   // verifyEmailSuccess,
@@ -34,8 +34,6 @@ import {
   onClearUserState,
   // changePasswordSuccess,
   // changePasswordFailure,
-  updateAvatarSuccess,
-  updateAvatarFailure,
   updateCurrentUserSuccess,
 } from './user.actions'
 
@@ -176,17 +174,17 @@ function* createUserSaga() {
 }
 
 // ==== delete user
-function* deleteUser({ payload: id }) {
-  try {
-    yield UserService.deleteUser(id)
-    yield put(deleteUserSuccess(id))
-  } catch (err) {
-    yield put(deleteUserFailure(err.message))
-  }
-}
-function* deleteUserSaga() {
-  yield takeLatest(UserTypes.DELETE_USER, deleteUser)
-}
+// function* deleteUser({ payload: id }) {
+//   try {
+//     yield UserService.deleteUser(id)
+//     yield put(deleteUserSuccess(id))
+//   } catch (err) {
+//     yield put(deleteUserFailure(err.message))
+//   }
+// }
+// function* deleteUserSaga() {
+//   yield takeLatest(UserTypes.DELETE_USER, deleteUser)
+// }
 
 // send verify email
 // function* sendVerifyEmail({ payload }) {
@@ -276,20 +274,6 @@ function* resetPasswordSaga() {
 //   yield takeLatest(UserTypes.CHANGE_PASSPWORD, changePassword)
 // }
 
-// ===========
-function* updateAvatar({ payload }) {
-  try {
-    const result = yield UserService.updateAvatar(payload)
-    console.log('result after update avatar: ', result)
-    yield put(updateAvatarSuccess(payload.avatar))
-  } catch (err) {
-    yield put(updateAvatarFailure(err.message))
-  }
-}
-function* updateAvatarSaga() {
-  yield takeLatest(UserTypes.UPDATE_AVATAR, updateAvatar)
-}
-
 export function* userSaga() {
   yield all([
     call(loginStartSaga),
@@ -297,7 +281,7 @@ export function* userSaga() {
     call(getUserInfoSaga),
     call(updateUserInfoSaga),
     call(createUserSaga),
-    call(deleteUserSaga),
+    // call(deleteUserSaga),
     call(authenWithSocialSaga),
     // call(sendVerifyEmailSaga),
     // call(verifyEmailSaga),
@@ -308,6 +292,5 @@ export function* userSaga() {
     call(logoutSaga),
     call(authenticateSaga),
     // call(changePasswordSaga),
-    call(updateAvatarSaga),
   ])
 }

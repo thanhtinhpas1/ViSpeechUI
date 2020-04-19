@@ -254,9 +254,8 @@ export const deleteUser = id => ({
   payload: id,
 })
 
-export const deleteUserSuccess = info => ({
+export const deleteUserSuccess = () => ({
   type: UserTypes.DELETE_USER_SUCCESS,
-  payload: info,
 })
 
 export const deleteUserFailure = message => ({

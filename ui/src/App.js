@@ -144,12 +144,12 @@ const App = ({ currentUser }) => {
           )
           console.log(`${link.id} is loaded`)
           // load link
-          // link = await loadLink(
-          //   `${process.env.PUBLIC_URL}/assets/css/admin/react-table.css`,
-          //   'react-table.css',
-          //   'on'
-          // )
-          // console.log(`${link.id} is loaded`)
+          link = await loadLink(
+            `${process.env.PUBLIC_URL}/assets/css/admin/react-table.css`,
+            'react-table.css',
+            'on'
+          )
+          console.log(`${link.id} is loaded`)
           // load link
           link = await loadLink(
             `${process.env.PUBLIC_URL}/assets/css/admin/turbo.css`,

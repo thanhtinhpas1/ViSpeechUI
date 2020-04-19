@@ -84,7 +84,7 @@ const LoginPage = ({ loginObj, login, onClearUserState }) => {
                 size="large"
                 className="btn-block"
               >
-                Đăng ký
+                Đăng nhập
               </Button>
             </form>
             <div className="sap-text">

@@ -543,6 +543,29 @@ textarea {
     padding-bottom: 4px;
 }
 
+.pay-status .ti {
+    display: inline-block;
+    height: 90px;
+    width: 90px;
+    line-height: 82px;
+    text-align: center;
+    border: 2px solid;
+    border-radius: 50%;
+    font-size: 36px;
+  }
+  .pay-status-success .ti {
+    border-color: #00d285;
+    color: #00d285;
+  }
+  .pay-status-warning .ti {
+    border-color: #ffc100;
+    color: #ffc100;
+  }
+  .pay-status-error .ti {
+    border-color: #ff6868;
+    color: #ff6868;
+  }
+
 @media (min-width: 576px) {
     .d-sm-block {
         display: block !important;

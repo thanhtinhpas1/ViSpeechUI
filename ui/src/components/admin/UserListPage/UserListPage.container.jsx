@@ -1,5 +1,10 @@
 import { connect } from 'react-redux'
-import { getUserList, deleteUser } from 'redux/user/user.actions'
+import {
+  getUserList,
+  deleteUser,
+  deleteUserSuccess,
+  deleteUserFailure,
+} from 'redux/user/user.actions'
 import UserListPage from './UserListPage.component'
 
 const mapStateToProps = state => ({
@@ -11,6 +16,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getUserList: ({ pageIndex, pageSize }) => dispatch(getUserList({ pageIndex, pageSize })),
   deleteUser: id => dispatch(deleteUser(id)),
+  deleteUserSuccess: () => dispatch(deleteUserSuccess()),
+  deleteUserFailure: message => dispatch(deleteUserFailure(message)),
 })
 
 const UserListPageContainer = connect(mapStateToProps, mapDispatchToProps)(UserListPage)
