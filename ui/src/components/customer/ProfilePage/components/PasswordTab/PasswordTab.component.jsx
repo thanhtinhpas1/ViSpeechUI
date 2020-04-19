@@ -1,11 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect, useCallback } from 'react'
-import { Form, Input, Button } from 'antd'
+import { Form, Input, Button, Alert } from 'antd'
 import { useHistory } from 'react-router-dom'
 import SocketService from 'services/socket.service'
 import UserService from 'services/user.service'
 import SocketUtils from 'utils/socket.util'
+import Utils from 'utils'
 
 const { KAFKA_TOPIC, invokeCheckSubject } = SocketUtils
 const { PASSWORD_CHANGED_SUCCESS_EVENT, PASSWORD_CHANGED_FAILED_EVENT } = KAFKA_TOPIC
@@ -52,14 +53,14 @@ const PasswordTab = ({
       await UserService.changePassword({ userId, oldPassword, newPassword })
       invokeCheckSubject.PasswordChanged.subscribe(data => {
         if (data.error != null) {
-          changePasswordFailure(data.errorObj.message || '')
+          changePasswordFailure(data.errorObj)
         } else {
           changePasswordSuccess()
         }
         form.resetFields()
       })
     } catch (err) {
-      changePasswordFailure(err.message)
+      changePasswordFailure({ message: err.message })
       form.resetFields()
     }
   }
@@ -70,20 +71,22 @@ const PasswordTab = ({
         <div className="row">
           <div className="col-md-12">
             {!changePasswordObj.isLoading && changePasswordObj.isSuccess === false && (
-              <div className="alert alert-danger alert-dismissible fade show" role="alert">
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-                Lỗi: {changePasswordObj.message}
-              </div>
+              <Alert
+                message={Utils.buildFailedMessage(changePasswordObj.message)}
+                type="error"
+                showIcon
+                closable
+                style={{ marginBottom: '20px' }}
+              />
             )}
             {!changePasswordObj.isLoading && changePasswordObj.isSuccess === true && (
-              <div className="alert alert-success alert-dismissible fade show" role="alert">
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-                Thay đổi mật khẩu thành công
-              </div>
+              <Alert
+                message="Thay đổi mật khẩu thành công"
+                type="success"
+                showIcon
+                closable
+                style={{ marginBottom: '20px' }}
+              />
             )}
           </div>
           <div className="col-md-6">

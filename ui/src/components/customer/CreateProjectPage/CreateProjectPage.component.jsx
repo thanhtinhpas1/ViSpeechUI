@@ -10,6 +10,7 @@ import SocketService from 'services/socket.service'
 import ProjectService from 'services/project.service'
 import SocketUtils from 'utils/socket.util'
 import InfoModal from 'components/customer/InfoModal/InfoModal.component'
+import Utils from 'utils'
 
 const { KAFKA_TOPIC, invokeCheckSubject } = SocketUtils
 const { PROJECT_CREATED_SUCCESS_EVENT, PROJECT_CREATED_FAILED_EVENT } = KAFKA_TOPIC
@@ -52,7 +53,7 @@ const CreateProjectPage = ({
       } else {
         setInfoModal({
           title: 'Tạo dự án',
-          message: `Thất bại. Vui lòng thử lại sau.<br/>Lỗi: ${createProjectObj.message}`,
+          message: Utils.buildFailedMessage(createProjectObj.message, 'Thất bại'),
           icon: { isSuccess: false },
           button: {
             content: 'Đóng',
@@ -90,13 +91,13 @@ const CreateProjectPage = ({
       await ProjectService.createProject(project)
       invokeCheckSubject.ProjectCreated.subscribe(data => {
         if (data.error != null) {
-          createProjectFailure(data.errorObj.message || '')
+          createProjectFailure(data.errorObj)
         } else {
           createProjectSuccess(project)
         }
       })
     } catch (err) {
-      createProjectFailure(err.message)
+      createProjectFailure({ message: err.message })
     }
   }
 

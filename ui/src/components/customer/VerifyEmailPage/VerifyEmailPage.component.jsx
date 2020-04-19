@@ -75,7 +75,7 @@ const VerifyEmailPage = ({
       await UserService.verifyEmail(emailToken)
       invokeCheckSubject.EmailVerified.subscribe(data => {
         if (data.error != null) {
-          verifyEmailFailure(data.errorObj.message || '')
+          verifyEmailFailure(data.errorObj)
         } else {
           verifyEmailSuccess()
           if (data.newToken) {
@@ -84,7 +84,7 @@ const VerifyEmailPage = ({
         }
       })
     } catch (err) {
-      verifyEmailFailure(err.message)
+      verifyEmailFailure({ message: err.message })
     }
   }, [
     currentUser.roles,
@@ -139,7 +139,7 @@ const VerifyEmailPage = ({
       } else {
         setInfoModal({
           title: 'Kích hoạt tài khoản',
-          message: `Kích hoạt tài khoản thất bại. Vui lòng thử lại sau.<br/>Lỗi: ${verifyEmailObj.message}`,
+          message: Utils.buildFailedMessage(verifyEmailObj.message, 'Thất bại'),
           icon: { isSuccess: false },
           button: {
             content: 'Đóng',

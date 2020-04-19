@@ -60,7 +60,7 @@ const PersonalDataTab = ({
       } else {
         setInfoModal({
           title: 'Cập nhật thông tin',
-          message: `Thất bại. Vui lòng thử lại sau.<br/>Lỗi: ${updateCurrentUserObj.message}`,
+          message: Utils.buildFailedMessage(updateCurrentUserObj.message, 'Thất bại'),
           icon: { isSuccess: false },
           button: {
             content: 'Đóng',
@@ -101,13 +101,13 @@ const PersonalDataTab = ({
       await UserService.updateUserInfo(currentUser._id, user)
       invokeCheckSubject.UserUpdated.subscribe(data => {
         if (data.error != null) {
-          updateCurrentUserFailure(data.errorObj.message || '')
+          updateCurrentUserFailure(data.errorObj)
         } else {
           updateCurrentUserSuccess(user)
         }
       })
     } catch (err) {
-      updateCurrentUserFailure(err.message)
+      updateCurrentUserFailure({ message: err.message })
     }
   }
 

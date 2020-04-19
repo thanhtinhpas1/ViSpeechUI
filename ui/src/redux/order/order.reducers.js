@@ -13,7 +13,12 @@ const INITIAL_STATE = {
     isSuccess: null,
     message: null,
   },
-  newOrder: {},
+  createOrder: {
+    data: {},
+    isLoading: false,
+    isSuccess: null,
+    message: null,
+  },
 }
 
 const orderReducer = (state = INITIAL_STATE, action) => {
@@ -73,6 +78,34 @@ const orderReducer = (state = INITIAL_STATE, action) => {
         ...state,
         getInfo: {
           ...state.getInfo,
+          isLoading: false,
+          isSuccess: false,
+          message: action.payload,
+        },
+      }
+    // CREATE ORDER
+    case OrderTypes.CREATE_ORDER:
+      return {
+        ...state,
+        createOrder: {
+          ...state.createOrder,
+          isLoading: true,
+        },
+      }
+    case OrderTypes.CREATE_ORDER_SUCCESS:
+      return {
+        ...state,
+        createOrder: {
+          isLoading: false,
+          isSuccess: true,
+          data: action.payload,
+        },
+      }
+    case OrderTypes.CREATE_ORDER_FAILURE:
+      return {
+        ...state,
+        createOrder: {
+          ...state.createOrder,
           isLoading: false,
           isSuccess: false,
           message: action.payload,

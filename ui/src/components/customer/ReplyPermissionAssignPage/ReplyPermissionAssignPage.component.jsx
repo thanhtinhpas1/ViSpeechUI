@@ -7,6 +7,7 @@ import InfoTemplatePage from 'components/customer/InfoTemplatePage/InfoTemplateP
 import SocketUtils from 'utils/socket.util'
 import SocketService from 'services/socket.service'
 import PermissionService from 'services/permission.service'
+import Utils from 'utils'
 
 const { KAFKA_TOPIC, invokeCheckSubject } = SocketUtils
 const {
@@ -87,13 +88,13 @@ const ReplyPermissionAssignPage = ({
         await PermissionService.replyPermissionAssign({ emailToken, status })
         invokeCheckSubject.PermissionAssignReplied.subscribe(data => {
           if (data.error != null) {
-            replyPermissionAssignFailure(data.errorObj.message || '')
+            replyPermissionAssignFailure(data.errorObj)
           } else {
             replyPermissionAssignSuccess({ emailToken, status })
           }
         })
       } catch (err) {
-        replyPermissionAssignFailure(err.message)
+        replyPermissionAssignFailure({ message: err.message })
       }
     },
     [
@@ -113,7 +114,7 @@ const ReplyPermissionAssignPage = ({
         setInfoTemplate({
           title: 'Phản hồi lời mời',
           user: currentUser,
-          content: 'Bạn đã phản hồi lời mời.',
+          content: 'Bạn đã phản hồi lời mời tham gia dự án.',
           positiveButton: {
             content: 'Về trang dự án',
             clickFunc: () => history.push(`${CUSTOMER_PATH}/projects`),
@@ -159,7 +160,10 @@ const ReplyPermissionAssignPage = ({
       } else {
         setInfoModal({
           title: 'Phản hồi lời mời',
-          message: `Phản hồi lời mời tham gia dự án thất bại. Vui lòng thử lại sau.<br/>Lỗi: ${replyPermissionAssignObj.message}`,
+          message: Utils.buildFailedMessage(
+            replyPermissionAssignObj.message,
+            'Phản hồi lời mời tham gia dự án thất bại'
+          ),
           icon: { isSuccess: false },
           button: {
             content: 'Đóng',

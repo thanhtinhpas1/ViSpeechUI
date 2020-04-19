@@ -36,7 +36,18 @@ export const getOrderInfoFailure = message => ({
   payload: message,
 })
 
+// create order
 export const createOrder = data => ({
   type: OrderTypes.CREATE_ORDER,
   payload: data,
+})
+
+export const createOrderSuccess = ({ order, token }) => ({
+  type: OrderTypes.CREATE_ORDER_SUCCESS,
+  payload: { order, token },
+})
+
+export const createOrderFailure = message => ({
+  type: OrderTypes.CREATE_ORDER_FAILURE,
+  payload: message,
 })

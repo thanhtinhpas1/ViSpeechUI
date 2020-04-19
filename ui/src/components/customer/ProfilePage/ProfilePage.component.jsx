@@ -53,7 +53,7 @@ const ProfilePage = ({
     if (sendVerifyEmailObj.isLoading === false && sendVerifyEmailObj.isSuccess === false) {
       setInfoModal({
         title: 'Kích hoạt tài khoản',
-        message: `Kích hoạt tài khoản thất bại. Vui lòng thử lại sau.<br/>Lỗi: ${sendVerifyEmailObj.message}`,
+        message: Utils.buildFailedMessage(sendVerifyEmailObj.message, 'Thất bại'),
         icon: { isSuccess: false },
       })
     }
@@ -75,13 +75,13 @@ const ProfilePage = ({
       await UserService.sendVerifyEmail(currentUser._id)
       invokeCheckSubject.VerifyEmailSent.subscribe(data => {
         if (data.error != null) {
-          sendVerifyEmailFailure(data.errorObj.message || '')
+          sendVerifyEmailFailure(data.errorObj)
         } else {
           sendVerifyEmailSuccess()
         }
       })
     } catch (err) {
-      sendVerifyEmailFailure(err.message)
+      sendVerifyEmailFailure({ message: err.message })
     }
   }
 

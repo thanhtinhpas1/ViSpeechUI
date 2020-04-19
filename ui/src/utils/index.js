@@ -92,6 +92,17 @@ const Utils = {
   useQuery: () => {
     return new URLSearchParams(useLocation().search)
   },
+  buildFailedMessage: (errorObj, failedAction) => {
+    const { code, message } = errorObj || {}
+    let errMessage = ''
+    if (code) {
+      errMessage += `[${code}]: `
+    }
+    if (message) {
+      errMessage += message
+    }
+    return failedAction ? `${failedAction}.<br/>Lỗi ${errMessage}` : `Lỗi ${errMessage}`
+  },
 }
 
 export default Utils

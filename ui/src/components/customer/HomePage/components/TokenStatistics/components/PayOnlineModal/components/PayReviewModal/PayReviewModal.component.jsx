@@ -1,6 +1,5 @@
 /* eslint-disable react/button-has-type */
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { CUSTOMER_PATH } from 'utils/constant'
 
 const PayReviewModal = ({ payReviewModal }) => {
@@ -18,31 +17,26 @@ const PayReviewModal = ({ payReviewModal }) => {
             <p style={{ color: '#495463' }}>
               Thời hạn sử dụng token là {payReviewModal.minutes} phút. Xin cảm ơn.
             </p>
-            {/* <span
-    class="badge badge-outline badge-md badge-success"
-    style="word-break: break-all; white-space: normal"
-    >eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJWaVNwZWVjaCIsInVzZXJJbmZvIjp7IklEIjo3LCJVU0VSTkFNRSI6InRrbGluaCJ9LCJpYXQiOjE1NzM4NzM2MjQxMDh9.YsrL08aZbZOKiCE6-SlwGjbpQJiOLxctSatzC5F0ur8</span
-  > */}
             <div className="copy-wrap mgb-1-5x mgt-1-5x">
               <span className="copy-feedback" />
               <em className="fas fa-key" />
               <input
                 type="text"
                 className="copy-address"
-                defaultValue={payReviewModal.tokenId}
+                defaultValue={payReviewModal.token}
                 disabled
               />
               <button
                 className="copy-trigger copy-clipboard"
-                data-clipboard-text={payReviewModal.tokenId}
+                data-clipboard-text={payReviewModal.token}
               >
                 <em className="ti ti-files" />
               </button>
             </div>
             <div className="gaps-2x" />
-            <Link to={`${CUSTOMER_PATH}/transactions`} className="btn btn-primary">
+            <a href={`${CUSTOMER_PATH}/transactions`} className="btn btn-primary">
               Xem lịch sử giao dịch
-            </Link>
+            </a>
             <div className="gaps-1x" />
           </div>
         </div>

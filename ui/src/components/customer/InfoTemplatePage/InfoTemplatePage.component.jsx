@@ -44,7 +44,10 @@ const InfoTemplatePage = ({ infoTemplate, infoModal }) => {
                                     {infoTemplate.user.firstName},
                                   </p>
                                 )}
-                                <p className="mgb-1x">{infoTemplate.content}</p>
+                                <p
+                                  className="mgb-1x"
+                                  dangerouslySetInnerHTML={{ __html: infoTemplate.content }}
+                                />
                                 <div className="gaps-1x" />
                                 <div className="d-flex justify-content-end align-items-center">
                                   {infoTemplate.positiveButton && (

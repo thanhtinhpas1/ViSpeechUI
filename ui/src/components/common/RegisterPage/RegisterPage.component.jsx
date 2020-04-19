@@ -3,11 +3,12 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Button } from 'antd'
+import { Button, Alert } from 'antd'
 import { ROLES } from 'utils/constant'
 import SocketService from 'services/socket.service'
 import UserService from 'services/user.service'
 import SocketUtils from 'utils/socket.util'
+import Utils from 'utils'
 
 const { KAFKA_TOPIC, invokeCheckSubject } = SocketUtils
 const {
@@ -62,18 +63,18 @@ const RegisterPage = ({
       await UserService.register(user)
       invokeCheckSubject.UserCreated.subscribe(data => {
         if (data.error != null) {
-          registerFailure(data.errorObj.message || '')
+          registerFailure(data.errorObj)
         }
       })
       invokeCheckSubject.FreeTokenCreated.subscribe(data => {
         if (data.error != null) {
-          registerFailure(data.errorObj.message || '')
+          registerFailure(data.errorObj)
         } else {
           registerSuccess(user)
         }
       })
     } catch (err) {
-      registerFailure(err.message)
+      registerFailure({ message: err.message })
     }
   }
 
@@ -88,17 +89,14 @@ const RegisterPage = ({
           </div>
           <div className="page-ath-form">
             <h2 className="page-ath-heading">Đăng ký</h2>
-            {registerObj.message != null && (
-              <div
-                className="alert alert-danger alert-dismissible fade show"
-                id="alert-login"
-                role="alert"
-              >
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-                Lỗi: {registerObj.message}
-              </div>
+            {!registerObj.isLoading && registerObj.isSuccess === false && (
+              <Alert
+                message={Utils.buildFailedMessage(registerObj.message)}
+                type="error"
+                showIcon
+                closable
+                style={{ marginBottom: '20px' }}
+              />
             )}
             <form onSubmit={e => handleOnSubmit(e)}>
               <div className="input-item">
@@ -153,10 +151,13 @@ const RegisterPage = ({
                   <a href="#"> Terms.</a>
                 </label>
               </div>
-              {/* <button type="submit" className="btn btn-primary btn-block">
-                Đăng ký
-              </button> */}
-              <Button htmlType="submit" loading={registerObj.isLoading} type="primary" size="large">
+              <Button
+                htmlType="submit"
+                loading={registerObj.isLoading}
+                type="primary"
+                size="large"
+                className="btn-block"
+              >
                 Đăng ký
               </Button>
             </form>

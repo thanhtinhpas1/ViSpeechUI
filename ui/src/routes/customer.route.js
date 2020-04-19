@@ -29,7 +29,7 @@ const RouteCustomer = ({ currentUser }) => {
               <CustomerHomePage />
             </Route>
             <Route path={`${CUSTOMER_PATH}/transactions`}>
-              <CustomerHomePage />
+              <TransactionsPage />
             </Route>
             <Route path={`${CUSTOMER_PATH}/transaction-details`}>
               <TransactionDetailsPage />

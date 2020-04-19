@@ -58,7 +58,7 @@ const AssignPermissionPage = ({
       } else {
         setInfoModal({
           title: 'Mời tham gia dự án',
-          message: `Gửi mail thất bại. Vui lòng thử lại sau.<br/>Lỗi: ${assignPermissionObj.message}`,
+          message: Utils.buildFailedMessage(assignPermissionObj.message, 'Gửi mail thất bại.'),
           icon: { isSuccess: false },
           button: {
             content: 'Đóng',
@@ -103,13 +103,13 @@ const AssignPermissionPage = ({
       await PermissionService.sendAssignPermissionEmail(permission)
       invokeCheckSubject.PermissionAssignEmailSent.subscribe(data => {
         if (data.error != null) {
-          assignPermissionFailure(data.errorObj.message || '')
+          assignPermissionFailure(data.errorObj)
         } else {
           assignPermissionSuccess(permission)
         }
       })
     } catch (err) {
-      assignPermissionFailure(err.message)
+      assignPermissionFailure({ message: err.message })
     }
   }
 

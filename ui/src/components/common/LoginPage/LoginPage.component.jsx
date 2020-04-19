@@ -2,6 +2,8 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from 'react'
+import { Button, Alert } from 'antd'
+import Utils from 'utils'
 import AuthenWithFacebook from '../AuthenWithFacebook/AuthenWithFacebook.container'
 import AuthenWithGoogle from '../AuthenWithGoogle/AuthenWithGoogle.container'
 
@@ -33,17 +35,14 @@ const LoginPage = ({ loginObj, login, onClearUserState }) => {
           </div>
           <div className="page-ath-form">
             <h2 className="page-ath-heading">Đăng nhập</h2>
-            {loginObj.message != null && (
-              <div
-                className="alert alert-danger alert-dismissible fade show"
-                id="alert-login"
-                role="alert"
-              >
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-                Lỗi: {loginObj.message}
-              </div>
+            {!loginObj.isLoading && loginObj.isSuccess === false && (
+              <Alert
+                message={Utils.buildFailedMessage({ message: loginObj.message })}
+                type="error"
+                showIcon
+                closable
+                style={{ marginBottom: '20px' }}
+              />
             )}
             <form onSubmit={e => handleOnSubmit(e)}>
               <div className="input-item">
@@ -78,9 +77,15 @@ const LoginPage = ({ loginObj, login, onClearUserState }) => {
                   <div className="gaps-2x" />
                 </div>
               </div>
-              <button type="submit" className="btn btn-primary btn-block">
-                Đăng nhập
-              </button>
+              <Button
+                htmlType="submit"
+                loading={loginObj.isLoading}
+                type="primary"
+                size="large"
+                className="btn-block"
+              >
+                Đăng ký
+              </Button>
             </form>
             <div className="sap-text">
               <span>Hoặc đăng nhập với</span>
