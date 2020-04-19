@@ -33,7 +33,7 @@ const LoginPage = ({ loginObj, login, onClearUserState }) => {
           </div>
           <div className="page-ath-form">
             <h2 className="page-ath-heading">Đăng nhập</h2>
-            {loginObj.message && (
+            {loginObj.message != null && (
               <div
                 className="alert alert-danger alert-dismissible fade show"
                 id="alert-login"
@@ -42,7 +42,7 @@ const LoginPage = ({ loginObj, login, onClearUserState }) => {
                 <button type="button" className="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
-                {loginObj.message}
+                Lỗi: {loginObj.message}
               </div>
             )}
             <form onSubmit={e => handleOnSubmit(e)}>

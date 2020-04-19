@@ -396,19 +396,21 @@ export default class UserService {
       })
   }
 
-  static changePassword = ({ password, oldPassword, token }) => {
-    const api = `${apiUrl}/user/change-password`
+  static changePassword = ({ userId, oldPassword, newPassword }) => {
+    const api = `${apiUrl}/users/change-password`
+    const jwtToken = STORAGE.getPreferences(JWT_TOKEN)
+
     let status = 400
-    // eslint-disable-next-line no-undef
     return fetch(api, {
-      method: 'POST',
+      method: 'PUT',
       body: JSON.stringify({
-        password,
+        userId,
         oldPassword,
+        newPassword,
       }),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${jwtToken}`,
       },
     })
       .then(response => {

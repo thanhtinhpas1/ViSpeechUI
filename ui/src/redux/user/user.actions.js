@@ -72,6 +72,22 @@ export const verifyEmailFailure = message => ({
   payload: message,
 })
 
+// update current user
+export const updateCurrentUser = (id, info) => ({
+  type: UserTypes.UPDATE_CURRENT_USER,
+  payload: { id, info },
+})
+
+export const updateCurrentUserSuccess = user => ({
+  type: UserTypes.UPDATE_CURRENT_USER_SUCCESS,
+  payload: user,
+})
+
+export const updateCurrentUserFailure = message => ({
+  type: UserTypes.UPDATE_CURRENT_USER_FAILURE,
+  payload: message,
+})
+
 // Send email reset password
 export const sendEmailResetPassword = email => ({
   type: UserTypes.SEND_EMAIL_RESET_PASSWORD,
@@ -129,15 +145,10 @@ export const authenticate = token => ({
   payload: token,
 })
 
-export const updateCurrentUser = user => ({
-  type: UserTypes.UPDATE_CURRENT_USER,
-  payload: user,
-})
-
 // change password
-export const changePassword = ({ password, oldPassword, token }) => ({
+export const changePassword = ({ userId, oldPassword, newPassword }) => ({
   type: UserTypes.CHANGE_PASSPWORD,
-  payload: { password, oldPassword, token },
+  payload: { userId, oldPassword, newPassword },
 })
 
 export const changePasswordSuccess = () => ({

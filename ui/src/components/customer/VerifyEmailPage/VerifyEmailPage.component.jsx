@@ -74,8 +74,8 @@ const VerifyEmailPage = ({
     try {
       await UserService.verifyEmail(emailToken)
       invokeCheckSubject.EmailVerified.subscribe(data => {
-        if (data.error) {
-          verifyEmailFailure(data.errorObj.message)
+        if (data.error != null) {
+          verifyEmailFailure(data.errorObj.message || '')
         } else {
           verifyEmailSuccess()
           if (data.newToken) {
@@ -112,7 +112,7 @@ const VerifyEmailPage = ({
         title: 'Kích hoạt tài khoản',
         user: currentUser,
         content:
-          'Bạn đã yêu cầu kích hoạt tài khoản. Nhấn vào nút kích hoạt tài khoản để có thể sử dụng nhiều thao tác trên ViSpeech.',
+          'Bạn đã yêu cầu kích hoạt tài khoản.<br/>Nhấn vào nút kích hoạt tài khoản để có thể sử dụng nhiều thao tác trên ViSpeech.',
         positiveButton: {
           content: 'Kích hoạt tài khoản',
           clickFunc: () => onVerifyEmail(),
@@ -139,7 +139,7 @@ const VerifyEmailPage = ({
       } else {
         setInfoModal({
           title: 'Kích hoạt tài khoản',
-          message: 'Kích hoạt tài khoản thất bại. Vui lòng thử lại sau.',
+          message: `Kích hoạt tài khoản thất bại. Vui lòng thử lại sau.<br/>Lỗi: ${verifyEmailObj.message}`,
           icon: { isSuccess: false },
           button: {
             content: 'Đóng',

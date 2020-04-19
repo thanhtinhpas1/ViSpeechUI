@@ -86,8 +86,8 @@ const ReplyPermissionAssignPage = ({
       try {
         await PermissionService.replyPermissionAssign({ emailToken, status })
         invokeCheckSubject.PermissionAssignReplied.subscribe(data => {
-          if (data.error) {
-            replyPermissionAssignFailure(data.errorObj.message)
+          if (data.error != null) {
+            replyPermissionAssignFailure(data.errorObj.message || '')
           } else {
             replyPermissionAssignSuccess({ emailToken, status })
           }
@@ -123,7 +123,8 @@ const ReplyPermissionAssignPage = ({
         setInfoTemplate({
           title: 'Phản hồi lời mời',
           user: currentUser,
-          content: 'Bạn được mời tham gia dự án. Nhấn chấp nhận hoặc từ chối để phản hồi lời mời.',
+          content:
+            'Bạn được mời tham gia dự án.<br/>Nhấn chấp nhận hoặc từ chối để phản hồi lời mời.',
           positiveButton: {
             content: STATUS.ACCEPTED.viText,
             clickFunc: () => onReplyPermissionAssign(STATUS.ACCEPTED.name),
@@ -158,7 +159,7 @@ const ReplyPermissionAssignPage = ({
       } else {
         setInfoModal({
           title: 'Phản hồi lời mời',
-          message: 'Phản hồi lời mời tham gia dự án thất bại. Vui lòng thử lại sau.',
+          message: `Phản hồi lời mời tham gia dự án thất bại. Vui lòng thử lại sau.<br/>Lỗi: ${replyPermissionAssignObj.message}`,
           icon: { isSuccess: false },
           button: {
             content: 'Đóng',

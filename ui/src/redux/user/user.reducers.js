@@ -31,6 +31,11 @@ const INITIAL_STATE = {
     isSuccess: null,
     message: null,
   },
+  updateCurrentUser: {
+    isLoading: false,
+    isSuccess: null,
+    message: null,
+  },
   createUser: {
     isLoading: false,
     isSuccess: null,
@@ -183,6 +188,34 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         getInfo: {
           ...state.getInfo,
+          isLoading: false,
+          isSuccess: false,
+          message: action.payload,
+        },
+      }
+    // UPDATE CURRENT USER
+    case UserTypes.UPDATE_CURRENT_USER:
+      return {
+        ...state,
+        updateCurrentUser: {
+          ...state.updateCurrentUser,
+          isLoading: true,
+        },
+      }
+    case UserTypes.UPDATE_CURRENT_USER_SUCCESS:
+      return {
+        ...state,
+        currentUser: action.payload,
+        updateCurrentUser: {
+          isLoading: false,
+          isSuccess: true,
+        },
+      }
+    case UserTypes.UPDATE_CURRENT_USER_FAILURE:
+      return {
+        ...state,
+        updateCurrentUser: {
+          ...state.updateCurrentUser,
           isLoading: false,
           isSuccess: false,
           message: action.payload,
@@ -403,13 +436,6 @@ const userReducer = (state = INITIAL_STATE, action) => {
           message: action.payload,
         },
       }
-
-    case UserTypes.UPDATE_CURRENT_USER:
-      return {
-        ...state,
-        currentUser: action.payload,
-      }
-
     // Change password
     case UserTypes.CHANGE_PASSPWORD:
       return {

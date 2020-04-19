@@ -37,6 +37,7 @@ const CreateProjectPage = ({
   useEffect(() => {
     if (createProjectObj.isLoading === false && createProjectObj.isSuccess != null) {
       if (createProjectObj.isSuccess === true) {
+        emptyAllInputField()
         setInfoModal({
           title: 'Tạo dự án',
           message: 'Thành công',
@@ -45,14 +46,13 @@ const CreateProjectPage = ({
             content: 'Đóng',
             clickFunc: () => {
               window.$('#info-modal').modal('hide')
-              emptyAllInputField()
             },
           },
         })
       } else {
         setInfoModal({
           title: 'Tạo dự án',
-          message: `Thất bại [${createProjectObj.message}]`,
+          message: `Thất bại. Vui lòng thử lại sau.<br/>Lỗi: ${createProjectObj.message}`,
           icon: { isSuccess: false },
           button: {
             content: 'Đóng',
@@ -89,8 +89,8 @@ const CreateProjectPage = ({
     try {
       await ProjectService.createProject(project)
       invokeCheckSubject.ProjectCreated.subscribe(data => {
-        if (data.error) {
-          createProjectFailure(data.errorObj.message)
+        if (data.error != null) {
+          createProjectFailure(data.errorObj.message || '')
         } else {
           createProjectSuccess(project)
         }

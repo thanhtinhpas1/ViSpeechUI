@@ -4,16 +4,14 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react'
-import * as moment from 'moment'
 import Utils from 'utils'
 import STORAGE from 'utils/storage'
 import { JWT_TOKEN } from 'utils/constant'
 import SocketUtils from 'utils/socket.util'
 import SocketService from 'services/socket.service'
 import UserService from 'services/user.service'
-import PersonalDataTab from './components/PersonalDataTab/PersonalDataTab.component'
-import SettingsTab from './components/SettingsTab/SettingsTab.component'
-import PasswordTab from './components/PasswordTab/PasswordTab.component'
+import PersonalDataTab from './components/PersonalDataTab/PersonalDataTab.container'
+import PasswordTab from './components/PasswordTab/PasswordTab.container'
 import InfoModal from '../InfoModal/InfoModal.component'
 
 const { KAFKA_TOPIC, invokeCheckSubject } = SocketUtils
@@ -30,11 +28,13 @@ const ProfilePage = ({
   const [infoModal, setInfoModal] = useState({})
 
   useEffect(() => {
-    SocketService.socketEmitEvent(VERIFY_EMAIL_SENT_SUCCESS_EVENT)
-    SocketService.socketEmitEvent(VERIFY_EMAIL_SENT_FAILED_EVENT)
-    SocketService.socketOnListeningEvent(VERIFY_EMAIL_SENT_SUCCESS_EVENT)
-    SocketService.socketOnListeningEvent(VERIFY_EMAIL_SENT_FAILED_EVENT)
-  }, [])
+    if (currentUser && !Utils.isEmailVerified(currentUser.roles)) {
+      SocketService.socketEmitEvent(VERIFY_EMAIL_SENT_SUCCESS_EVENT)
+      SocketService.socketEmitEvent(VERIFY_EMAIL_SENT_FAILED_EVENT)
+      SocketService.socketOnListeningEvent(VERIFY_EMAIL_SENT_SUCCESS_EVENT)
+      SocketService.socketOnListeningEvent(VERIFY_EMAIL_SENT_FAILED_EVENT)
+    }
+  }, [currentUser])
 
   useEffect(() => {
     const token = STORAGE.getPreferences(JWT_TOKEN)
@@ -53,7 +53,7 @@ const ProfilePage = ({
     if (sendVerifyEmailObj.isLoading === false && sendVerifyEmailObj.isSuccess === false) {
       setInfoModal({
         title: 'Kích hoạt tài khoản',
-        message: 'Kích hoạt tài khoản thất bại. Vui lòng thử lại sau.',
+        message: `Kích hoạt tài khoản thất bại. Vui lòng thử lại sau.<br/>Lỗi: ${sendVerifyEmailObj.message}`,
         icon: { isSuccess: false },
       })
     }
@@ -74,8 +74,8 @@ const ProfilePage = ({
     try {
       await UserService.sendVerifyEmail(currentUser._id)
       invokeCheckSubject.VerifyEmailSent.subscribe(data => {
-        if (data.error) {
-          sendVerifyEmailFailure(data.errorObj.message)
+        if (data.error != null) {
+          sendVerifyEmailFailure(data.errorObj.message || '')
         } else {
           sendVerifyEmailSuccess()
         }
@@ -102,49 +102,13 @@ const ProfilePage = ({
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" data-toggle="tab" href="#settings">
-                      Cài đặt
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" data-toggle="tab" href="#password">
+                    <a className="nav-link" data-toggle="tab" href="#change-password">
                       Mật khẩu
                     </a>
                   </li>
                 </ul>
                 <div className="tab-content" id="profile-details">
-                  <PersonalDataTab
-                    personalData={{
-                      fullName: 'Trần Khánh Linh',
-                      email: 'trankhanhlinh98@gmail.com',
-                      dateOfBirth: moment(new Date(1998, 9, 16)).format('DD/MM/YYYY'),
-                    }}
-                  />
-                  <SettingsTab
-                    settings={{
-                      security: [
-                        {
-                          id: 'save-log',
-                          label: 'Lưu lại các hoạt động của tôi',
-                        },
-                        {
-                          id: 'pass-change-confirm',
-                          label: 'Xác nhận qua email trước khi thay đổi mật khẩu',
-                        },
-                      ],
-                      notifications: [
-                        {
-                          id: 'latest-news',
-                          label:
-                            'Thông báo qua email khi có chương trình khuyến mãi và tin tức mới nhất',
-                        },
-                        {
-                          id: 'activity-alert',
-                          label: 'Thông báo qua email khi có hoạt động bất thường xảy ra.',
-                        },
-                      ],
-                    }}
-                  />
+                  <PersonalDataTab />
                   <PasswordTab />
                 </div>
               </div>

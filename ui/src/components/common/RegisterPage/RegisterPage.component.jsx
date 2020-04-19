@@ -61,13 +61,13 @@ const RegisterPage = ({
     try {
       await UserService.register(user)
       invokeCheckSubject.UserCreated.subscribe(data => {
-        if (data.error) {
-          registerFailure(data.errorObj.message)
+        if (data.error != null) {
+          registerFailure(data.errorObj.message || '')
         }
       })
       invokeCheckSubject.FreeTokenCreated.subscribe(data => {
-        if (data.error) {
-          registerFailure(data.errorObj.message)
+        if (data.error != null) {
+          registerFailure(data.errorObj.message || '')
         } else {
           registerSuccess(user)
         }
@@ -88,7 +88,7 @@ const RegisterPage = ({
           </div>
           <div className="page-ath-form">
             <h2 className="page-ath-heading">Đăng ký</h2>
-            {registerObj.message && (
+            {registerObj.message != null && (
               <div
                 className="alert alert-danger alert-dismissible fade show"
                 id="alert-login"
@@ -97,7 +97,7 @@ const RegisterPage = ({
                 <button type="button" className="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
-                {registerObj.message}
+                Lỗi: {registerObj.message}
               </div>
             )}
             <form onSubmit={e => handleOnSubmit(e)}>
@@ -156,11 +156,7 @@ const RegisterPage = ({
               {/* <button type="submit" className="btn btn-primary btn-block">
                 Đăng ký
               </button> */}
-              <Button
-                htmlType="submit"
-                loading={registerObj.isLoading}
-                className="btn btn-primary btn-block"
-              >
+              <Button htmlType="submit" loading={registerObj.isLoading} type="primary" size="large">
                 Đăng ký
               </Button>
             </form>

@@ -32,11 +32,11 @@ import {
   resetPasswordSuccess,
   resetPasswordFailure,
   onClearUserState,
-  updateCurrentUser,
-  changePasswordSuccess,
-  changePasswordFailure,
+  // changePasswordSuccess,
+  // changePasswordFailure,
   updateAvatarSuccess,
   updateAvatarFailure,
+  updateCurrentUserSuccess,
 } from './user.actions'
 
 // ==== login
@@ -99,9 +99,9 @@ export function* logoutSaga() {
 export function* authenticate({ payload: token }) {
   try {
     const user = yield UserService.authenticate(token)
-    yield put(updateCurrentUser(user || null))
+    yield put(updateCurrentUserSuccess(user || null))
   } catch (err) {
-    yield put(updateCurrentUser(null))
+    yield put(updateCurrentUserSuccess(null))
   }
 }
 
@@ -264,17 +264,17 @@ function* resetPasswordSaga() {
 }
 
 // ===========
-function* changePassword({ payload }) {
-  try {
-    yield UserService.changePassword(payload)
-    yield put(changePasswordSuccess())
-  } catch (err) {
-    yield put(changePasswordFailure(err.message))
-  }
-}
-function* changePasswordSaga() {
-  yield takeLatest(UserTypes.CHANGE_PASSPWORD, changePassword)
-}
+// function* changePassword({ payload }) {
+//   try {
+//     yield UserService.changePassword(payload)
+//     yield put(changePasswordSuccess())
+//   } catch (err) {
+//     yield put(changePasswordFailure(err.message))
+//   }
+// }
+// function* changePasswordSaga() {
+//   yield takeLatest(UserTypes.CHANGE_PASSPWORD, changePassword)
+// }
 
 // ===========
 function* updateAvatar({ payload }) {
@@ -307,7 +307,7 @@ export function* userSaga() {
     // call(registerStartSaga),
     call(logoutSaga),
     call(authenticateSaga),
-    call(changePasswordSaga),
+    // call(changePasswordSaga),
     call(updateAvatarSaga),
   ])
 }

@@ -43,6 +43,7 @@ const AssignPermissionPage = ({
   useEffect(() => {
     if (assignPermissionObj.isLoading === false && assignPermissionObj.isSuccess != null) {
       if (assignPermissionObj.isSuccess === true) {
+        emptyAllInputField()
         setInfoModal({
           title: 'Mời tham gia dự án',
           message: 'Gửi mail thành công',
@@ -51,14 +52,13 @@ const AssignPermissionPage = ({
             content: 'Đóng',
             clickFunc: () => {
               window.$('#info-modal').modal('hide')
-              emptyAllInputField()
             },
           },
         })
       } else {
         setInfoModal({
           title: 'Mời tham gia dự án',
-          message: `Gửi mail thất bại [${assignPermissionObj.message}]`,
+          message: `Gửi mail thất bại. Vui lòng thử lại sau.<br/>Lỗi: ${assignPermissionObj.message}`,
           icon: { isSuccess: false },
           button: {
             content: 'Đóng',
@@ -102,8 +102,8 @@ const AssignPermissionPage = ({
     try {
       await PermissionService.sendAssignPermissionEmail(permission)
       invokeCheckSubject.PermissionAssignEmailSent.subscribe(data => {
-        if (data.error) {
-          assignPermissionFailure(data.errorObj.message)
+        if (data.error != null) {
+          assignPermissionFailure(data.errorObj.message || '')
         } else {
           assignPermissionSuccess(permission)
         }
