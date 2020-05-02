@@ -23,7 +23,13 @@ export default class UserService {
       })
       .then(result => {
         if (status !== 201) {
-          throw new Error(result.message || DEFAULT_ERR_MESSAGE)
+          if (status === 401) {
+            let msg = "Tên tài khoản hoặc mật khẩu chưa đúng.";
+            throw new Error(msg || DEFAULT_ERR_MESSAGE)
+          }
+          else {
+            throw new Error(DEFAULT_ERR_MESSAGE)
+          }
         }
         STORAGE.setPreferences(JWT_TOKEN, result.token)
         return result

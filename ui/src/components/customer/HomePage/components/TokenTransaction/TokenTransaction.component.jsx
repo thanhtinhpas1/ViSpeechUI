@@ -1,35 +1,27 @@
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable react/button-has-type */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { CUSTOMER_PATH } from 'utils/constant'
+import moment from 'moment'
 
-const TokenTransaction = () => {
+const TokenTransaction = ({ orderListObj }) => {
   const [tableData, setTableData] = useState([])
 
   useEffect(() => {
-    const tableDataArr = [
-      {
-        id: 'TNX1001',
-        state: { name: 'Có vấn đề', class: 'data-state-pending' },
-        date: '2018-08-24 10:20 PM',
-        type: { name: 'Mua', class: 'badge-success' },
-      },
-      {
-        id: 'TNX1002',
-        state: { name: 'Đang xử lý', class: 'data-state-progress' },
-        date: '2018-08-24 10:20 PM',
-        type: { name: 'Tặng', class: 'badge-warning' },
-      },
-      {
-        id: 'TNX1003',
-        state: { name: 'Thành công', class: 'data-state-approved' },
-        date: '2018-08-24 10:20 PM',
-        type: { name: 'Miễn phí', class: 'badge-warning' },
-      },
-    ]
-    setTableData(tableDataArr)
-  }, [])
+    const transactionsArray = orderListObj.orderList.data.map(item => {
+      return {
+        id: item._id,
+        state: item.status,
+        date: moment(item.createdDate).format('YYYY-MM-DD HH:mm'),
+        type: { name: item.tokenType.name, class: 'badge-success' },
+      }
+    })
+    setTableData(transactionsArray)
+  }, [orderListObj])
 
   return (
     <div className="card-innr">
@@ -48,7 +40,7 @@ const TokenTransaction = () => {
             <th>Trạng thái</th>
             <th className="d-none d-sm-table-cell tnx-date">Thời gian</th>
             <th className="tnx-type">
-              <div className="tnx-type-text">Loại</div>
+              <div className="tnx-type-text">Loại</div>
             </th>
           </tr>
         </thead>

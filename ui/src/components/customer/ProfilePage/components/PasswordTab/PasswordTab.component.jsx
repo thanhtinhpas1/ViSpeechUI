@@ -53,6 +53,8 @@ const PasswordTab = ({
       await UserService.changePassword({ userId, oldPassword, newPassword })
       invokeCheckSubject.PasswordChanged.subscribe(data => {
         if (data.error != null) {
+          let msg = data.errorObj['message'];
+          data.errorObj['message'] = msg.indexOf("Passwords do not match") >= 0 ? 'Mật khẩu cũ không chính xác' : msg;
           changePasswordFailure(data.errorObj)
         } else {
           changePasswordSuccess()

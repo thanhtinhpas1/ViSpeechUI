@@ -57,7 +57,7 @@ const RegisterPage = ({
       password: form.elements.password.value,
       roles: [{ name: ROLES.USER }],
     }
-
+    
     registerStart()
     try {
       await UserService.register(user)
@@ -74,7 +74,8 @@ const RegisterPage = ({
         }
       })
     } catch (err) {
-      registerFailure({ message: err.message })
+      let msg = "Đã có lỗi xảy ra, vui lòng kiểm tra lại thông tin đã nhập."
+      registerFailure({ message: msg })
     }
   }
 

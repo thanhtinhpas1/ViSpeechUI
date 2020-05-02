@@ -95,13 +95,20 @@ const Utils = {
   buildFailedMessage: (errorObj, failedAction) => {
     const { code, message } = errorObj || {}
     let errMessage = ''
-    if (code) {
-      errMessage += `[${code}]: `
-    }
     if (message) {
-      errMessage += message
+      if (code === '11000') {
+        const dupKey = 'dup key: '
+        const indexDup = message.indexOf(dupKey)
+        errMessage +=
+          indexDup > 0
+            ? `Đã tồn tại${message
+                .substr(indexDup + dupKey.length)
+                .replace(/[^a-zA-Z0-9@./S]/g, ' ')}`
+            : 'Dữ liệu này đã tồn tại.'
+      } else errMessage += message
     }
-    return failedAction ? `${failedAction}.<br/>Lỗi ${errMessage}` : `Lỗi ${errMessage}`
+    // case duplicate
+    return failedAction ? `${failedAction}.<br/>${errMessage}` : `${errMessage}`
   },
 }
 

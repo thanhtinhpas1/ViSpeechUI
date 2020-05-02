@@ -35,20 +35,21 @@ app.set('socket', io);
 
 io.sockets.on('connection', function (socket) {
   const consumer = kafka.consumer({ groupId: socket.id })
+  consumer.connect()
 
   console.log('Socket connected');
   socket.emit('CONNECTED', "Connect socket success");
 
-  socketOnListeningEvent = event => {
-    socket.on(event, () => {
-      consumerUtil.run(consumer, event, socket);
-    })
-  }
-
   const topicNames = Object.values(TOPICS)
   topicNames.forEach(name => {
-    socketOnListeningEvent(name)
+      consumerUtil.run(consumer, name, socket);
   })
+
+  consumer.run({
+    eachMessage: async ({ topic, partition, message }) => {
+      socket.emit(topic, message.value);
+    },
+  }).catch(err => console.error(err.message));
 
   socket.on('disconnect', async function () {
     console.log('Socket disconnect!');

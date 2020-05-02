@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable react/button-has-type */
-/* eslint-disable jsx-a11y/label-has-associated-control */
+
 import React, { useEffect } from 'react'
 import LoadingIcon from 'components/common/LoadingIcon/LoadingIcon.component'
 import TokenStatistics from './components/TokenStatistics/TokenStatistics.container'
@@ -71,7 +70,7 @@ const Home = ({ currentUser, orderListObj, getFreeTokenObj, getFreeToken, getOrd
           </div>
           <div className="col-xl-8 col-lg-7">
             <div className="token-transaction card card-full-height">
-              <TokenTransaction />
+              <TokenTransaction orderListObj={orderListObj} />
             </div>
           </div>
           <div className="col-xl-4 col-lg-5">
