@@ -82,7 +82,7 @@ const Home = ({ currentUser, orderListObj, getFreeTokenObj, getFreeToken, getOrd
         <div className="row">
           <div className="col-xl-12 col-lg-12">
             <div className="token-sale-graph card card-full-height">
-              <TokenSaleGraph />
+              <TokenSaleGraph orderListObj={orderListObj} />
             </div>
           </div>
         </div>

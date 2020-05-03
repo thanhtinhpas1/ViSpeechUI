@@ -18,17 +18,17 @@ const TasksPage = ({ taskListObj, getTaskList }) => {
       },
     },
     {
-      Header: 'Thời gian chạy kế tiếp',
+      Header: 'Thời gian kế tiếp',
       accessor: 'nextRun',
       Cell: props => moment(props.cell.value).format('DD/MM/YYYY HH:mm:ss'),
     },
     {
-      Header: 'Thời gian chạy trước đó',
+      Header: 'Thời gian trước đó',
       accessor: 'previousRun',
       Cell: props => moment(props.cell.value).format('DD/MM/YYYY HH:mm:ss'),
     },
     {
-      Header: 'Trạng thái chạy trước đó',
+      Header: 'Trạng thái',
       accessor: 'previousRunStatus',
       Cell: props => {
         const { cell } = props
@@ -54,7 +54,7 @@ const TasksPage = ({ taskListObj, getTaskList }) => {
       <div className="col-md-12">
         <div className="card">
           <div className="card-header">
-            <h4 className="card-title">Danh sách task</h4>
+            <h4 className="card-title">Danh sách thực thi</h4>
           </div>
           <div className="card-content">
             <div className="material-datatables">

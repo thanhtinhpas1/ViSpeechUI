@@ -133,8 +133,8 @@ const ProfilePage = ({
                         </button>
                       </>
                     ) : (
-                      <span className="badge badge-sm badge-success">Email đã được xác thực</span>
-                    )}
+                        <span className="badge badge-sm badge-success">Email đã được xác thực</span>
+                      )}
                   </li>
                 </ul>
               </div>
