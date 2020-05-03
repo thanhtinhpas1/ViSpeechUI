@@ -1,19 +1,27 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from 'react'
+/* eslint-disable no-script-url */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable react/button-has-type */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React, { useEffect } from 'react'
+import moment from 'moment'
 
-const TokenSaleGraph = () => {
-  const [dropdownList, setDropdownList] = useState([])
-
+const TokenSaleGraph = ({ orderListObj }) => {
   useEffect(() => {
-    const dropdownListArr = ['30 ngày', '1 năm']
-    setDropdownList(dropdownListArr)
-
+    const labels = orderListObj.orderList.data.map(order =>
+      moment(order.createdDate).format('YYYY-MM-DD')
+    )
+    const data = orderListObj.orderList.data.map(order => {
+      const tokenType = order.tokenType ? order.tokenType : null
+      return tokenType ? tokenType.price : 0
+    })
     const chart = document.getElementById('tknSale').getContext('2d')
     // eslint-disable-next-line no-new
     new window.Chart(chart, {
       type: 'line',
       data: {
-        labels: ['01/10', '02/10', '03/10', '04/10', '05/10', '06/10', '07/10'],
+        labels,
         datasets: [
           {
             label: '',
@@ -28,7 +36,7 @@ const TokenSaleGraph = () => {
             pointHoverBorderWidth: 2,
             pointRadius: 6,
             pointHitRadius: 6,
-            data: [110, 80, 125, 55, 95, 75, 90],
+            data: data,
           },
         ],
       },
@@ -41,7 +49,7 @@ const TokenSaleGraph = () => {
               return `Ngày: ${t.labels[e[0].index]}`
             },
             label(e, t) {
-              return `${t.datasets[0].data[e.index]} Tokens`
+              return `Giá ${t.datasets[0].data[e.index]}$`
             },
           },
           backgroundColor: '#eff6ff',
@@ -80,28 +88,12 @@ const TokenSaleGraph = () => {
         },
       },
     })
-  }, [])
+  }, [orderListObj])
 
   return (
     <div className="card-innr">
       <div className="card-head has-aside">
-        <h4 className="card-title">Biểu đồ truy cập dịch vụ</h4>
-        <div className="card-opt">
-          <a href="#" className="link ucap link-light toggle-tigger toggle-caret">
-            7 ngày
-          </a>
-          <div className="toggle-class dropdown-content">
-            <ul className="dropdown-list">
-              {dropdownList.map(item => {
-                return (
-                  <li key={item}>
-                    <a href="#">{item}</a>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        </div>
+        <h4 className="card-title">Biểu đồ giao dịch</h4>
       </div>
       <div className="chart-tokensale">
         <canvas id="tknSale" />

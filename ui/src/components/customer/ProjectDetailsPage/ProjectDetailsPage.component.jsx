@@ -163,6 +163,14 @@ const ProjectDetailsPage = ({
                   <strong>{getProjectInfoObj.project.description}</strong>
                 </span>
               </div>
+              {}
+              <div className="fake-class">
+                <span className="data-details-title">Thành viên</span>
+                <span className="data-details-info">
+                 {getProjectInfoObj.project && getProjectInfoObj.project.assignees &&
+                  getProjectInfoObj.project.assignees.map(assignee => <h5 key={assignee.username}>{assignee.username}</h5>)}
+                </span>
+              </div>
               <div className="fake-class">
                 <span className="data-details-title">Thời gian tạo</span>
                 <span className="data-details-info">

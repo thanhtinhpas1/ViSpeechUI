@@ -858,7 +858,7 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   line-height: 20px;
   font-weight: 700;
   letter-spacing: 0.1em;
-  color: #2c80ff;
+  color: #1babfe;
   text-transform: uppercase;
   border-bottom: none;
 }
@@ -928,7 +928,7 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
 .data-details-title {
   font-size: 14px;
   font-weight: 600;
-  color: #758698;
+  color: #2c80ff;
   line-height: 20px;
   display: block;
 }

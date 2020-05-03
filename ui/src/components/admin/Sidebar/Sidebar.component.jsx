@@ -72,8 +72,8 @@ const Sidebar = ({ currentUser, onAuthenticate }) => {
           </li>
           <li className={`${location.pathname === `${ADMIN_PATH}/tasks` ? 'active' : ''} `}>
             <a href={`${ADMIN_PATH}/tasks`}>
-              <i className="material-icons">library_books</i>
-              <p>Danh sách task</p>
+              <i className="material-icons">schedule</i>
+              <p>Danh sách thực thi</p>
             </a>
           </li>
         </ul>
