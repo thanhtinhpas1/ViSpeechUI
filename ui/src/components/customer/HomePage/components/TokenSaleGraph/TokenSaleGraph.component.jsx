@@ -6,16 +6,22 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react'
 import moment from 'moment'
+import { ORDER_STATUS } from 'utils/constant'
 
 const TokenSaleGraph = ({ orderListObj }) => {
   useEffect(() => {
-    const labels = orderListObj.orderList.data.map(order =>
-      moment(order.createdDate).format('YYYY-MM-DD')
-    )
-    const data = orderListObj.orderList.data.map(order => {
-      const tokenType = order.tokenType ? order.tokenType : null
-      return tokenType ? tokenType.price : 0
-    })
+    const labels = [];
+    const data = [];
+    for (const order of orderListObj.orderList.data) {
+      if (ORDER_STATUS.SUCCESS.name === order.status['status']) {
+        labels.push(moment(order.createdDate).format('YYYY-MM-DD'))
+        const tokenType = order.tokenType ? order.tokenType : null
+        const price = tokenType ? tokenType.price : 0
+        data.push(price);
+      }
+      // else do nothing
+    }
+
     const chart = document.getElementById('tknSale').getContext('2d')
     // eslint-disable-next-line no-new
     new window.Chart(chart, {
