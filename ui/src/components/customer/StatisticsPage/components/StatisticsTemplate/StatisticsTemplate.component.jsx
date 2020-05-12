@@ -65,7 +65,7 @@ const StatisticsTemplate = ({
 
   useEffect(() => {
     const statisticalData = getStatisticsByIdObj.data
-    if (statisticalData.length > 0) {
+    if (statisticalData && statisticalData.length > 0) {
       const dataChart = []
       if (pickerType === TIME_TYPE.DATE) {
         statisticalData.forEach(element => {

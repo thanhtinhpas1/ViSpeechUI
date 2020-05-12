@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { JWT_TOKEN, ADMIN_PATH } from 'utils/constant'
 import STORAGE from 'utils/storage'
 
-const Sidebar = ({ currentUser, onAuthenticate }) => {
+const Sidebar = ({ currentUser, onAuthenticate, logout }) => {
   const location = useLocation()
 
   useEffect(() => {
@@ -25,6 +25,38 @@ const Sidebar = ({ currentUser, onAuthenticate }) => {
         </a>
       </div>
       <div className="sidebar-wrapper">
+        <ul class="nav nav-mobile-menu" style={{marginTop: '15px'}}>
+          <li className="dropdown">
+            <a href="#!" className="dropdown-toggle" data-toggle="dropdown">
+              <i className="material-icons">person</i>
+              <p className="hidden-lg hidden-md">
+                Trang cá nhân
+                  <b className="caret" />
+              </p>
+            </a>
+            <ul className="dropdown-menu">
+              <li>
+                <div
+                  style={{
+                    color: '#333',
+                    fontSize: '13px',
+                    padding: '10px 20px',
+                    margin: '0 5px',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  Xin chào, {currentUser.lastName} {currentUser.firstName}
+                </div>
+              </li>
+              <li>
+                <a href="#!" onClick={logout}>
+                  Đăng xuất
+                  </a>
+              </li>
+            </ul>
+          </li>
+          <li className="separator hidden-lg hidden-md" />
+        </ul>
         <ul className="nav">
           <li className={`${location.pathname === ADMIN_PATH ? 'active' : ''} `}>
             <a href={`${ADMIN_PATH}`}>
@@ -35,10 +67,10 @@ const Sidebar = ({ currentUser, onAuthenticate }) => {
           <li
             className={`${
               location.pathname === `${ADMIN_PATH}/users` ||
-              location.pathname === `${ADMIN_PATH}/create-user`
+                location.pathname === `${ADMIN_PATH}/create-user`
                 ? 'active'
                 : ''
-            } `}
+              } `}
           >
             <a data-toggle="collapse" href="#layouts" className="collapsed" aria-expanded="false">
               <i className="zmdi zmdi-accounts" />

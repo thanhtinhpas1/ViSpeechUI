@@ -60,7 +60,7 @@ const TotalStatisticsTemplate = ({
 
   useEffect(() => {
     const statisticalData = getTotalStatisticsObj.data
-    if (statisticalData.length > 0) {
+    if (statisticalData && statisticalData.length > 0) {
       const dataChart = []
       statisticalData.forEach(element => {
         dataChart.push({
