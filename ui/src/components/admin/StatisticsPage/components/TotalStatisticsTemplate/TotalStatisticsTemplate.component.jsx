@@ -59,15 +59,17 @@ const TotalStatisticsTemplate = ({
   }, [userId, statisticsType, getTotalStatistics])
 
   useEffect(() => {
-    const statisticalData = getTotalStatisticsObj.data
-    if (statisticalData && statisticalData.length > 0) {
+    const { isLoading, isSuccess, data } = getTotalStatisticsObj
+    if (isLoading === false && isSuccess === true) {
       const dataChart = []
-      statisticalData.forEach(element => {
-        dataChart.push({
-          display: element.data.display,
-          value: element.usedMinutes,
+      if (Array.isArray(data) && data.length > 0) {
+        data.forEach(element => {
+          dataChart.push({
+            display: element.data.display,
+            value: element.usedMinutes,
+          })
         })
-      })
+      }
       setChartData(dataChart)
     }
   }, [getTotalStatisticsObj])
@@ -128,7 +130,7 @@ const TotalStatisticsTemplate = ({
       const fromDate = new Date(getOnlyDate(from))
       const toDate = new Date(getOnlyDate(to))
       const totalDates = toDate.valueOf() - fromDate.valueOf() + ONE_DAY_IN_MILLISECONDS
-      if (totalDates <= ONE_DAY_IN_MILLISECONDS * RANGE_PICKER_LIMIT - 2) {
+      if (totalDates <= ONE_DAY_IN_MILLISECONDS * (RANGE_PICKER_LIMIT - 2)) {
         setIsButtonDisabled(false)
       }
     } else if (pickerType === TIME_TYPE.WEEK) {
@@ -200,13 +202,13 @@ const TotalStatisticsTemplate = ({
           if (
             selectedYear === year &&
             quarter < selectedQuarter &&
-            totalQuarters <= RANGE_PICKER_LIMIT + 2
+            totalQuarters <= RANGE_PICKER_LIMIT
           ) {
             setIsButtonDisabled(false)
           }
           if (selectedYear !== year) {
             totalQuarters = getTotalQuarters(quarter, year, selectedQuarter, selectedYear)
-            if (totalQuarters <= RANGE_PICKER_LIMIT + 2) {
+            if (totalQuarters <= RANGE_PICKER_LIMIT) {
               setIsButtonDisabled(false)
             }
           }
@@ -227,6 +229,7 @@ const TotalStatisticsTemplate = ({
       from: { quarter: parseInt(value.format('Q')), year: parseInt(value.format('YYYY')) },
     }
     setQuarterData(quarterObj)
+    setChartData([])
     checkDisabledBtn(value, true)
   }
 
@@ -237,15 +240,19 @@ const TotalStatisticsTemplate = ({
       to: { quarter: parseInt(value.format('Q')), year: parseInt(value.format('YYYY')) },
     }
     setQuarterData(quarterObj)
+    setChartData([])
     checkDisabledBtn(value, false)
   }
 
   const onChangeRangePicker = value => {
     setValueRangePicker(value)
+    setChartData([])
     checkDisabledBtn(value)
   }
 
   const onClickGetStatistics = () => {
+    setChartData([])
+
     const queryParams = {}
 
     const from = valueRangePicker[0]
@@ -254,15 +261,15 @@ const TotalStatisticsTemplate = ({
     const toYear = to && parseInt(to.format('YYYY'))
 
     if (pickerType === TIME_TYPE.DATE) {
-      console.log('ok from date ', from.format('DD/MM/YYYY'))
-      console.log('ok to date ', to.format('DD/MM/YYYY'))
+      console.log('get total statistics from date ', from.format('DD/MM/YYYY'))
+      console.log('get total statistics to date ', to.format('DD/MM/YYYY'))
       queryParams.fromDate = from.valueOf()
       queryParams.toDate = to.valueOf()
     } else if (pickerType === TIME_TYPE.WEEK) {
       const fromWeek = parseInt(from.format('w'))
       const toWeek = parseInt(to.format('w'))
-      console.log('ok from week ', fromWeek, ', from year', fromYear)
-      console.log('ok to week ', toWeek, ', to year', toYear)
+      console.log('get total statistics from week ', fromWeek, ', from year', fromYear)
+      console.log('get total statistics to week ', toWeek, ', to year', toYear)
       queryParams.weekObj = {
         from: {
           data: fromWeek,
@@ -276,8 +283,8 @@ const TotalStatisticsTemplate = ({
     } else if (pickerType === TIME_TYPE.MONTH) {
       const fromMonth = parseInt(from.format('M')) - 1
       const toMonth = parseInt(to.format('M')) - 1
-      console.log('ok from month ', fromMonth, ', from year', fromYear)
-      console.log('ok to month ', toMonth, ', to year', toYear)
+      console.log('get total statistics from month ', fromMonth, ', from year', fromYear)
+      console.log('get total statistics to month ', toMonth, ', to year', toYear)
       queryParams.monthObj = {
         from: {
           data: fromMonth,
@@ -293,8 +300,8 @@ const TotalStatisticsTemplate = ({
       const quarterFromYear = quarterData.from.year
       const toQuarter = quarterData.to.quarter
       const quarterToYear = quarterData.to.year
-      console.log('ok from quarter ', fromQuarter, ', from year', quarterFromYear)
-      console.log('ok to quarter ', toQuarter, ', to year', quarterToYear)
+      console.log('get total statistics from quarter ', fromQuarter, ', from year', quarterFromYear)
+      console.log('get total statistics to quarter ', toQuarter, ', to year', quarterToYear)
       queryParams.quarterObj = {
         from: {
           data: fromQuarter,
@@ -306,8 +313,8 @@ const TotalStatisticsTemplate = ({
         },
       }
     } else if (pickerType === TIME_TYPE.YEAR) {
-      console.log('ok from year ', fromYear)
-      console.log('ok to year ', toYear)
+      console.log('get total statistics from year ', fromYear)
+      console.log('get total statistics to year ', toYear)
       queryParams.fromYear = fromYear
       queryParams.toYear = toYear
     }

@@ -25,7 +25,7 @@ const Sidebar = ({ currentUser, onAuthenticate, logout }) => {
         </a>
       </div>
       <div className="sidebar-wrapper">
-        <ul class="nav nav-mobile-menu" style={{marginTop: '15px'}}>
+        <ul className="nav nav-mobile-menu" style={{marginTop: '15px'}}>
           <li className="dropdown">
             <a href="#!" className="dropdown-toggle" data-toggle="dropdown">
               <i className="material-icons">person</i>

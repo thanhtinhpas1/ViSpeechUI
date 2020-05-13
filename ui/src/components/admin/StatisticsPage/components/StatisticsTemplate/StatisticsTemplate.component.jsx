@@ -51,6 +51,7 @@ const StatisticsTemplate = ({
   const [chartData, setChartData] = useState([])
   const [isButtonDisabled, setIsButtonDisabled] = useState(true)
   const [idData, setIdData] = useState('')
+  const [isBtnGetStatisticsClicked, setIsBtnGetStatisticsClicked] = useState(false)
 
   useEffect(() => {
     if (data.length > 0 && data[0]._id) {
@@ -59,53 +60,58 @@ const StatisticsTemplate = ({
       const toDate = getDateNow().valueOf()
       setIdData(id)
       setIsButtonDisabled(false)
+      setIsBtnGetStatisticsClicked(true)
       getStatisticsById(id, statisticsType, TIME_TYPE.DATE, { fromDate, toDate })
     }
   }, [data, statisticsType, getStatisticsById])
 
   useEffect(() => {
-    const statisticalData = getStatisticsByIdObj.data
-    if (statisticalData && statisticalData.length > 0) {
+    // eslint-disable-next-line no-shadow
+    const { isLoading, isSuccess, data } = getStatisticsByIdObj
+    if (isBtnGetStatisticsClicked && isLoading === false && isSuccess === true) {
       const dataChart = []
-      if (pickerType === TIME_TYPE.DATE) {
-        statisticalData.forEach(element => {
-          dataChart.push({
-            display: moment(element.date).format('DD/MM/YYYY'),
-            value: element.value,
+      if (Array.isArray(data) && data.length > 0) {
+        if (pickerType === TIME_TYPE.DATE) {
+          data.forEach(element => {
+            dataChart.push({
+              display: moment(element.date).format('DD/MM/YYYY'),
+              value: element.value,
+            })
           })
-        })
-      } else if (pickerType === TIME_TYPE.WEEK) {
-        statisticalData.forEach(element => {
-          dataChart.push({
-            display: `Tuần ${element.week}/${element.year}`,
-            value: element.value,
+        } else if (pickerType === TIME_TYPE.WEEK) {
+          data.forEach(element => {
+            dataChart.push({
+              display: `Tuần ${element.week}/${element.year}`,
+              value: element.value,
+            })
           })
-        })
-      } else if (pickerType === TIME_TYPE.MONTH) {
-        statisticalData.forEach(element => {
-          dataChart.push({
-            display: `${parseInt(element.month) + 1}/${element.year}`,
-            value: element.value,
+        } else if (pickerType === TIME_TYPE.MONTH) {
+          data.forEach(element => {
+            dataChart.push({
+              display: `${parseInt(element.month) + 1}/${element.year}`,
+              value: element.value,
+            })
           })
-        })
-      } else if (pickerType === TIME_TYPE.QUARTER) {
-        statisticalData.forEach(element => {
-          dataChart.push({
-            display: `Quý ${element.quarter}/${element.year}`,
-            value: element.value,
+        } else if (pickerType === TIME_TYPE.QUARTER) {
+          data.forEach(element => {
+            dataChart.push({
+              display: `Quý ${element.quarter}/${element.year}`,
+              value: element.value,
+            })
           })
-        })
-      } else if (pickerType === TIME_TYPE.YEAR) {
-        statisticalData.forEach(element => {
-          dataChart.push({
-            display: `${element.year}`,
-            value: element.value,
+        } else if (pickerType === TIME_TYPE.YEAR) {
+          data.forEach(element => {
+            dataChart.push({
+              display: `${element.year}`,
+              value: element.value,
+            })
           })
-        })
+        }
       }
       setChartData(dataChart)
+      setIsBtnGetStatisticsClicked(false)
     }
-  }, [getStatisticsByIdObj])
+  }, [getStatisticsByIdObj, isBtnGetStatisticsClicked, pickerType])
 
   const getStatistics = (id, timeType, queryParams) => {
     STORAGE.setPreferences(
@@ -148,12 +154,9 @@ const StatisticsTemplate = ({
   }
 
   const checkDisabledBtn = (id, value, isStart) => {
-    if (!id) {
-      setIsButtonDisabled(true)
-      return
-    }
-
     setIsButtonDisabled(true)
+
+    if (!id) return
 
     const from = value ? value[0] : valueRangePicker[0]
     const to = value ? value[1] : valueRangePicker[1]
@@ -168,7 +171,7 @@ const StatisticsTemplate = ({
       const fromDate = new Date(getOnlyDate(from))
       const toDate = new Date(getOnlyDate(to))
       const totalDates = toDate.valueOf() - fromDate.valueOf() + ONE_DAY_IN_MILLISECONDS
-      if (totalDates <= ONE_DAY_IN_MILLISECONDS * RANGE_PICKER_LIMIT - 2) {
+      if (totalDates <= ONE_DAY_IN_MILLISECONDS * (RANGE_PICKER_LIMIT - 2)) {
         setIsButtonDisabled(false)
       }
     } else if (pickerType === TIME_TYPE.WEEK) {
@@ -240,13 +243,13 @@ const StatisticsTemplate = ({
           if (
             selectedYear === year &&
             quarter < selectedQuarter &&
-            totalQuarters <= RANGE_PICKER_LIMIT + 2
+            totalQuarters <= RANGE_PICKER_LIMIT
           ) {
             setIsButtonDisabled(false)
           }
           if (selectedYear !== year) {
             totalQuarters = getTotalQuarters(quarter, year, selectedQuarter, selectedYear)
-            if (totalQuarters <= RANGE_PICKER_LIMIT + 2) {
+            if (totalQuarters <= RANGE_PICKER_LIMIT) {
               setIsButtonDisabled(false)
             }
           }
@@ -267,6 +270,7 @@ const StatisticsTemplate = ({
       from: { quarter: parseInt(value.format('Q')), year: parseInt(value.format('YYYY')) },
     }
     setQuarterData(quarterObj)
+    setChartData([])
     checkDisabledBtn(idData, value, true)
   }
 
@@ -277,11 +281,13 @@ const StatisticsTemplate = ({
       to: { quarter: parseInt(value.format('Q')), year: parseInt(value.format('YYYY')) },
     }
     setQuarterData(quarterObj)
+    setChartData([])
     checkDisabledBtn(idData, value, false)
   }
 
   const onChangeRangePicker = value => {
     setValueRangePicker(value)
+    setChartData([])
     checkDisabledBtn(idData, value)
   }
 
@@ -292,6 +298,9 @@ const StatisticsTemplate = ({
   }
 
   const onClickGetStatistics = () => {
+    setIsBtnGetStatisticsClicked(true)
+    setChartData([])
+
     const queryParams = {}
 
     const from = valueRangePicker[0]
@@ -300,15 +309,15 @@ const StatisticsTemplate = ({
     const toYear = to && parseInt(to.format('YYYY'))
 
     if (pickerType === TIME_TYPE.DATE) {
-      console.log('ok from date ', from.format('DD/MM/YYYY'))
-      console.log('ok to date ', to.format('DD/MM/YYYY'))
+      console.log('get statistics from date ', from.format('DD/MM/YYYY'))
+      console.log('get statistics to date ', to.format('DD/MM/YYYY'))
       queryParams.fromDate = from.valueOf()
       queryParams.toDate = to.valueOf()
     } else if (pickerType === TIME_TYPE.WEEK) {
       const fromWeek = parseInt(from.format('w'))
       const toWeek = parseInt(to.format('w'))
-      console.log('ok from week ', fromWeek, ', from year', fromYear)
-      console.log('ok to week ', toWeek, ', to year', toYear)
+      console.log('get statistics from week ', fromWeek, ', from year', fromYear)
+      console.log('get statistics to week ', toWeek, ', to year', toYear)
       queryParams.weekObj = {
         from: {
           data: fromWeek,
@@ -322,8 +331,8 @@ const StatisticsTemplate = ({
     } else if (pickerType === TIME_TYPE.MONTH) {
       const fromMonth = parseInt(from.format('M')) - 1
       const toMonth = parseInt(to.format('M')) - 1
-      console.log('ok from month ', fromMonth, ', from year', fromYear)
-      console.log('ok to month ', toMonth, ', to year', toYear)
+      console.log('get statistics from month ', fromMonth, ', from year', fromYear)
+      console.log('get statistics to month ', toMonth, ', to year', toYear)
       queryParams.monthObj = {
         from: {
           data: fromMonth,
@@ -339,8 +348,8 @@ const StatisticsTemplate = ({
       const quarterFromYear = quarterData.from.year
       const toQuarter = quarterData.to.quarter
       const quarterToYear = quarterData.to.year
-      console.log('ok from quarter ', fromQuarter, ', from year', quarterFromYear)
-      console.log('ok to quarter ', toQuarter, ', to year', quarterToYear)
+      console.log('get statistics from quarter ', fromQuarter, ', from year', quarterFromYear)
+      console.log('get statistics to quarter ', toQuarter, ', to year', quarterToYear)
       queryParams.quarterObj = {
         from: {
           data: fromQuarter,
@@ -352,8 +361,8 @@ const StatisticsTemplate = ({
         },
       }
     } else if (pickerType === TIME_TYPE.YEAR) {
-      console.log('ok from year ', fromYear)
-      console.log('ok to year ', toYear)
+      console.log('get statistics from year ', fromYear)
+      console.log('get statistics to year ', toYear)
       queryParams.fromYear = fromYear
       queryParams.toYear = toYear
     }
