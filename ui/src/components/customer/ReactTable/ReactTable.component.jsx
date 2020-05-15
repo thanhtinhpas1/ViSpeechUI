@@ -1,7 +1,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect } from 'react'
-import { useTable, usePagination } from 'react-table'
+import React, { useEffect, useMemo } from 'react'
+import { useTable, usePagination, useFilters } from 'react-table'
 
 const ReactTable = ({
   columns,
@@ -11,6 +11,37 @@ const ReactTable = ({
   pageCount: controlledPageCount,
   defaultPageSize,
 }) => {
+  // Define a default UI for filtering
+  const DefaultColumnFilter = ({ column: { filterValue, preFilteredRows, setFilter }, }) => {
+    return (
+      <input
+        value={filterValue || ''}
+        onChange={e => {
+          setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
+        }}
+        placeholder={`Tìm kiếm...`}
+      />
+    )
+  }
+
+  const filterTypes = useMemo(() => ({
+    text: (rows, id, filterValue) => {
+      return rows.filter(row => {
+        const rowValue = row.values[id]
+        return rowValue !== undefined
+          ? String(rowValue)
+            .toLowerCase()
+            .startsWith(String(filterValue).toLowerCase())
+          : true
+      })
+    },
+  }), [])
+
+  const defaultColumn = useMemo(() => ({
+    // Let's set up our default Filter UI
+    Filter: DefaultColumnFilter,
+  }), [])
+
   // Use the state and functions returned from useTable to build your UI
   const {
     getTableProps,
@@ -29,24 +60,28 @@ const ReactTable = ({
     nextPage,
     previousPage,
     // setPageSize,
-    state: { pageIndex, pageSize },
+    state: { pageIndex, pageSize, filters },
   } = useTable(
     {
       columns,
       data,
-      initialState: { pageIndex: 0, pageSize: defaultPageSize }, // Pass our hoisted table state
+      defaultColumn,
+      filterTypes,
+      initialState: { pageIndex: 0, pageSize: defaultPageSize, filters: [] }, // Pass our hoisted table state
       manualPagination: true, // Tell the usePagination
+      manualFilters: true,
       // hook that we'll handle our own data fetching
       // This means we'll also have to provide our own
       // pageCount.
       pageCount: controlledPageCount,
     },
-    usePagination
+    useFilters,
+    usePagination,
   )
 
   useEffect(() => {
-    fetchData({ pageIndex, pageSize })
-  }, [fetchData, pageIndex, pageSize])
+    fetchData({ pageIndex, pageSize, filters })
+  }, [fetchData, pageIndex, pageSize, filters])
 
   return (
     <>
@@ -54,17 +89,30 @@ const ReactTable = ({
         <table {...getTableProps()} className="data-table user-tnx">
           <thead>
             {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()} className="data-item data-head">
-                {headerGroup.headers.map(column => (
-                  <th
-                    {...column.getHeaderProps()}
-                    style={column.headerStyle || {}}
-                    className={column.headerClassName || {}}
-                  >
-                    {column.render('Header')}
-                  </th>
-                ))}
-              </tr>
+              <>
+                <tr {...headerGroup.getHeaderGroupProps()} className="data-item data-head">
+                  {headerGroup.headers.map(column => (
+                    <th
+                      {...column.getHeaderProps()}
+                      style={column.headerStyle || {}}
+                      className={column.headerClassName || {}}
+                    >
+                      {column.render('Header')}
+                    </th>
+                  ))}
+                </tr>
+                <tr {...headerGroup.getHeaderGroupProps()} className="data-item data-head">
+                  {headerGroup.headers.map(column => (
+                    <th
+                      {...column.getHeaderProps()}
+                      style={column.headerStyle || {}}
+                      className={column.headerClassName || {}}
+                    >
+                      <div>{column.canFilter ? column.render('Filter') : null}</div>
+                    </th>
+                  ))}
+                </tr>
+              </>
             ))}
           </thead>
           <tbody {...getTableBodyProps()}>
@@ -72,17 +120,15 @@ const ReactTable = ({
               prepareRow(row)
               return (
                 <tr {...row.getRowProps()} className="data-item">
-                  {row.cells.map(cell => {
-                    return (
-                      <td
-                        {...cell.getCellProps()}
-                        style={cell.column.style || {}}
-                        className={cell.column.className || {}}
-                      >
-                        {cell.render('Cell')}
-                      </td>
-                    )
-                  })}
+                  {row.cells.map(cell => (
+                    <td
+                      {...cell.getCellProps()}
+                      style={cell.column.style || {}}
+                      className={cell.column.className || {}}
+                    >
+                      {cell.render('Cell')}
+                    </td>
+                  ))}
                 </tr>
               )
             })}
@@ -97,14 +143,14 @@ const ReactTable = ({
                   Đang tải...
                 </td>
               ) : (
-                <td
-                  colSpan="10000"
-                  className="data-col"
-                  style={{ borderBottom: 'none', color: '#23406c' }}
-                >
-                  Hiển thị {page.length} trên ~{controlledPageCount * pageSize} kết quả
-                </td>
-              )}
+                  <td
+                    colSpan="10000"
+                    className="data-col"
+                    style={{ borderBottom: 'none', color: '#23406c' }}
+                  >
+                    Hiển thị {page.length} trên ~{controlledPageCount * pageSize} kết quả
+                  </td>
+                )}
             </tr>
           </tbody>
         </table>

@@ -618,20 +618,6 @@ textarea {
         font-weight: 700;
         letter-spacing: 0.02em;
     }
-    .data-item .lead {
-        font-size: 14px;
-        font-weight: 700;
-        letter-spacing: 0.02em;
-    }
-    .data-item .sub {
-        font-size: 12px;
-        letter-spacing: 0.02em;
-        padding-top: 7px;
-    }
-    .data-item .sub-s2 {
-        font-size: 13px;
-        color: #495463;
-    }
     .data-details div.fake-class {
         margin-bottom: 0;
     }
