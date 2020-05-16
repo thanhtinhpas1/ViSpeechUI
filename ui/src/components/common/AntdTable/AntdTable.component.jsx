@@ -5,7 +5,7 @@ import { SearchOutlined } from '@ant-design/icons'
 import ResizableTitle from './components/ResizableTitle/ResizableTitle.component'
 import './AntdTable.style.scss'
 
-const AntdTable = ({ dataObj, columns, fetchData, isLoading, pageSize }) => {
+const AntdTable = ({ dataObj, columns, fetchData, isLoading, pageSize, scrollY }) => {
   const [pagination, setPagination] = useState({ pageSize, current: 1, total: dataObj.count })
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
@@ -19,25 +19,20 @@ const AntdTable = ({ dataObj, columns, fetchData, isLoading, pageSize }) => {
   const searchInput = useRef(null)
 
   useEffect(() => {
-    fetchData({ pagination })
-  }, [fetchData, pagination])
-
-  useEffect(() => {
     if (isLoading === false) {
-      setPagination({ ...pagination, total: dataObj.count })
+      setPagination(p => { return { ...p, total: dataObj.count } })
     }
-  }, [dataObj, pagination, isLoading])
+  }, [dataObj, isLoading])
 
   // eslint-disable-next-line no-shadow
   const handleTableChange = (pagination, filters, sorter) => {
-    console.log('filters ', filters)
-    console.log('sorter ', sorter)
     fetchData({
       sortField: sorter.field,
       sortOrder: sorter.order,
       pagination,
-      ...filters,
+      filters,
     })
+    setPagination(pagination)
   }
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -101,8 +96,8 @@ const AntdTable = ({ dataObj, columns, fetchData, isLoading, pageSize }) => {
             textToHighlight={text.toString()}
           />
         ) : (
-          text
-        ),
+            text
+          ),
     }),
     [searchedColumn, searchText]
   )
@@ -140,13 +135,16 @@ const AntdTable = ({ dataObj, columns, fetchData, isLoading, pageSize }) => {
   return (
     <div className="dataTables_wrapper">
       <Table
+        tableLayout="auto"
+        rowKey={record => record._id}
         columns={tableColumns}
         dataSource={dataObj.data}
-        pagination={pagination}
-        scroll={{ y: 500 }}
+        pagination={{ ...pagination, position: ["bottomCenter"], hideOnSinglePage: true, pageSizeOptions: ['10', '20', '50'] }}
+        scroll={{ y: scrollY || 500, scrollToFirstRowOnChange: true }}
         components={components}
         loading={isLoading}
         onChange={handleTableChange}
+        showSorterTooltip={false}
       />
     </div>
   )

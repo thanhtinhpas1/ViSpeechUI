@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom'
-import { ROLES } from './constant'
+import { ROLES, SORT_ORDER } from './constant'
 
 const Utils = {
   checkIfIsUser: roleList => {
@@ -85,6 +85,16 @@ const Utils = {
     const result = JSON.parse(JSON.stringify(arr))
     const a = result.sort(sortFunc)
     return a.filter(filterFunc).map(item => item)
+  },
+  getSortOrder: sortOrder => {
+    let result = sortOrder
+    if (sortOrder === 'ascend') {
+      result = SORT_ORDER.ASC
+    }
+    if (sortOrder === 'descend') {
+      result = SORT_ORDER.DESC
+    }
+    return result
   },
   isEmailVerified: roles => {
     return Utils.getRolesInArray(roles).indexOf(ROLES.MANAGER_USER) !== -1

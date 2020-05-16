@@ -6,9 +6,8 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import AntdTable from 'components/customer/AntdTable/AntdTable.component'
+import AntdTable from 'components/common/AntdTable/AntdTable.component'
 import { CUSTOMER_PATH, STATUS, TOKEN_TYPE } from 'utils/constant'
-// import ReactTable from 'components/customer/ReactTable/ReactTable.component'
 import * as moment from 'moment'
 
 const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
@@ -102,7 +101,7 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
     {
       title: '',
       dataIndex: '_id',
-      // className: 'text-right',
+      className: 'text-right',
       render: _id => (
         <Link
           to={`${CUSTOMER_PATH}/transaction-details?id=${_id}`}
@@ -138,7 +137,7 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
                 dataObj={orderListObj.orderList}
                 columns={columns}
                 fetchData={getList}
-                loading={orderListObj.isLoading}
+                isLoading={orderListObj.isLoading}
                 pageSize={5}
               />
             )}

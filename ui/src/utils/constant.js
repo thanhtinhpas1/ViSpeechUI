@@ -35,3 +35,7 @@ export const ORDER_STATUS = {
   // -canceled -missing
 }
 export const DEFAULT_ERR_MESSAGE = 'Đã có lỗi xảy ra. Vui lòng thử lại sau ít phút.'
+export const SORT_ORDER = {
+  ASC: 'ASC',
+  DESC: 'DESC'
+}
