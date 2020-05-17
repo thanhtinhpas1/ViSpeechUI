@@ -3,66 +3,71 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as moment from 'moment'
-import ReactTable from 'components/admin/ReactTable/ReactTable.component'
+import AntdTable from 'components/common/AntdTable/AntdTable.component'
 
 const HistoriesPage = ({ requestListObj, getRequestList }) => {
   const columns = [
     {
-      Header: 'Mã token',
-      accessor: 'tokenId',
-      Cell: props => {
-        const { cell } = props
-        return <span>{cell.value}</span>
-      },
+      title: 'Mã token',
+      dataIndex: 'tokenId',
+      canSearch: true,
+      render: tokenId => <span>{tokenId}</span>,
+      width: 150,
     },
     {
-      Header: 'Tên file',
-      accessor: 'fileName',
-      Cell: props => {
-        const { cell } = props
-        return <span>{cell.value}</span>
-      },
+      title: 'Tên file',
+      dataIndex: 'fileName',
+      canSearch: true,
+      render: fileName => <span>{fileName}</span>,
+      width: 180,
     },
     {
-      Header: 'Định dạng',
-      accessor: 'mimeType',
-      Cell: props => {
-        const { cell } = props
-        return <span>{cell.value}</span>
-      },
+      title: 'Định dạng',
+      dataIndex: 'mimeType',
+      canSearch: true,
+      render: mimeType => <span>{mimeType}</span>,
+      width: 180,
     },
     {
-      Header: 'Kích thước',
-      accessor: 'size',
-      Cell: props => {
-        const { cell } = props
-        return <span>{cell.value}</span>
-      },
+      title: 'Kích thước',
+      dataIndex: 'size',
+      sorter: true,
+      render: size => <span>{size}</span>,
+      width: 180,
     },
     {
-      Header: 'Mã dự án',
-      accessor: 'projectId',
-      Cell: props => {
-        const { cell } = props
-        return <span>{cell.value}</span>
-      },
+      title: 'Mã dự án',
+      dataIndex: 'projectId',
+      canSearch: true,
+      render: projectId => <span>{projectId}</span>,
+      width: 150,
     },
     {
-      Header: 'Thời gian sử dụng (phút)',
-      accessor: 'duration',
-      Cell: props => {
-        const { cell } = props
-        return <span>{cell.value}</span>
-      },
+      title: 'Thời gian sử dụng (phút)',
+      dataIndex: 'duration',
+      sorter: true,
+      render: duration => <span>{duration}</span>,
+      width: 180,
     },
     {
-      Header: 'Thời gian tạo',
-      accessor: 'createdDate',
-      Cell: props => moment(props.cell.value).format('DD/MM/YYYY HH:mm'),
+      title: 'Thời gian tạo',
+      dataIndex: 'createdDate',
+      sorter: true,
+      render: createdDate => moment(createdDate).format('DD/MM/YYYY HH:mm'),
+      width: 200,
+      align: "center"
     },
   ]
+
+  useEffect(() => {
+    const pagination = {
+      pageSize: 10,
+      current: 1,
+    }
+    getRequestList({ pagination })
+  }, [getRequestList])
 
   return (
     <div className="row">
@@ -73,14 +78,13 @@ const HistoriesPage = ({ requestListObj, getRequestList }) => {
           </div>
           <div className="card-content">
             <div className="material-datatables">
-              <ReactTable
+              <AntdTable
+                dataObj={requestListObj.requestList}
                 columns={columns}
-                data={requestListObj.requestList.data}
                 fetchData={getRequestList}
-                loading={requestListObj.isLoading}
-                pageCount={Math.ceil(requestListObj.requestList.count / 10)}
-                defaultPageSize={10}
+                isLoading={requestListObj.isLoading}
                 pageSize={10}
+                scrollY={700}
               />
             </div>
           </div>

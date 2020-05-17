@@ -14,7 +14,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getUserList: ({ pageIndex, pageSize }) => dispatch(getUserList({ pageIndex, pageSize })),
+  getUserList: ({ pagination, sortField, sortOrder, filters }) =>
+    dispatch(getUserList({ pagination, sortField, sortOrder, filters })),
   deleteUser: id => dispatch(deleteUser(id)),
   deleteUserSuccess: () => dispatch(deleteUserSuccess()),
   deleteUserFailure: message => dispatch(deleteUserFailure(message)),

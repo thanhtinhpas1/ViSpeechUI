@@ -23,7 +23,7 @@ const TasksPage = ({ taskListObj, getTaskList }) => {
       sorter: true,
       render: nextRun => moment(nextRun).format('DD/MM/YYYY HH:mm:ss'),
       width: 200,
-      align: "center"
+      align: 'center',
     },
     {
       title: 'Thời gian trước đó',
@@ -31,7 +31,7 @@ const TasksPage = ({ taskListObj, getTaskList }) => {
       sorter: true,
       render: nextRun => moment(nextRun).format('DD/MM/YYYY HH:mm:ss'),
       width: 220,
-      align: "center"
+      align: 'center',
     },
     {
       title: 'Trạng thái',
@@ -47,7 +47,7 @@ const TasksPage = ({ taskListObj, getTaskList }) => {
         </span>
       ),
       width: 180,
-      align: "center"
+      align: 'center',
     },
     {
       title: 'Lỗi',
@@ -75,15 +75,6 @@ const TasksPage = ({ taskListObj, getTaskList }) => {
           </div>
           <div className="card-content">
             <div className="material-datatables">
-              {/* <ReactTable
-                columns={columns}
-                data={taskListObj.taskList.data}
-                fetchData={getTaskList}
-                loading={taskListObj.isLoading}
-                pageCount={Math.ceil(taskListObj.taskList.count / 10)}
-                defaultPageSize={10}
-                pageSize={10}
-              /> */}
               <AntdTable
                 dataObj={taskListObj.taskList}
                 columns={columns}

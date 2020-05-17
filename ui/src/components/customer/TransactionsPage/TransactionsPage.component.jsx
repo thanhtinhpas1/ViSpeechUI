@@ -22,13 +22,12 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
     {
       title: 'Trạng thái',
       dataIndex: 'status',
-      sorter: true,
       filters: [
         { text: STATUS.PENDING.viText, value: STATUS.PENDING.name },
         { text: STATUS.SUCCESS.viText, value: STATUS.SUCCESS.name },
         { text: STATUS.FAILURE.viText, value: STATUS.FAILURE.name },
       ],
-      filterMultiple: true,
+      filterMultiple: false,
       render: status => (
         <div className="d-flex align-items-center">
           <div className={`data-state ${status.class}`} />
@@ -76,16 +75,15 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
       width: 250,
     },
     {
-      title: 'Loại token',
+      title: () => <div className="dt-type-text">Loại token</div>,
       dataIndex: 'tokenType',
-      sorter: true,
       filters: [
         { text: TOKEN_TYPE.FREE.viText, value: TOKEN_TYPE.FREE.name },
         { text: TOKEN_TYPE['50-MINS'].viText, value: TOKEN_TYPE['50-MINS'].name },
         { text: TOKEN_TYPE['200-MINS'].viText, value: TOKEN_TYPE['200-MINS'].name },
         { text: TOKEN_TYPE['500-MINS'].viText, value: TOKEN_TYPE['500-MINS'].name },
       ],
-      filterMultiple: true,
+      filterMultiple: false,
       render: tokenType => (
         <>
           <span className={`dt-type-md badge badge-outline ${tokenType.class} badge-md`}>
@@ -101,7 +99,6 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
     {
       title: '',
       dataIndex: '_id',
-      className: 'text-right',
       render: _id => (
         <Link
           to={`${CUSTOMER_PATH}/transaction-details?id=${_id}`}
@@ -110,6 +107,7 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
           <em className="ti ti-eye" />
         </Link>
       ),
+      align: 'right',
       width: 60,
     },
   ]

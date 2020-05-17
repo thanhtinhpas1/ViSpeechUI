@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-alert */
@@ -5,137 +6,180 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react'
+import { Form, Input, Button, Alert, Radio, Empty } from 'antd'
 import { ROLES } from 'utils/constant'
 import Utils from 'utils'
+import SocketService from 'services/socket.service'
+import UserService from 'services/user.service'
+import SocketUtils from 'utils/socket.util'
+import LoadingIcon from 'components/common/LoadingIcon/LoadingIcon.component'
+import './InfoTab.style.scss'
 
-const InfoTab = ({ userInfoObj, updateUserInfo }) => {
+const { KAFKA_TOPIC, invokeCheckSubject } = SocketUtils
+const { USER_UPDATED_SUCCESS_EVENT, USER_UPDATED_FAILED_EVENT } = KAFKA_TOPIC
+
+const InfoTab = ({
+  userInfoObj,
+  updateInfoObj,
+  updateUserInfo,
+  updateUserInfoSuccess,
+  updateUserInfoFailure,
+}) => {
+  const [form] = Form.useForm()
+  const formItemLayout = {
+    labelCol: {
+      span: 6,
+    },
+    wrapperCol: {
+      span: 18,
+    },
+  }
+  const tailLayout = {
+    wrapperCol: { offset: 6, span: 18 },
+  }
+
   useEffect(() => {
-    const roleInputs = window.$('.role-inputs')
-    if (
-      userInfoObj.user.roles &&
-      userInfoObj.user.roles.length > 0 &&
-      roleInputs.length === Object.keys(ROLES).length
-    ) {
-      for (let i = 0; i < roleInputs.length; i += 1) {
-        const isChecked = Utils.getRolesInArray(userInfoObj.user.roles).includes(roleInputs[i].name)
-        if (isChecked) {
-          window.$('.role-inputs')[i].checked = true
-        }
-      }
-    }
-  }, [userInfoObj.user.roles])
+    SocketService.socketOnListeningEvent(USER_UPDATED_SUCCESS_EVENT)
+    SocketService.socketOnListeningEvent(USER_UPDATED_FAILED_EVENT)
+  }, [])
 
-  const onSubmit = event => {
-    event.preventDefault()
+  const onSubmit = async values => {
     const userId = userInfoObj.user._id
     if (!userId) {
       return
     }
 
-    const form = event.target
-    const selectedRoles = Object.values(ROLES).map(role => {
-      return {
-        name: role,
-        isSelected: form.elements[role].checked,
-      }
-    })
-    const formattedRoles = Utils.formatRolesToSubmit(selectedRoles)
+    const { firstName, lastName, email, role } = values
 
     const user = {
-      firstName: form.elements.firstName.value,
-      lastName: form.elements.lastName.value,
-      email: form.elements.email.value,
-      roles: formattedRoles,
+      firstName,
+      lastName,
+      email,
+      roles: [{ name: role }],
     }
+
     updateUserInfo(userId, user)
+    try {
+      await UserService.updateUserInfo(userId, user)
+      invokeCheckSubject.UserUpdated.subscribe(data => {
+        if (data.error != null) {
+          updateUserInfoFailure(data.errorObj)
+        } else {
+          updateUserInfoSuccess()
+        }
+      })
+    } catch (err) {
+      updateUserInfoFailure({ message: err.message })
+    }
   }
 
   return (
-    <div role="tabpanel" className="tab-pane active" id="info-tab">
-      {/* {userInfoObj.isLoading === false && userInfoObj.isSuccess === true && ( */}
-      <form className="form-horizontal" onSubmit={onSubmit}>
-        <div className="row" style={{ margin: '0px 0px' }}>
-          <label className="col-sm-2 label-on-left">Họ</label>
-          <div className="col-sm-10">
-            <div className="form-group label-floating is-empty">
-              <label className="control-label" />
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Họ"
-                name="lastName"
-                defaultValue={userInfoObj.user.lastName}
-              />
-            </div>
-          </div>
+    <div className="info-tab">
+      {userInfoObj.isLoading && (
+        <div className="info-tab__loading">
+          <LoadingIcon />
         </div>
-        <div className="row" style={{ margin: '0px 0px' }}>
-          <label className="col-sm-2 label-on-left">Tên</label>
-          <div className="col-sm-10">
-            <div className="form-group label-floating is-empty">
-              <label className="control-label" />
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Tên"
-                name="firstName"
-                defaultValue={userInfoObj.user.firstName}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="row" style={{ margin: '0px 0px' }}>
-          <label className="col-sm-2 label-on-left">Tên đăng nhập</label>
-          <div className="col-sm-10">
-            <div className="form-group">
-              <p className="form-control-static">{userInfoObj.user.username}</p>
-            </div>
-          </div>
-        </div>
-        <div className="row" style={{ margin: '0px 0px' }}>
-          <label className="col-sm-2 label-on-left">Email</label>
-          <div className="col-sm-10">
-            <div className="form-group label-floating is-empty">
-              <label className="control-label" />
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Email"
-                name="email"
-                defaultValue={userInfoObj.user.email}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="row" style={{ margin: '0px 0px' }}>
-          <label className="col-sm-2 label-on-left">Vai trò</label>
-          <div className="col-sm-10">
-            {Object.values(ROLES).map(role => {
-              return (
-                <div
-                  className="checkbox checkbox-inline"
-                  style={{ marginRight: '10px' }}
-                  key={role}
-                >
-                  <label>
-                    <input type="checkbox" name={role} className="role-inputs" />
-                    {role.toUpperCase()}
-                  </label>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-        <div
-          className="row"
-          style={{ display: 'flex', justifyContent: 'flex-end', margin: '0px 0px' }}
+      )}
+      {(userInfoObj.isLoading || userInfoObj.isSuccess === false) && <Empty />}
+      {!userInfoObj.isLoading && userInfoObj.isSuccess === true && (
+        <Form
+          form={form}
+          onFinish={onSubmit}
+          initialValues={{
+            lastName: userInfoObj.user.lastName,
+            firstName: userInfoObj.user.firstName,
+            email: userInfoObj.user.email,
+            role: Array.isArray(userInfoObj.user.roles) && userInfoObj.user.roles[0].name,
+          }}
         >
-          <button type="submit" className="btn btn-primary">
-            Cập nhật
-          </button>
-        </div>
-      </form>
-      {/* )} */}
+          <Form.Item
+            {...formItemLayout}
+            name="lastName"
+            label="Họ"
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: 'Vui lòng nhập họ khách hàng!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            {...formItemLayout}
+            name="firstName"
+            label="Tên"
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: 'Vui lòng nhập tên khách hàng!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item {...formItemLayout} label="Tên đăng nhập">
+            <div>{userInfoObj.user.username}</div>
+          </Form.Item>
+          <Form.Item
+            {...formItemLayout}
+            label="Email"
+            name="email"
+            hasFeedback
+            rules={[{ type: 'email', required: true, message: 'Vui lòng nhập email!' }]}
+          >
+            {Utils.isEmailVerified(userInfoObj.user.roles) ? (
+              <div>{userInfoObj.user.email}</div>
+            ) : (
+              <Input />
+            )}
+          </Form.Item>
+          <Form.Item
+            {...formItemLayout}
+            name="role"
+            label="Vai trò"
+            hasFeedback
+            rules={[{ required: true, message: 'Vui lòng chọn vai trò!' }]}
+          >
+            <Radio.Group disabled>
+              {Object.values(ROLES).map(role => {
+                return (
+                  <Radio value={role} key={role}>
+                    {role}
+                  </Radio>
+                )
+              })}
+            </Radio.Group>
+          </Form.Item>
+          {!updateInfoObj.isLoading && updateInfoObj.isSuccess === false && (
+            <Form.Item {...tailLayout}>
+              <Alert
+                message={Utils.buildFailedMessage(updateInfoObj.message)}
+                type="error"
+                showIcon
+                closable
+              />
+            </Form.Item>
+          )}
+          {!updateInfoObj.isLoading && updateInfoObj.isSuccess === true && (
+            <Form.Item {...tailLayout}>
+              <Alert message="Cập nhật thông tin thành công" type="success" showIcon closable />
+            </Form.Item>
+          )}
+          <Form.Item {...tailLayout}>
+            <Button
+              htmlType="submit"
+              loading={updateInfoObj.isLoading}
+              type="primary"
+              size="middle"
+            >
+              Cập nhật
+            </Button>
+          </Form.Item>
+        </Form>
+      )}
     </div>
   )
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { Table, Input, Button, Space } from 'antd'
 import Highlighter from 'react-highlight-words'
@@ -20,7 +21,9 @@ const AntdTable = ({ dataObj, columns, fetchData, isLoading, pageSize, scrollY }
 
   useEffect(() => {
     if (isLoading === false) {
-      setPagination(p => { return { ...p, total: dataObj.count } })
+      setPagination(p => {
+        return { ...p, total: dataObj.count }
+      })
     }
   }, [dataObj, isLoading])
 
@@ -96,8 +99,8 @@ const AntdTable = ({ dataObj, columns, fetchData, isLoading, pageSize, scrollY }
             textToHighlight={text.toString()}
           />
         ) : (
-            text
-          ),
+          text
+        ),
     }),
     [searchedColumn, searchText]
   )
@@ -139,7 +142,12 @@ const AntdTable = ({ dataObj, columns, fetchData, isLoading, pageSize, scrollY }
         rowKey={record => record._id}
         columns={tableColumns}
         dataSource={dataObj.data}
-        pagination={{ ...pagination, position: ["bottomCenter"], hideOnSinglePage: true, pageSizeOptions: ['10', '20', '50'] }}
+        pagination={{
+          ...pagination,
+          position: ['bottomCenter'],
+          hideOnSinglePage: true,
+          pageSizeOptions: ['5', '10', '20', '50'],
+        }}
         scroll={{ y: scrollY || 500, scrollToFirstRowOnChange: true }}
         components={components}
         loading={isLoading}

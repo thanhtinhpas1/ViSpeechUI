@@ -1,5 +1,6 @@
 import STORAGE from 'utils/storage'
 import { JWT_TOKEN, DEFAULT_ERR_MESSAGE } from 'utils/constant'
+import Utils from 'utils'
 import { apiUrl } from './api-url'
 
 export default class UserService {
@@ -24,10 +25,9 @@ export default class UserService {
       .then(result => {
         if (status !== 201) {
           if (status === 401) {
-            let msg = "Tên tài khoản hoặc mật khẩu chưa đúng.";
+            const msg = 'Tên tài khoản hoặc mật khẩu chưa đúng.'
             throw new Error(msg || DEFAULT_ERR_MESSAGE)
-          }
-          else {
+          } else {
             throw new Error(DEFAULT_ERR_MESSAGE)
           }
         }
@@ -131,14 +131,17 @@ export default class UserService {
   }
 
   static getUserList = filterConditions => {
-    const { pageIndex, pageSize } = filterConditions
-    const offset = pageIndex * pageSize
-    const limit = pageSize
+    const { pagination, sortField, sortOrder, filters } = filterConditions
+    const { current, pageSize } = pagination
+    const offset = (current - 1) * pageSize || 0
+    const limit = pageSize || 0
 
-    const api =
-      pageIndex != null && pageSize != null
-        ? `${apiUrl}/users?offset=${offset}&limit=${limit}`
-        : `${apiUrl}/users`
+    let query = `${Utils.parameterizeObject({ offset, limit })}`
+    query += Utils.buildSortQuery(sortField, sortOrder)
+    query += Utils.buildFiltersQuery(filters)
+    query = Utils.trimByChar(query, '&')
+
+    const api = `${apiUrl}/users?${query}`
     const jwtToken = STORAGE.getPreferences(JWT_TOKEN)
 
     let status = 400

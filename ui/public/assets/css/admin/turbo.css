@@ -14863,12 +14863,12 @@ footer .btn {
     .footer:not(.footer-big) nav>ul li:first-child {
         margin-left: 0;
     }
-    .card form [class*="col-"]:first-child {
+    /* .card form [class*="col-"]:first-child {
         padding-left: 15px;
-    }
-    .card form [class*="col-"]:last-child {
+    } */
+    /* .card form [class*="col-"]:last-child {
         padding-right: 15px;
-    }
+    } */
     body>.navbar-collapse.collapse {
         display: none !important;
     }

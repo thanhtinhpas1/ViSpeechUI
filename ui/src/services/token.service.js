@@ -1,5 +1,6 @@
 import STORAGE from 'utils/storage'
-import { JWT_TOKEN, DEFAULT_ERR_MESSAGE } from 'utils/constant'
+import { JWT_TOKEN, DEFAULT_ERR_MESSAGE, SORT_ORDER } from 'utils/constant'
+import Utils from 'utils'
 import { apiUrl } from './api-url'
 
 export default class TokenService {
@@ -67,13 +68,27 @@ export default class TokenService {
   }
 
   static getProjectTokenList = filterConditions => {
-    const { userId, projectId, pageIndex, pageSize } = filterConditions
-    const offset = pageIndex * pageSize
-    const limit = pageSize
+    const { userId, projectId, pagination, sortField, sortOrder, filters } = filterConditions
+    const { current, pageSize } = pagination
+    const offset = (current - 1) * pageSize || 0
+    const limit = pageSize || 0
 
-    const api = `${apiUrl}/tokens/project-tokens?userId=${encodeURIComponent(
-      userId
-    )}&projectId=${projectId}&offset=${offset}&limit=${limit}`
+    let query = `${Utils.parameterizeObject({ userId, projectId, offset, limit })}`
+    if (sortField && sortOrder) {
+      const sort = {
+        field: sortField,
+        order: Utils.getSortOrder(sortOrder),
+      }
+      if (sortField === 'minutesLeft') {
+        sort.field = 'usedMinutes'
+        sort.order = sort.order === SORT_ORDER.ASC ? SORT_ORDER.DESC : SORT_ORDER.ASC
+      }
+      query = query.concat(`&${Utils.parameterizeObject({ sort })}`)
+    }
+    query += Utils.buildFiltersQuery(filters)
+    query = Utils.trimByChar(query, '&')
+
+    const api = `${apiUrl}/tokens/project-tokens?${query}`
     const jwtToken = STORAGE.getPreferences(JWT_TOKEN)
 
     let status = 400

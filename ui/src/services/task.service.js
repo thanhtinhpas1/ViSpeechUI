@@ -1,7 +1,7 @@
 import STORAGE from 'utils/storage'
 import { JWT_TOKEN, DEFAULT_ERR_MESSAGE } from 'utils/constant'
-import { apiUrl } from './api-url'
 import Utils from 'utils'
+import { apiUrl } from './api-url'
 
 export default class TaskService {
   static getTaskList = filterConditions => {
@@ -9,22 +9,10 @@ export default class TaskService {
     const { current, pageSize } = pagination
     const offset = (current - 1) * pageSize || 0
     const limit = pageSize || 0
-    
+
     let query = `${Utils.parameterizeObject({ offset, limit })}`
-    if (sortField && sortOrder) {
-      const sort = {
-        field: sortField,
-        order: Utils.getSortOrder(sortOrder)
-      }
-      query = query.concat(`&${Utils.parameterizeObject({ sort })}`)
-    }
-    if (typeof filters === 'object' && Object.keys(filters).length > 0) {
-      const formatFilters = {}
-      for(let key of Object.keys(filters)) {
-        formatFilters[key] = filters[key][0]
-      }
-      query = query.concat(`&${Utils.parameterizeObject({ filters: formatFilters })}`)
-    }
+    query += Utils.buildSortQuery(sortField, sortOrder)
+    query += Utils.buildFiltersQuery(filters)
     query = Utils.trimByChar(query, '&')
 
     const api = `${apiUrl}/tasks?${query}`

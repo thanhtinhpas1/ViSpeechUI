@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect, useCallback } from 'react'
@@ -23,8 +24,6 @@ const PasswordTab = ({
   const [form] = Form.useForm()
 
   useEffect(() => {
-    SocketService.socketEmitEvent(PASSWORD_CHANGED_SUCCESS_EVENT)
-    SocketService.socketEmitEvent(PASSWORD_CHANGED_FAILED_EVENT)
     SocketService.socketOnListeningEvent(PASSWORD_CHANGED_SUCCESS_EVENT)
     SocketService.socketOnListeningEvent(PASSWORD_CHANGED_FAILED_EVENT)
   }, [])
@@ -53,8 +52,9 @@ const PasswordTab = ({
       await UserService.changePassword({ userId, oldPassword, newPassword })
       invokeCheckSubject.PasswordChanged.subscribe(data => {
         if (data.error != null) {
-          let msg = data.errorObj['message'];
-          data.errorObj['message'] = msg.indexOf("Passwords do not match") >= 0 ? 'Mật khẩu cũ không chính xác' : msg;
+          if (data.errorObj.message.indexOf('Passwords do not match') >= 0) {
+            data.errorObj.message = 'Mật khẩu cũ không chính xác'
+          }
           changePasswordFailure(data.errorObj)
         } else {
           changePasswordSuccess()
@@ -179,52 +179,6 @@ const PasswordTab = ({
           </div>
         </div>
       </Form>
-      {/* <form onSubmit={onSubmit} id="change-password-form">
-        <div className="row">
-          <div className="col-md-6">
-            <div className="input-item input-with-label">
-              <label htmlFor="old-pass" className="input-item-label">
-                Mật khẩu hiện tại
-              </label>
-              <input className="input-bordered" type="password" id="old-pass" name="oldPassword" />
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-6">
-            <div className="input-item input-with-label">
-              <label htmlFor="new-pass" className="input-item-label">
-                Mật khẩu mới
-              </label>
-              <input className="input-bordered" type="password" id="new-pass" name="newPassword" />
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="input-item input-with-label">
-              <label htmlFor="confirm-pass" className="input-item-label">
-                Xác nhận mật khẩu mới
-              </label>
-              <input
-                className="input-bordered"
-                type="password"
-                id="confirm-pass"
-                name="confirmedNewPassword"
-                onChange={onChangeConfirmedNewPassword}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="note note-plane note-info pdb-1x">
-          <em className="fas fa-info-circle" />
-          <p>Mật khẩu phải bao gồm 8 kí tự, trong đó bao gồm kí tự thường và hoa.</p>
-        </div>
-        <div className="gaps-1x" />
-        <div className="d-sm-flex justify-content-between align-items-center">
-          <button type="submit" className="btn btn-primary">
-            Cập nhật
-          </button>
-        </div>
-      </form> */}
     </div>
   )
 }

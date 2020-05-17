@@ -2,7 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 import { call, all, takeLatest, put } from 'redux-saga/effects'
 import TokenService from 'services/token.service'
-import { TOKEN_TYPE } from 'utils/constant'
+import { TOKEN_TYPE, STATUS } from 'utils/constant'
 import Utils from 'utils'
 import TokenTypes from './token.types'
 import {
@@ -32,19 +32,25 @@ export function* getUserTokensSaga() {
 }
 
 // ==== get project tokens
-const getTokenTypeByMinnutes = minutes => {
+const getTokenTypeByMinutes = minutes => {
   const tokenTypes = Object.keys(TOKEN_TYPE)
   const findIndexFunc = tokenType => TOKEN_TYPE[tokenType].minutes === minutes
   const result = tokenTypes[tokenTypes.findIndex(findIndexFunc)]
-  return TOKEN_TYPE[result].viText
+  return {
+    name: TOKEN_TYPE[result].viText,
+    class: TOKEN_TYPE[result].cssClass,
+  }
 }
 
 const formatProjectTokenList = tokenList => {
   const mapFunc = token => {
     return {
       ...token,
-      tokenType: getTokenTypeByMinnutes(token.minutes),
-      isValid: token.isValid || true,
+      tokenType: {
+        ...token.tokenTypeId,
+        ...getTokenTypeByMinutes(token.minutes),
+      },
+      isValid: token.isValid || true ? STATUS.VALID : STATUS.INVALID,
       minutesLeft: Number(token.minutes) - Number(token.usedMinutes || 0),
     }
   }

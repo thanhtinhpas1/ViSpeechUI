@@ -21,9 +21,9 @@ const formatOrderList = orderList => {
         class: STATUS[order.status].cssClass,
       },
       tokenType: {
+        ...order.tokenType,
         name: TOKEN_TYPE[order.tokenType.name].viText,
         class: TOKEN_TYPE[order.tokenType.name].cssClass,
-        ...order.tokenType,
       },
       token: order.token.value,
     }

@@ -1,5 +1,6 @@
 import STORAGE from 'utils/storage'
 import { JWT_TOKEN, DEFAULT_ERR_MESSAGE } from 'utils/constant'
+import Utils from 'utils'
 import { apiUrl } from './api-url'
 
 export default class OrderService {
@@ -61,16 +62,17 @@ export default class OrderService {
   }
 
   static getOrderList = filterConditions => {
-    const { userId, pageIndex, pageSize } = filterConditions
-    const offset = pageIndex * pageSize
-    const limit = pageSize
+    const { userId, pagination, sortField, sortOrder, filters } = filterConditions
+    const { current, pageSize } = pagination
+    const offset = (current - 1) * pageSize || 0
+    const limit = pageSize || 0
 
-    const api =
-      pageIndex != null && pageSize != null
-        ? `${apiUrl}/orders/userId?userId=${encodeURIComponent(
-            userId
-          )}&offset=${offset}&limit=${limit}`
-        : `${apiUrl}/orders/userId?userId=${encodeURIComponent(userId)}`
+    let query = `${Utils.parameterizeObject({ userId, offset, limit })}`
+    query += Utils.buildSortQuery(sortField, sortOrder)
+    query += Utils.buildFiltersQuery(filters)
+    query = Utils.trimByChar(query, '&')
+
+    const api = `${apiUrl}/orders/userId?${query}`
     const jwtToken = STORAGE.getPreferences(JWT_TOKEN)
 
     let status = 400
