@@ -79,11 +79,7 @@ const Header = ({ currentUser, authenticate, logout }) => {
                 </li>
               </ul>
               <a className="topbar-logo" href="/">
-                <img
-                  className="light-logo"
-                  src={`${process.env.PUBLIC_URL}/images/customer/logo-light.svg`}
-                  alt=""
-                />
+                <img className="light-logo" src={`${process.env.PUBLIC_URL}/images/customer/logo-light.svg`} alt="" />
               </a>
               <ul className="topbar-nav">
                 <li className="topbar-nav-item relative">

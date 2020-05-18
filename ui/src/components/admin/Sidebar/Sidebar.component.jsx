@@ -25,13 +25,13 @@ const Sidebar = ({ currentUser, onAuthenticate, logout }) => {
         </a>
       </div>
       <div className="sidebar-wrapper">
-        <ul className="nav nav-mobile-menu" style={{marginTop: '15px'}}>
+        <ul className="nav nav-mobile-menu" style={{ marginTop: '15px' }}>
           <li className="dropdown">
             <a href="#!" className="dropdown-toggle" data-toggle="dropdown">
               <i className="material-icons">person</i>
               <p className="hidden-lg hidden-md">
                 Trang cá nhân
-                  <b className="caret" />
+                <b className="caret" />
               </p>
             </a>
             <ul className="dropdown-menu">
@@ -51,7 +51,7 @@ const Sidebar = ({ currentUser, onAuthenticate, logout }) => {
               <li>
                 <a href="#!" onClick={logout}>
                   Đăng xuất
-                  </a>
+                </a>
               </li>
             </ul>
           </li>
@@ -66,11 +66,10 @@ const Sidebar = ({ currentUser, onAuthenticate, logout }) => {
           </li>
           <li
             className={`${
-              location.pathname === `${ADMIN_PATH}/users` ||
-                location.pathname === `${ADMIN_PATH}/create-user`
+              location.pathname === `${ADMIN_PATH}/users` || location.pathname === `${ADMIN_PATH}/create-user`
                 ? 'active'
                 : ''
-              } `}
+            } `}
           >
             <a data-toggle="collapse" href="#layouts" className="collapsed" aria-expanded="false">
               <i className="zmdi zmdi-accounts" />

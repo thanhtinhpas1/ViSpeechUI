@@ -1,10 +1,5 @@
 import { connect } from 'react-redux'
-import {
-  changePassword,
-  changePasswordSuccess,
-  changePasswordFailure,
-  logout,
-} from 'redux/user/user.actions'
+import { changePassword, changePasswordSuccess, changePasswordFailure, logout } from 'redux/user/user.actions'
 import PasswordTab from './PasswordTab.component'
 
 const mapStateToProps = state => ({

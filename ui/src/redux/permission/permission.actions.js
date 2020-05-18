@@ -10,12 +10,7 @@ export const assignPermission = ({ assigneeUsername, projectId, permissions, ass
   payload: { assigneeUsername, projectId, permissions, assignerId },
 })
 
-export const assignPermissionSuccess = ({
-  assigneeUsername,
-  projectId,
-  permissions,
-  assignerId,
-}) => ({
+export const assignPermissionSuccess = ({ assigneeUsername, projectId, permissions, assignerId }) => ({
   type: PermissionTypes.ASSIGN_PERMISSION_SUCCESS,
   payload: { assigneeUsername, projectId, permissions, assignerId },
 })

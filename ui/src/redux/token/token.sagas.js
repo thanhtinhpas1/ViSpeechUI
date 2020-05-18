@@ -50,7 +50,7 @@ const formatProjectTokenList = tokenList => {
         ...token.tokenTypeId,
         ...getTokenTypeByMinutes(token.minutes),
       },
-      isValid: token.isValid || true ? STATUS.VALID : STATUS.INVALID,
+      isValid: token.isValid ? STATUS.VALID : STATUS.INVALID,
       minutesLeft: Number(token.minutes) - Number(token.usedMinutes || 0),
     }
   }
@@ -113,10 +113,5 @@ export function* getFreeTokenSaga() {
 }
 
 export function* tokenSaga() {
-  yield all([
-    call(getUserTokensSaga),
-    call(getProjectTokensSaga),
-    call(getTokenTypesSaga),
-    call(getFreeTokenSaga),
-  ])
+  yield all([call(getUserTokensSaga), call(getProjectTokensSaga), call(getTokenTypesSaga), call(getFreeTokenSaga)])
 }

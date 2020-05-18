@@ -25,8 +25,6 @@ const CreateProjectPage = ({
   const [infoModal, setInfoModal] = useState({})
 
   useEffect(() => {
-    SocketService.socketEmitEvent(PROJECT_CREATED_SUCCESS_EVENT)
-    SocketService.socketEmitEvent(PROJECT_CREATED_FAILED_EVENT)
     SocketService.socketOnListeningEvent(PROJECT_CREATED_SUCCESS_EVENT)
     SocketService.socketOnListeningEvent(PROJECT_CREATED_FAILED_EVENT)
   }, [])
@@ -108,17 +106,11 @@ const CreateProjectPage = ({
           <div className="card-innr card-innr-fix">
             <div className="card-head d-flex justify-content-between align-items-center">
               <h4 className="card-title mb-0">Tạo dự án</h4>
-              <Link
-                to={`${CUSTOMER_PATH}/projects`}
-                className="btn btn-sm btn-auto btn-primary d-sm-block d-none"
-              >
+              <Link to={`${CUSTOMER_PATH}/projects`} className="btn btn-sm btn-auto btn-primary d-sm-block d-none">
                 <em className="fas fa-arrow-left mr-3" />
                 Trở lại
               </Link>
-              <Link
-                to={`${CUSTOMER_PATH}/projects`}
-                className="btn btn-icon btn-sm btn-primary d-sm-none"
-              >
+              <Link to={`${CUSTOMER_PATH}/projects`} className="btn btn-icon btn-sm btn-primary d-sm-none">
                 <em className="fas fa-arrow-left" />
               </Link>
             </div>
@@ -130,11 +122,7 @@ const CreateProjectPage = ({
               </div>
               <div className="input-item input-with-label">
                 <label className="input-item-label text-exlight">Mô tả</label>
-                <textarea
-                  className="input-bordered input-textarea"
-                  defaultValue=""
-                  name="description"
-                />
+                <textarea className="input-bordered input-textarea" defaultValue="" name="description" />
               </div>
               <div className="gaps-1x" />
               <button type="submit" className="btn btn-primary" style={{ float: 'right' }}>

@@ -46,30 +46,14 @@ const LoginPage = ({ loginObj, login, onClearUserState }) => {
             )}
             <form onSubmit={e => handleOnSubmit(e)}>
               <div className="input-item">
-                <input
-                  type="text"
-                  placeholder="Tên đăng nhập"
-                  className="input-bordered"
-                  name="username"
-                  required
-                />
+                <input type="text" placeholder="Tên đăng nhập" className="input-bordered" name="username" required />
               </div>
               <div className="input-item">
-                <input
-                  type="password"
-                  placeholder="Mật khẩu"
-                  className="input-bordered"
-                  name="password"
-                  required
-                />
+                <input type="password" placeholder="Mật khẩu" className="input-bordered" name="password" required />
               </div>
               <div className="d-flex justify-content-between align-items-center">
                 <div className="input-item text-left">
-                  <input
-                    className="input-checkbox input-checkbox-md"
-                    id="remember-me"
-                    type="checkbox"
-                  />
+                  <input className="input-checkbox input-checkbox-md" id="remember-me" type="checkbox" />
                   <label htmlFor="remember-me">Ghi nhớ tài khoản</label>
                 </div>
                 <div>
@@ -77,13 +61,7 @@ const LoginPage = ({ loginObj, login, onClearUserState }) => {
                   <div className="gaps-2x" />
                 </div>
               </div>
-              <Button
-                htmlType="submit"
-                loading={loginObj.isLoading}
-                type="primary"
-                size="large"
-                className="btn-block"
-              >
+              <Button htmlType="submit" loading={loginObj.isLoading} type="primary" size="large" className="btn-block">
                 Đăng nhập
               </Button>
             </form>

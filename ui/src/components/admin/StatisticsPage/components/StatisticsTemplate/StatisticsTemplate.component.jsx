@@ -34,14 +34,8 @@ const StatisticsTemplate = ({
   // for antd range picker
   const [pickerType, setPickerType] = useState(TIME_TYPE.DATE)
   const [formatRangePicker, setFormatRangePicker] = useState('DD/MM/YYYY')
-  const [placeHolderRangePicker, setPlaceHolderRangePicker] = useState([
-    'Ngày bắt đầu',
-    'Ngày kết thúc',
-  ])
-  const [valueRangePicker, setValueRangePicker] = useState([
-    getPreviousTenDatesFromNow(),
-    getDateNow(),
-  ])
+  const [placeHolderRangePicker, setPlaceHolderRangePicker] = useState(['Ngày bắt đầu', 'Ngày kết thúc'])
+  const [valueRangePicker, setValueRangePicker] = useState([getPreviousTenDatesFromNow(), getDateNow()])
 
   const defaultQuarterData = {
     from: { quarter: 0, year: 2020 },
@@ -114,10 +108,7 @@ const StatisticsTemplate = ({
   }, [getStatisticsByIdObj, isBtnGetStatisticsClicked, pickerType])
 
   const getStatistics = (id, timeType, queryParams) => {
-    STORAGE.setPreferences(
-      `'vispeech-statistics-by-${statisticsType}Id'`,
-      JSON.stringify(queryParams)
-    )
+    STORAGE.setPreferences(`'vispeech-statistics-by-${statisticsType}Id'`, JSON.stringify(queryParams))
     getStatisticsById(id, statisticsType, timeType, queryParams)
   }
 
@@ -225,11 +216,7 @@ const StatisticsTemplate = ({
       if (quarter != null && year && selectedQuarter != null && selectedYear != null) {
         if (isStart) {
           let totalQuarters = quarter - selectedQuarter + 1
-          if (
-            selectedYear === year &&
-            selectedQuarter < quarter &&
-            totalQuarters <= RANGE_PICKER_LIMIT
-          ) {
+          if (selectedYear === year && selectedQuarter < quarter && totalQuarters <= RANGE_PICKER_LIMIT) {
             setIsButtonDisabled(false)
           }
           if (selectedYear !== year) {
@@ -240,11 +227,7 @@ const StatisticsTemplate = ({
           }
         } else {
           let totalQuarters = selectedQuarter - quarter + 1
-          if (
-            selectedYear === year &&
-            quarter < selectedQuarter &&
-            totalQuarters <= RANGE_PICKER_LIMIT
-          ) {
+          if (selectedYear === year && quarter < selectedQuarter && totalQuarters <= RANGE_PICKER_LIMIT) {
             setIsButtonDisabled(false)
           }
           if (selectedYear !== year) {
@@ -413,9 +396,7 @@ const StatisticsTemplate = ({
                 })}
             </Select>
           )}
-          {data.length === 0 && (
-            <Select style={{ minWidth: 180 }} placeholder={placeHolderSelectId.notFound} />
-          )}
+          {data.length === 0 && <Select style={{ minWidth: 180 }} placeholder={placeHolderSelectId.notFound} />}
           <Select defaultValue={pickerType} style={{ minWidth: 180 }} onChange={onChangePickerType}>
             <Option value={TIME_TYPE.DATE}>Theo ngày</Option>
             <Option value={TIME_TYPE.WEEK}>Theo tuần</Option>

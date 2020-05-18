@@ -70,10 +70,7 @@ const ProjectPage = ({
       Cell: props => {
         const { cell } = props
         return (
-          <Link
-            to={`${CUSTOMER_PATH}/my-project/${cell.value}`}
-            className="btn btn-light-alt btn-xs btn-icon"
-          >
+          <Link to={`${CUSTOMER_PATH}/my-project/${cell.value}`} className="btn btn-light-alt btn-xs btn-icon">
             <em className="ti ti-eye" />
           </Link>
         )
@@ -223,10 +220,7 @@ const ProjectPage = ({
                       Tạo mới
                       <em className="fas fa-plus ml-3" />
                     </Link>
-                    <Link
-                      to={`${CUSTOMER_PATH}/create-project`}
-                      className="btn btn-icon btn-sm btn-primary d-sm-none"
-                    >
+                    <Link to={`${CUSTOMER_PATH}/create-project`} className="btn btn-icon btn-sm btn-primary d-sm-none">
                       <em className="fas fa-plus" />
                     </Link>
                   </>
@@ -239,10 +233,7 @@ const ProjectPage = ({
                       Tạo mới
                       <em className="fas fa-plus ml-3" />
                     </button>
-                    <button
-                      onClick={onClickCreateProject}
-                      className="btn btn-icon btn-sm btn-primary d-sm-none"
-                    >
+                    <button onClick={onClickCreateProject} className="btn btn-icon btn-sm btn-primary d-sm-none">
                       Tạo mới
                       <em className="fas fa-plus" />
                     </button>

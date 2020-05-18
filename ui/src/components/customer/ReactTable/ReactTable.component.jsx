@@ -3,44 +3,44 @@
 import React, { useEffect, useMemo } from 'react'
 import { useTable, usePagination, useFilters } from 'react-table'
 
-const ReactTable = ({
-  columns,
-  data,
-  fetchData,
-  loading,
-  pageCount: controlledPageCount,
-  defaultPageSize,
-}) => {
+const ReactTable = ({ columns, data, fetchData, loading, pageCount: controlledPageCount, defaultPageSize }) => {
   // Define a default UI for filtering
-  const DefaultColumnFilter = ({ column: { filterValue, preFilteredRows, setFilter }, }) => {
+  // eslint-disable-next-line no-unused-vars
+  const DefaultColumnFilter = ({ column: { filterValue, preFilteredRows, setFilter } }) => {
     return (
       <input
         value={filterValue || ''}
         onChange={e => {
           setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
         }}
-        placeholder={`Tìm kiếm...`}
+        placeholder="Tìm kiếm..."
       />
     )
   }
 
-  const filterTypes = useMemo(() => ({
-    text: (rows, id, filterValue) => {
-      return rows.filter(row => {
-        const rowValue = row.values[id]
-        return rowValue !== undefined
-          ? String(rowValue)
-            .toLowerCase()
-            .startsWith(String(filterValue).toLowerCase())
-          : true
-      })
-    },
-  }), [])
+  const filterTypes = useMemo(
+    () => ({
+      text: (rows, id, filterValue) => {
+        return rows.filter(row => {
+          const rowValue = row.values[id]
+          return rowValue !== undefined
+            ? String(rowValue)
+                .toLowerCase()
+                .startsWith(String(filterValue).toLowerCase())
+            : true
+        })
+      },
+    }),
+    []
+  )
 
-  const defaultColumn = useMemo(() => ({
-    // Let's set up our default Filter UI
-    Filter: DefaultColumnFilter,
-  }), [])
+  const defaultColumn = useMemo(
+    () => ({
+      // Let's set up our default Filter UI
+      Filter: DefaultColumnFilter,
+    }),
+    []
+  )
 
   // Use the state and functions returned from useTable to build your UI
   const {
@@ -76,7 +76,7 @@ const ReactTable = ({
       pageCount: controlledPageCount,
     },
     useFilters,
-    usePagination,
+    usePagination
   )
 
   useEffect(() => {
@@ -135,22 +135,14 @@ const ReactTable = ({
             <tr className="data-item">
               {loading ? (
                 // Use our custom loading state to show a loading indicator
-                <td
-                  colSpan="10000"
-                  className="data-col"
-                  style={{ borderBottom: 'none', color: '#23406c' }}
-                >
+                <td colSpan="10000" className="data-col" style={{ borderBottom: 'none', color: '#23406c' }}>
                   Đang tải...
                 </td>
               ) : (
-                  <td
-                    colSpan="10000"
-                    className="data-col"
-                    style={{ borderBottom: 'none', color: '#23406c' }}
-                  >
-                    Hiển thị {page.length} trên ~{controlledPageCount * pageSize} kết quả
-                  </td>
-                )}
+                <td colSpan="10000" className="data-col" style={{ borderBottom: 'none', color: '#23406c' }}>
+                  Hiển thị {page.length} trên ~{controlledPageCount * pageSize} kết quả
+                </td>
+              )}
             </tr>
           </tbody>
         </table>
@@ -163,42 +155,22 @@ const ReactTable = ({
             <div className="pagination dataTables_paginate">
               <ul className="pagination">
                 <li className="paginate-button-page-item previous">
-                  <a
-                    href="#!"
-                    className="page-link"
-                    onClick={() => gotoPage(0)}
-                    disabled={!canPreviousPage}
-                  >
+                  <a href="#!" className="page-link" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
                     Trang đầu
                   </a>
                 </li>
                 <li className="paginate-button-page-item previous">
-                  <a
-                    href="#!"
-                    className="page-link"
-                    onClick={() => previousPage()}
-                    disabled={!canPreviousPage}
-                  >
+                  <a href="#!" className="page-link" onClick={() => previousPage()} disabled={!canPreviousPage}>
                     Trang trước
                   </a>
                 </li>
                 <li className="paginate-button-page-item next">
-                  <a
-                    href="#!"
-                    className="page-link"
-                    onClick={() => nextPage()}
-                    disabled={!canNextPage}
-                  >
+                  <a href="#!" className="page-link" onClick={() => nextPage()} disabled={!canNextPage}>
                     Trang kế
                   </a>
                 </li>
                 <li className="paginate-button-page-item next">
-                  <a
-                    href="#!"
-                    className="page-link"
-                    onClick={() => gotoPage(pageCount - 1)}
-                    disabled={!canNextPage}
-                  >
+                  <a href="#!" className="page-link" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
                     Trang cuối
                   </a>
                 </li>

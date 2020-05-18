@@ -9,9 +9,7 @@ import moment from 'moment'
 
 const TokenSaleGraph = ({ orderListObj }) => {
   useEffect(() => {
-    const labels = orderListObj.orderList.data.map(order =>
-      moment(order.createdDate).format('YYYY-MM-DD')
-    )
+    const labels = orderListObj.orderList.data.map(order => moment(order.createdDate).format('YYYY-MM-DD'))
     const data = orderListObj.orderList.data.map(order => {
       const tokenType = order.tokenType ? order.tokenType : null
       return tokenType ? tokenType.price : 0
@@ -36,7 +34,7 @@ const TokenSaleGraph = ({ orderListObj }) => {
             pointHoverBorderWidth: 2,
             pointRadius: 6,
             pointHitRadius: 6,
-            data: data,
+            data,
           },
         ],
       },

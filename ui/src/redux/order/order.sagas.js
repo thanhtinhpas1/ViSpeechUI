@@ -3,12 +3,7 @@ import { call, all, takeLatest, put } from 'redux-saga/effects'
 import { TOKEN_TYPE, STATUS, ORDER_STATUS } from 'utils/constant'
 import OrderService from 'services/order.service'
 import OrderTypes from './order.types'
-import {
-  getOrderListSuccess,
-  getOrderListFailure,
-  getOrderInfoSuccess,
-  getOrderInfoFailure,
-} from './order.actions'
+import { getOrderListSuccess, getOrderListFailure, getOrderInfoSuccess, getOrderInfoFailure } from './order.actions'
 
 // get order list
 const formatOrderList = orderList => {
@@ -53,8 +48,7 @@ const formatOrderInfo = order => {
       ...info.tokenType,
       name: TOKEN_TYPE[info.tokenType.name].viText,
       class: TOKEN_TYPE[info.tokenType.name].cssClass,
-      saleOffPrice:
-        ((100 - Number(info.tokenType.salePercent || 0)) * Number(info.tokenType.price)) / 100,
+      saleOffPrice: ((100 - Number(info.tokenType.salePercent || 0)) * Number(info.tokenType.price)) / 100,
     },
     status: {
       status: info.status,

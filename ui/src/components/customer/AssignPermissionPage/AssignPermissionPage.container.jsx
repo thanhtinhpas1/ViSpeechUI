@@ -1,10 +1,6 @@
 import { connect } from 'react-redux'
 import { getMyProjectList } from 'redux/project/project.actions'
-import {
-  assignPermission,
-  assignPermissionSuccess,
-  assignPermissionFailure,
-} from 'redux/permission/permission.actions'
+import { assignPermission, assignPermissionSuccess, assignPermissionFailure } from 'redux/permission/permission.actions'
 import AssignPermissionPage from './AssignPermissionPage.component'
 
 const mapStateToProps = state => ({
@@ -22,9 +18,6 @@ const mapDispatchToProps = dispatch => ({
   assignPermissionFailure: message => dispatch(assignPermissionFailure(message)),
 })
 
-const AssignPermissionPageContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AssignPermissionPage)
+const AssignPermissionPageContainer = connect(mapStateToProps, mapDispatchToProps)(AssignPermissionPage)
 
 export default AssignPermissionPageContainer

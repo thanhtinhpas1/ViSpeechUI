@@ -61,10 +61,7 @@ const ProjectsTab = ({
       title: '',
       dataIndex: '_id',
       render: _id => (
-        <a
-          href={`${ADMIN_PATH}/user-project/${_id}`}
-          className="btn btn-just-icon btn-secondary btn-simple"
-        >
+        <a href={`${ADMIN_PATH}/user-project/${_id}`} className="btn btn-just-icon btn-secondary btn-simple">
           <i className="zmdi zmdi-eye" />
         </a>
       ),
@@ -145,10 +142,7 @@ const ProjectsTab = ({
       title: '',
       dataIndex: '_id',
       render: _id => (
-        <a
-          href={`${ADMIN_PATH}/user-accepted-project/${_id}`}
-          className="btn btn-just-icon btn-secondary btn-simple"
-        >
+        <a href={`${ADMIN_PATH}/user-accepted-project/${_id}`} className="btn btn-just-icon btn-secondary btn-simple">
           <i className="zmdi zmdi-eye" />
         </a>
       ),

@@ -41,11 +41,7 @@ const PayOnlineModal = ({ payOnlineModal }) => {
                 })}
               </ul>
               <div className="pdb-2-5x pdt-1-5x">
-                <input
-                  type="checkbox"
-                  className="input-checkbox input-checkbox-md"
-                  id="agree-term-3"
-                />
+                <input type="checkbox" className="input-checkbox input-checkbox-md" id="agree-term-3" />
                 <label htmlFor="agree-term-3">
                   Tôi đồng ý với
                   <strong>điều khoản giao dịch mua bán key</strong> của Softia.
@@ -68,9 +64,7 @@ const PayOnlineModal = ({ payOnlineModal }) => {
               <div className="gaps-1x d-none d-sm-block" />
               <div className="note note-plane note-light mgb-1x">
                 <em className="fas fa-info-circle" />
-                <p className="text-light">
-                  Sau khi giao dịch thành công, trang web sẽ hiển thị key cho bạn.
-                </p>
+                <p className="text-light">Sau khi giao dịch thành công, trang web sẽ hiển thị key cho bạn.</p>
               </div>
             </div>
           </div>

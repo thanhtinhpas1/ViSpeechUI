@@ -32,14 +32,8 @@ const TotalStatisticsTemplate = ({
   // for antd range picker
   const [pickerType, setPickerType] = useState(TIME_TYPE.DATE)
   const [formatRangePicker, setFormatRangePicker] = useState('DD/MM/YYYY')
-  const [placeHolderRangePicker, setPlaceHolderRangePicker] = useState([
-    'Ngày bắt đầu',
-    'Ngày kết thúc',
-  ])
-  const [valueRangePicker, setValueRangePicker] = useState([
-    getPreviousTenDatesFromNow(),
-    getDateNow(),
-  ])
+  const [placeHolderRangePicker, setPlaceHolderRangePicker] = useState(['Ngày bắt đầu', 'Ngày kết thúc'])
+  const [valueRangePicker, setValueRangePicker] = useState([getPreviousTenDatesFromNow(), getDateNow()])
 
   const defaultQuarterData = {
     from: { quarter: 0, year: 2020 },
@@ -75,10 +69,7 @@ const TotalStatisticsTemplate = ({
   }, [getUserTotalStatisticsObj])
 
   const getStatistics = (timeType, queryParams) => {
-    STORAGE.setPreferences(
-      `'vispeech-user-total-statistics-${statisticsType}'`,
-      JSON.stringify(queryParams)
-    )
+    STORAGE.setPreferences(`'vispeech-user-total-statistics-${statisticsType}'`, JSON.stringify(queryParams))
     getUserTotalStatistics(userId, statisticsType, timeType, queryParams)
   }
 
@@ -184,11 +175,7 @@ const TotalStatisticsTemplate = ({
       if (quarter != null && year && selectedQuarter != null && selectedYear != null) {
         if (isStart) {
           let totalQuarters = quarter - selectedQuarter + 1
-          if (
-            selectedYear === year &&
-            selectedQuarter < quarter &&
-            totalQuarters <= RANGE_PICKER_LIMIT
-          ) {
+          if (selectedYear === year && selectedQuarter < quarter && totalQuarters <= RANGE_PICKER_LIMIT) {
             setIsButtonDisabled(false)
           }
           if (selectedYear !== year) {
@@ -199,11 +186,7 @@ const TotalStatisticsTemplate = ({
           }
         } else {
           let totalQuarters = selectedQuarter - quarter + 1
-          if (
-            selectedYear === year &&
-            quarter < selectedQuarter &&
-            totalQuarters <= RANGE_PICKER_LIMIT
-          ) {
+          if (selectedYear === year && quarter < selectedQuarter && totalQuarters <= RANGE_PICKER_LIMIT) {
             setIsButtonDisabled(false)
           }
           if (selectedYear !== year) {

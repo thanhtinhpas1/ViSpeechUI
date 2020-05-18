@@ -42,12 +42,7 @@ export function* getUserTokenTypeStatisticsSaga() {
 // get user total statistics
 function* getUserTotalStatistics({ payload: { userId, statisticsType, timeType, queryParams } }) {
   try {
-    const data = yield ReportService.getUserTotalStatistics(
-      userId,
-      statisticsType,
-      timeType,
-      queryParams
-    )
+    const data = yield ReportService.getUserTotalStatistics(userId, statisticsType, timeType, queryParams)
     yield put(getUserTotalStatisticsSuccess(data, statisticsType))
   } catch (err) {
     yield put(getUserTotalStatisticsFailure(err.message, statisticsType))

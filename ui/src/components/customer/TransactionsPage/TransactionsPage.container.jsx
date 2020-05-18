@@ -8,8 +8,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getOrderList: ({ userId, pageIndex, pageSize }) =>
-    dispatch(getOrderList({ userId, pageIndex, pageSize })),
+  getOrderList: ({ userId, pageIndex, pageSize }) => dispatch(getOrderList({ userId, pageIndex, pageSize })),
 })
 
 const TransactionsPageContainer = connect(mapStateToProps, mapDispatchToProps)(TransactionsPage)

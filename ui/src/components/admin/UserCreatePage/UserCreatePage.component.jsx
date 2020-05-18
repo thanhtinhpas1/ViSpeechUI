@@ -184,12 +184,7 @@ const UserCreatePage = ({ createUserObj, createUser, createUserSuccess, createUs
             </Form.Item>
             {!createUserObj.isLoading && createUserObj.isSuccess === false && (
               <Form.Item {...tailLayout}>
-                <Alert
-                  message={Utils.buildFailedMessage(createUserObj.message)}
-                  type="error"
-                  showIcon
-                  closable
-                />
+                <Alert message={Utils.buildFailedMessage(createUserObj.message)} type="error" showIcon closable />
               </Form.Item>
             )}
             {!createUserObj.isLoading && createUserObj.isSuccess === true && (
@@ -198,12 +193,7 @@ const UserCreatePage = ({ createUserObj, createUser, createUserSuccess, createUs
               </Form.Item>
             )}
             <Form.Item {...tailLayout}>
-              <Button
-                htmlType="submit"
-                loading={createUserObj.isLoading}
-                type="primary"
-                size="middle"
-              >
+              <Button htmlType="submit" loading={createUserObj.isLoading} type="primary" size="middle">
                 Thêm mới
               </Button>
             </Form.Item>

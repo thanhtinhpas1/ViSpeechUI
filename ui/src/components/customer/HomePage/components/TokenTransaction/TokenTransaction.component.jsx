@@ -61,9 +61,7 @@ const TokenTransaction = ({ orderListObj }) => {
                   <span className="sub sub-s2">{rowData.date}</span>
                 </td>
                 <td className="tnx-type">
-                  <span
-                    className={`tnx-type-md badge badge-outline ${rowData.type.class} badge-md`}
-                  >
+                  <span className={`tnx-type-md badge badge-outline ${rowData.type.class} badge-md`}>
                     {rowData.type.name}
                   </span>
                   <span className="tnx-type-sm badge badge-sq badge-outline badge-success badge-md">

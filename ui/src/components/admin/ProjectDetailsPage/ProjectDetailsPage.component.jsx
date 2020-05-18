@@ -41,11 +41,7 @@ const ProjectDetailsPage = ({
             <span className="copy-feedback" />
             <em className="fas fa-key" />
             <input type="text" className="copy-address" defaultValue={value} disabled />
-            <button
-              type="button"
-              className="copy-trigger copy-clipboard"
-              data-clipboard-text={value}
-            >
+            <button type="button" className="copy-trigger copy-clipboard" data-clipboard-text={value}>
               <em className="ti ti-files" />
             </button>
           </div>
@@ -68,9 +64,7 @@ const ProjectDetailsPage = ({
       filterMultiple: false,
       render: tokenType => (
         <>
-          <span className={`dt-type-md badge badge-outline ${tokenType.class} badge-md`}>
-            {tokenType.name}
-          </span>
+          <span className={`dt-type-md badge badge-outline ${tokenType.class} badge-md`}>{tokenType.name}</span>
           <span className={`dt-type-sm badge badge-sq badge-outline ${tokenType.class} badge-md`}>
             {tokenType.name}
           </span>
@@ -183,10 +177,7 @@ const ProjectDetailsPage = ({
                   <div className="fake-class" style={{ paddingRight: '10px' }}>
                     <span className="data-details-title">Tên dự án</span>
                     <span className="data-details-info">
-                      <div
-                        className="form-group label-floating is-empty"
-                        style={{ padding: '0px', margin: '0px' }}
-                      >
+                      <div className="form-group label-floating is-empty" style={{ padding: '0px', margin: '0px' }}>
                         <label className="control-label" />
                         <input
                           type="text"
@@ -201,10 +192,7 @@ const ProjectDetailsPage = ({
                   <div className="fake-class" style={{ paddingRight: '10px' }}>
                     <span className="data-details-title">Mô tả</span>
                     <span className="data-details-info">
-                      <div
-                        className="form-group label-floating is-empty"
-                        style={{ padding: '0px', margin: '0px' }}
-                      >
+                      <div className="form-group label-floating is-empty" style={{ padding: '0px', margin: '0px' }}>
                         <label className="control-label" />
                         <input
                           type="text"
@@ -230,10 +218,7 @@ const ProjectDetailsPage = ({
                   </div>
                 </div>
 
-                <div
-                  className="row"
-                  style={{ display: 'flex', justifyContent: 'flex-end', margin: '0px 0px' }}
-                >
+                <div className="row" style={{ display: 'flex', justifyContent: 'flex-end', margin: '0px 0px' }}>
                   <button type="submit" className="btn btn-primary">
                     Cập nhật
                   </button>

@@ -1,9 +1,5 @@
 import { connect } from 'react-redux'
-import {
-  createProject,
-  createProjectSuccess,
-  createProjectFailure,
-} from 'redux/project/project.actions'
+import { createProject, createProjectSuccess, createProjectFailure } from 'redux/project/project.actions'
 import CreateProjectPage from './CreateProjectPage.component'
 
 const mapStateToProps = state => ({

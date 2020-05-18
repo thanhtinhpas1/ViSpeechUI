@@ -18,13 +18,7 @@ import './InfoTab.style.scss'
 const { KAFKA_TOPIC, invokeCheckSubject } = SocketUtils
 const { USER_UPDATED_SUCCESS_EVENT, USER_UPDATED_FAILED_EVENT } = KAFKA_TOPIC
 
-const InfoTab = ({
-  userInfoObj,
-  updateInfoObj,
-  updateUserInfo,
-  updateUserInfoSuccess,
-  updateUserInfoFailure,
-}) => {
+const InfoTab = ({ userInfoObj, updateInfoObj, updateUserInfo, updateUserInfoSuccess, updateUserInfoFailure }) => {
   const [form] = Form.useForm()
   const formItemLayout = {
     labelCol: {
@@ -130,11 +124,7 @@ const InfoTab = ({
             hasFeedback
             rules={[{ type: 'email', required: true, message: 'Vui lòng nhập email!' }]}
           >
-            {Utils.isEmailVerified(userInfoObj.user.roles) ? (
-              <div>{userInfoObj.user.email}</div>
-            ) : (
-              <Input />
-            )}
+            {Utils.isEmailVerified(userInfoObj.user.roles) ? <div>{userInfoObj.user.email}</div> : <Input />}
           </Form.Item>
           <Form.Item
             {...formItemLayout}
@@ -155,12 +145,7 @@ const InfoTab = ({
           </Form.Item>
           {!updateInfoObj.isLoading && updateInfoObj.isSuccess === false && (
             <Form.Item {...tailLayout}>
-              <Alert
-                message={Utils.buildFailedMessage(updateInfoObj.message)}
-                type="error"
-                showIcon
-                closable
-              />
+              <Alert message={Utils.buildFailedMessage(updateInfoObj.message)} type="error" showIcon closable />
             </Form.Item>
           )}
           {!updateInfoObj.isLoading && updateInfoObj.isSuccess === true && (
@@ -169,12 +154,7 @@ const InfoTab = ({
             </Form.Item>
           )}
           <Form.Item {...tailLayout}>
-            <Button
-              htmlType="submit"
-              loading={updateInfoObj.isLoading}
-              type="primary"
-              size="middle"
-            >
+            <Button htmlType="submit" loading={updateInfoObj.isLoading} type="primary" size="middle">
               Cập nhật
             </Button>
           </Form.Item>

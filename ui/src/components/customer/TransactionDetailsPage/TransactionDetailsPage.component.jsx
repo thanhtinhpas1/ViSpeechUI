@@ -26,19 +26,11 @@ const TransactionDetailsPage = ({ getInfoObj, getOrderInfo }) => {
           <div className="card-innr">
             <div className="card-head d-flex justify-content-between align-items-center">
               <h4 className="card-title mb-0">Chi tiết giao dịch</h4>
-              <a
-                href="#!"
-                onClick={history.goBack}
-                className="btn btn-sm btn-auto btn-primary d-sm-block d-none"
-              >
+              <a href="#!" onClick={history.goBack} className="btn btn-sm btn-auto btn-primary d-sm-block d-none">
                 <em className="fas fa-arrow-left mr-3" />
                 Trở lại
               </a>
-              <a
-                href="#!"
-                onClick={history.goBack}
-                className="btn btn-icon btn-sm btn-primary d-sm-none"
-              >
+              <a href="#!" onClick={history.goBack} className="btn btn-icon btn-sm btn-primary d-sm-none">
                 <em className="fas fa-arrow-left" />
               </a>
             </div>
@@ -58,10 +50,7 @@ const TransactionDetailsPage = ({ getInfoObj, getOrderInfo }) => {
               </div>
               <div className="fake-class">
                 <span className="data-details-title">Trạng thái</span>
-                <span
-                  className={`badge ${getInfoObj.order.status &&
-                    getInfoObj.order.status.class} ucap`}
-                >
+                <span className={`badge ${getInfoObj.order.status && getInfoObj.order.status.class} ucap`}>
                   {getInfoObj.order.status && getInfoObj.order.status.name}
                 </span>
               </div>
@@ -79,10 +68,7 @@ const TransactionDetailsPage = ({ getInfoObj, getOrderInfo }) => {
               </li>
               <li>
                 <div className="data-details-head">Token</div>
-                <div
-                  className="data-details-des"
-                  style={{ wordBreak: 'break-all', whiteSpace: 'nowrap' }}
-                >
+                <div className="data-details-des" style={{ wordBreak: 'break-all', whiteSpace: 'nowrap' }}>
                   <div className="copy-wrap mgb-1-5x mgt-1-5x w-100">
                     <span className="copy-feedback" />
                     <em className="fas fa-key" />
@@ -106,11 +92,8 @@ const TransactionDetailsPage = ({ getInfoObj, getOrderInfo }) => {
                 <div className="data-details-des">
                   {getInfoObj.order.tokenType && (
                     <>
-                      <span
-                        className={`dt-type-md badge badge-outline ${getInfoObj.order.tokenType.class} badge-md`}
-                      >
-                        {getInfoObj.order.tokenType.saleOffPrice}$/{' '}
-                        {getInfoObj.order.tokenType.name}
+                      <span className={`dt-type-md badge badge-outline ${getInfoObj.order.tokenType.class} badge-md`}>
+                        {getInfoObj.order.tokenType.saleOffPrice}$/ {getInfoObj.order.tokenType.name}
                       </span>
                     </>
                   )}

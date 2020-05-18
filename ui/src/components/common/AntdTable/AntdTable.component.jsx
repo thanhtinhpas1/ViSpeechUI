@@ -77,9 +77,7 @@ const AntdTable = ({ dataObj, columns, fetchData, isLoading, pageSize, scrollY }
           </Space>
         </div>
       ),
-      filterIcon: filtered => (
-        <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
-      ),
+      filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
       onFilter: (value, record) =>
         record[dataIndex]
           .toString()
@@ -128,9 +126,7 @@ const AntdTable = ({ dataObj, columns, fetchData, isLoading, pageSize, scrollY }
           onResize: handleResize(index),
         }),
       }
-      return col.canSearch
-        ? { ...defaultCol, ...getColumnSearchProps(col.dataIndex, col.title) }
-        : { ...defaultCol }
+      return col.canSearch ? { ...defaultCol, ...getColumnSearchProps(col.dataIndex, col.title) } : { ...defaultCol }
     })
     setTableColumns(cols)
   }, [getColumnSearchProps, tempColumns, handleResize])

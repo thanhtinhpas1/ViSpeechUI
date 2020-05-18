@@ -86,15 +86,7 @@ const VerifyEmailPage = ({
     } catch (err) {
       verifyEmailFailure({ message: err.message })
     }
-  }, [
-    currentUser.roles,
-    history,
-    emailToken,
-    verifyEmailObj,
-    verifyEmail,
-    verifyEmailSuccess,
-    verifyEmailFailure,
-  ])
+  }, [currentUser.roles, history, emailToken, verifyEmailObj, verifyEmail, verifyEmailSuccess, verifyEmailFailure])
 
   useEffect(() => {
     if (Utils.isEmailVerified(currentUser.roles)) {

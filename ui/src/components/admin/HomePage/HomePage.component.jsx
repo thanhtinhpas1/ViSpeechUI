@@ -192,11 +192,7 @@ const Home = () => {
             </div>
             <div className="card-content">
               <div className="dropdown pull-right">
-                <button
-                  type="button"
-                  className="btn btn-round btn-info dropdown-toggle"
-                  data-toggle="dropdown"
-                >
+                <button type="button" className="btn btn-round btn-info dropdown-toggle" data-toggle="dropdown">
                   <i className="material-icons">build</i>
                   <span className="caret" />
                 </button>
@@ -236,12 +232,7 @@ const Home = () => {
                       >
                         <i className="material-icons">edit</i>
                       </button>
-                      <button
-                        type="button"
-                        rel="tooltip"
-                        title="Remove"
-                        className="btn btn-danger btn-simple btn-xs"
-                      >
+                      <button type="button" rel="tooltip" title="Remove" className="btn btn-danger btn-simple btn-xs">
                         <i className="material-icons">close</i>
                       </button>
                     </td>
@@ -264,12 +255,7 @@ const Home = () => {
                       >
                         <i className="material-icons">edit</i>
                       </button>
-                      <button
-                        type="button"
-                        rel="tooltip"
-                        title="Remove"
-                        className="btn btn-danger btn-simple btn-xs"
-                      >
+                      <button type="button" rel="tooltip" title="Remove" className="btn btn-danger btn-simple btn-xs">
                         <i className="material-icons">close</i>
                       </button>
                     </td>
@@ -292,12 +278,7 @@ const Home = () => {
                       >
                         <i className="material-icons">edit</i>
                       </button>
-                      <button
-                        type="button"
-                        rel="tooltip"
-                        title="Remove"
-                        className="btn btn-danger btn-simple btn-xs"
-                      >
+                      <button type="button" rel="tooltip" title="Remove" className="btn btn-danger btn-simple btn-xs">
                         <i className="material-icons">close</i>
                       </button>
                     </td>
@@ -320,12 +301,7 @@ const Home = () => {
                       >
                         <i className="material-icons">edit</i>
                       </button>
-                      <button
-                        type="button"
-                        rel="tooltip"
-                        title="Remove"
-                        className="btn btn-danger btn-simple btn-xs"
-                      >
+                      <button type="button" rel="tooltip" title="Remove" className="btn btn-danger btn-simple btn-xs">
                         <i className="material-icons">close</i>
                       </button>
                     </td>
@@ -399,10 +375,7 @@ const Home = () => {
                         <tr>
                           <td>
                             <div className="flag">
-                              <img
-                                src={`${process.env.PUBLIC_URL}/images/admin/flags/US.png`}
-                                alt=""
-                              />
+                              <img src={`${process.env.PUBLIC_URL}/images/admin/flags/US.png`} alt="" />
                             </div>
                           </td>
                           <td>USA</td>
@@ -412,10 +385,7 @@ const Home = () => {
                         <tr>
                           <td>
                             <div className="flag">
-                              <img
-                                src={`${process.env.PUBLIC_URL}/images/admin/flags/DE.png`}
-                                alt=""
-                              />
+                              <img src={`${process.env.PUBLIC_URL}/images/admin/flags/DE.png`} alt="" />
                             </div>
                           </td>
                           <td>Germany</td>
@@ -425,10 +395,7 @@ const Home = () => {
                         <tr>
                           <td>
                             <div className="flag">
-                              <img
-                                src={`${process.env.PUBLIC_URL}/images/admin/flags/AU.png`}
-                                alt=""
-                              />
+                              <img src={`${process.env.PUBLIC_URL}/images/admin/flags/AU.png`} alt="" />
                             </div>
                           </td>
                           <td>Australia</td>
@@ -438,10 +405,7 @@ const Home = () => {
                         <tr>
                           <td>
                             <div className="flag">
-                              <img
-                                src={`${process.env.PUBLIC_URL}/images/admin/flags/GB.png`}
-                                alt=""
-                              />
+                              <img src={`${process.env.PUBLIC_URL}/images/admin/flags/GB.png`} alt="" />
                             </div>
                           </td>
                           <td>United Kingdom</td>
@@ -451,10 +415,7 @@ const Home = () => {
                         <tr>
                           <td>
                             <div className="flag">
-                              <img
-                                src={`${process.env.PUBLIC_URL}/images/admin/flags/RO.png`}
-                                alt=""
-                              />
+                              <img src={`${process.env.PUBLIC_URL}/images/admin/flags/RO.png`} alt="" />
                             </div>
                           </td>
                           <td>Romania</td>
@@ -464,10 +425,7 @@ const Home = () => {
                         <tr>
                           <td>
                             <div className="flag">
-                              <img
-                                src={`${process.env.PUBLIC_URL}/images/admin/flags/BR.png`}
-                                alt=""
-                              />
+                              <img src={`${process.env.PUBLIC_URL}/images/admin/flags/BR.png`} alt="" />
                             </div>
                           </td>
                           <td>Brasil</td>

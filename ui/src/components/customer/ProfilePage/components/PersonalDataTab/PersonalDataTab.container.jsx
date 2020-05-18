@@ -1,9 +1,5 @@
 import { connect } from 'react-redux'
-import {
-  updateCurrentUser,
-  updateCurrentUserSuccess,
-  updateCurrentUserFailure,
-} from 'redux/user/user.actions'
+import { updateCurrentUser, updateCurrentUserSuccess, updateCurrentUserFailure } from 'redux/user/user.actions'
 import PersonalDataTab from './PersonalDataTab.component'
 
 const mapStateToProps = state => ({

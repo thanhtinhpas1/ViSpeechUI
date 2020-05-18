@@ -6,10 +6,7 @@ const Utils = {
     // if (!Array.isArray(roleList)) {
     //   return ''
     // }
-    return (
-      roleList.findIndex(role => role.name === ROLES.USER || role.name === ROLES.MANAGER_USER) !==
-      -1
-    )
+    return roleList.findIndex(role => role.name === ROLES.USER || role.name === ROLES.MANAGER_USER) !== -1
   },
   getRolesInArray: roleList => {
     return roleList.map(role => role.name)
@@ -98,9 +95,7 @@ const Utils = {
         const dupKey = 'dup key: '
         const indexDup = message.indexOf(dupKey)
         if (indexDup >= 0) {
-          errMessage = `Đã tồn tại ${message
-            .substr(indexDup + dupKey.length)
-            .replace(/[^a-zA-Z0-9@./S]/g, ' ')}`
+          errMessage = `Đã tồn tại ${message.substr(indexDup + dupKey.length).replace(/[^a-zA-Z0-9@./S]/g, ' ')}`
         }
       }
     }

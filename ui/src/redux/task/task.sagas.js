@@ -12,7 +12,9 @@ const formatTaskList = taskList => {
       ...task,
       previousRunStatus: {
         status: task.previousRunStatus,
-        name: ORDER_STATUS[task.previousRunStatus] ? ORDER_STATUS[task.previousRunStatus].viText : task.previousRunStatus,
+        name: ORDER_STATUS[task.previousRunStatus]
+          ? ORDER_STATUS[task.previousRunStatus].viText
+          : task.previousRunStatus,
         class: ORDER_STATUS[task.previousRunStatus] ? ORDER_STATUS[task.previousRunStatus].cssClass : 'badge-success',
       },
     }
@@ -26,7 +28,7 @@ function* getList({ payload: filterConditions }) {
     taskList.data = formatTaskList(taskList.data)
     yield put(getTaskListSuccess(taskList))
   } catch (err) {
-    console.error(err.message);
+    console.error(err.message)
     yield put(getTaskListFailure(err.message))
   }
 }

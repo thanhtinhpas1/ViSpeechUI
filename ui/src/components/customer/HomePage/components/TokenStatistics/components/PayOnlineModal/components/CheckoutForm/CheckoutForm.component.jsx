@@ -33,9 +33,6 @@ const CheckoutForm = ({
   const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
-    SocketService.socketEmitEvent(ORDER_CREATED_FAILED_EVENT)
-    SocketService.socketEmitEvent(ORDERED_TOKEN_CREATED_SUCCESS_EVENT)
-    SocketService.socketEmitEvent(ORDERED_TOKEN_CREATED_FAILED_EVENT)
     SocketService.socketOnListeningEvent(ORDER_CREATED_FAILED_EVENT)
     SocketService.socketOnListeningEvent(ORDERED_TOKEN_CREATED_SUCCESS_EVENT)
     SocketService.socketOnListeningEvent(ORDERED_TOKEN_CREATED_FAILED_EVENT)
@@ -169,10 +166,7 @@ const CheckoutForm = ({
         </Select>
       </Form.Item>
       <h5 className="font-mid">Thông tin thẻ</h5>
-      <Form.Item
-        name="cardElement"
-        rules={[{ required: true, message: 'Vui lòng nhập thông tin thẻ.' }]}
-      >
+      <Form.Item name="cardElement" rules={[{ required: true, message: 'Vui lòng nhập thông tin thẻ.' }]}>
         <CardElement options={cardElementOptions} />
       </Form.Item>
       <Form.Item
@@ -210,9 +204,7 @@ const CheckoutForm = ({
       <div className="gaps-1x d-none d-sm-block" />
       <div className="note note-plane note-light mgb-1x">
         <em className="fas fa-info-circle" />
-        <p className="text-light">
-          Sau khi giao dịch thành công, trang web sẽ hiển thị key cho bạn.
-        </p>
+        <p className="text-light">Sau khi giao dịch thành công, trang web sẽ hiển thị key cho bạn.</p>
       </div>
     </Form>
   )

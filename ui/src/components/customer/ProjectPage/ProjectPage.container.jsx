@@ -9,8 +9,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getMyProjects: ({ userId, pageIndex, pageSize }) =>
-    dispatch(getMyProjectList({ userId, pageIndex, pageSize })),
+  getMyProjects: ({ userId, pageIndex, pageSize }) => dispatch(getMyProjectList({ userId, pageIndex, pageSize })),
   getAcceptedProjects: ({ userId, pageIndex, pageSize }) =>
     dispatch(getAcceptedProjectList({ userId, pageIndex, pageSize })),
 })

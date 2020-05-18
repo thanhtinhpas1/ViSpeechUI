@@ -65,11 +65,7 @@ const TransactionsTab = ({ userInfoObj, orderListObj, getOrderList }) => {
             <span className="copy-feedback" />
             <em className="fas fa-key" />
             <input type="text" className="copy-address" defaultValue={token} disabled />
-            <button
-              type="button"
-              className="copy-trigger copy-clipboard"
-              data-clipboard-text={token}
-            >
+            <button type="button" className="copy-trigger copy-clipboard" data-clipboard-text={token}>
               <em className="ti ti-files" />
             </button>
           </div>
@@ -91,9 +87,7 @@ const TransactionsTab = ({ userInfoObj, orderListObj, getOrderList }) => {
       filterMultiple: false,
       render: tokenType => (
         <>
-          <span className={`dt-type-md badge badge-outline ${tokenType.class} badge-md`}>
-            {tokenType.name}
-          </span>
+          <span className={`dt-type-md badge badge-outline ${tokenType.class} badge-md`}>{tokenType.name}</span>
           <span className={`dt-type-sm badge badge-sq badge-outline ${tokenType.class} badge-md`}>
             {tokenType.name}
           </span>
@@ -106,10 +100,7 @@ const TransactionsTab = ({ userInfoObj, orderListObj, getOrderList }) => {
       title: '',
       dataIndex: '_id',
       render: _id => (
-        <a
-          href={`${ADMIN_PATH}/transaction-details?id=${_id}`}
-          className="btn btn-just-icon btn-secondary btn-simple"
-        >
+        <a href={`${ADMIN_PATH}/transaction-details?id=${_id}`} className="btn btn-just-icon btn-secondary btn-simple">
           <i className="zmdi zmdi-eye" />
         </a>
       ),

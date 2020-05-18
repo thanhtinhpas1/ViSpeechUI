@@ -174,17 +174,10 @@ const UserListPage = ({
       headerClassName: 'text-right',
       render: _id => (
         <>
-          <a
-            href={`${ADMIN_PATH}/user-info/${_id}`}
-            className="btn btn-simple btn-secondary btn-just-icon"
-          >
+          <a href={`${ADMIN_PATH}/user-info/${_id}`} className="btn btn-simple btn-secondary btn-just-icon">
             <i className="zmdi zmdi-eye" />
           </a>
-          <a
-            href="#"
-            className="btn btn-simple btn-danger btn-just-icon"
-            onClick={() => onDeleteUser(_id)}
-          >
+          <a href="#" className="btn btn-simple btn-danger btn-just-icon" onClick={() => onDeleteUser(_id)}>
             <i className="zmdi zmdi-close-circle-o" />
           </a>
         </>

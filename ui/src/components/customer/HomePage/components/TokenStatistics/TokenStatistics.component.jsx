@@ -9,13 +9,7 @@ import { CUSTOMER_PATH, TOKEN_TYPE } from 'utils/constant'
 import TokenType from './components/TokenType/TokenType.component'
 import PayOnlineModal from './components/PayOnlineModal/PayOnlineModal.container'
 
-const TokenStatistics = ({
-  currentUser,
-  getTokenTypeListObj,
-  getMyProjectListObj,
-  getTokenTypes,
-  getMyProjects,
-}) => {
+const TokenStatistics = ({ currentUser, getTokenTypeListObj, getMyProjectListObj, getTokenTypes, getMyProjects }) => {
   const [payOnlineModal, setPayOnlineModal] = useState({})
   const [infoModal, setInfoModal] = useState({})
   const history = useHistory()
@@ -72,9 +66,7 @@ const TokenStatistics = ({
       return
     }
 
-    const selectedTypeId = window
-      .$('.token-currency-choose .pay-option input[name="tokenType"]:checked')
-      .attr('id')
+    const selectedTypeId = window.$('.token-currency-choose .pay-option input[name="tokenType"]:checked').attr('id')
     const index = getTokenTypeListObj.tokenTypeList.findIndex(x => x._id === selectedTypeId)
     let selectedType = getTokenTypeListObj.tokenTypeList[index]
     selectedType = Utils.removePropertiesFromObject(selectedType, [
@@ -134,10 +126,7 @@ const TokenStatistics = ({
           </a>
         </div>
       </div>
-      <PayOnlineModal
-        payOnlineModal={payOnlineModal}
-        myProjectList={getMyProjectListObj.myProjectList}
-      />
+      <PayOnlineModal payOnlineModal={payOnlineModal} myProjectList={getMyProjectListObj.myProjectList} />
       <InfoModal infoModal={infoModal} />
     </>
   )

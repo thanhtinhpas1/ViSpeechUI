@@ -11,9 +11,6 @@ const mapDispatchToProps = dispatch => ({
   getOrderInfo: ({ id, tokenId }) => dispatch(getOrderInfo({ id, tokenId })),
 })
 
-const TransactionDetailsPageContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TransactionDetailsPage)
+const TransactionDetailsPageContainer = connect(mapStateToProps, mapDispatchToProps)(TransactionDetailsPage)
 
 export default TransactionDetailsPageContainer

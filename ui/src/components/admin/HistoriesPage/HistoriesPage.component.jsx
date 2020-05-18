@@ -57,7 +57,7 @@ const HistoriesPage = ({ requestListObj, getRequestList }) => {
       sorter: true,
       render: createdDate => moment(createdDate).format('DD/MM/YYYY HH:mm'),
       width: 200,
-      align: "center"
+      align: 'center',
     },
   ]
 

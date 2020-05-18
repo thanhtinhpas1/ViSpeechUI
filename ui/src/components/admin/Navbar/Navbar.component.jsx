@@ -6,11 +6,7 @@ const Navbar = ({ currentUser, logout }) => {
     <nav className="navbar navbar-default navbar-absolute" data-topbar-color="blue">
       <div className="container-fluid">
         <div className="navbar-minimize">
-          <button
-            type="button"
-            id="minimizeSidebar"
-            className="btn btn-round btn-white btn-fill btn-just-icon"
-          >
+          <button type="button" id="minimizeSidebar" className="btn btn-round btn-white btn-fill btn-just-icon">
             <i className="material-icons visible-on-sidebar-regular f-26">keyboard_arrow_left</i>
             <i className="material-icons visible-on-sidebar-mini f-26">keyboard_arrow_right</i>
           </button>

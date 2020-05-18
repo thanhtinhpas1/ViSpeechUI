@@ -62,11 +62,7 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
             <span className="copy-feedback" />
             <em className="fas fa-key" />
             <input type="text" className="copy-address" defaultValue={token} disabled />
-            <button
-              type="button"
-              className="copy-trigger copy-clipboard"
-              data-clipboard-text={token}
-            >
+            <button type="button" className="copy-trigger copy-clipboard" data-clipboard-text={token}>
               <em className="ti ti-files" />
             </button>
           </div>
@@ -86,9 +82,7 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
       filterMultiple: false,
       render: tokenType => (
         <>
-          <span className={`dt-type-md badge badge-outline ${tokenType.class} badge-md`}>
-            {tokenType.name}
-          </span>
+          <span className={`dt-type-md badge badge-outline ${tokenType.class} badge-md`}>{tokenType.name}</span>
           <span className={`dt-type-sm badge badge-sq badge-outline ${tokenType.class} badge-md`}>
             {tokenType.name}
           </span>
@@ -100,10 +94,7 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
       title: '',
       dataIndex: '_id',
       render: _id => (
-        <Link
-          to={`${CUSTOMER_PATH}/transaction-details?id=${_id}`}
-          className="btn btn-light-alt btn-xs btn-icon"
-        >
+        <Link to={`${CUSTOMER_PATH}/transaction-details?id=${_id}`} className="btn btn-light-alt btn-xs btn-icon">
           <em className="ti ti-eye" />
         </Link>
       ),

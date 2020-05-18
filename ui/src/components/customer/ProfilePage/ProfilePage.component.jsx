@@ -29,8 +29,6 @@ const ProfilePage = ({
 
   useEffect(() => {
     if (currentUser && !Utils.isEmailVerified(currentUser.roles)) {
-      SocketService.socketEmitEvent(VERIFY_EMAIL_SENT_SUCCESS_EVENT)
-      SocketService.socketEmitEvent(VERIFY_EMAIL_SENT_FAILED_EVENT)
       SocketService.socketOnListeningEvent(VERIFY_EMAIL_SENT_SUCCESS_EVENT)
       SocketService.socketOnListeningEvent(VERIFY_EMAIL_SENT_FAILED_EVENT)
     }
@@ -45,8 +43,7 @@ const ProfilePage = ({
     if (sendVerifyEmailObj.isLoading === false && sendVerifyEmailObj.isSuccess === true) {
       setInfoModal({
         title: 'Kích hoạt tài khoản',
-        message:
-          'Mail kích hoạt tài khoản đã được gửi đến bạn.<br/>Vui lòng kiểm tra mail và làm theo hướng dẫn.',
+        message: 'Mail kích hoạt tài khoản đã được gửi đến bạn.<br/>Vui lòng kiểm tra mail và làm theo hướng dẫn.',
         icon: { isSuccess: true },
       })
     }
@@ -125,16 +122,13 @@ const ProfilePage = ({
                         <p className="pdb-0-5x">
                           Email của bạn chưa được xác thực. Xác thực email để kích hoạt tài khoản.
                         </p>
-                        <button
-                          className="btn btn-sm btn-auto btn-warning"
-                          onClick={onSendVerifyEmail}
-                        >
+                        <button className="btn btn-sm btn-auto btn-warning" onClick={onSendVerifyEmail}>
                           Xác thực email
                         </button>
                       </>
                     ) : (
-                        <span className="badge badge-sm badge-success">Email đã được xác thực</span>
-                      )}
+                      <span className="badge badge-sm badge-success">Email đã được xác thực</span>
+                    )}
                   </li>
                 </ul>
               </div>

@@ -28,19 +28,14 @@ const Home = ({ currentUser, orderListObj, getFreeTokenObj, getFreeToken, getOrd
             <div className="token-statistics card card-token height-auto">
               <div className="card-innr">
                 <div className="card-head has-aside">
-                  <h4
-                    className="card-title"
-                    style={{ fontSize: '16px', color: '#fff', textTransform: 'uppercase' }}
-                  >
+                  <h4 className="card-title" style={{ fontSize: '16px', color: '#fff', textTransform: 'uppercase' }}>
                     Token miễn phí
                   </h4>
                   <div>Miễn phí 10 phút sử dụng</div>
                 </div>
                 <div className="card-opt">
                   <span className="lead tnx-id">
-                    {getFreeTokenObj.isLoading && getFreeTokenObj.isSuccess == null && (
-                      <LoadingIcon />
-                    )}
+                    {getFreeTokenObj.isLoading && getFreeTokenObj.isSuccess == null && <LoadingIcon />}
                     {getFreeTokenObj.isLoading === false && getFreeTokenObj.isSuccess === false && (
                       <div>Lấy token miễn phí thất bại</div>
                     )}
@@ -56,6 +51,7 @@ const Home = ({ currentUser, orderListObj, getFreeTokenObj, getFreeToken, getOrd
                           style={{ fontSize: '15px' }}
                         />
                         <button
+                          type="button"
                           className="copy-trigger copy-clipboard"
                           data-clipboard-text={getFreeTokenObj.freeToken.value}
                         >
