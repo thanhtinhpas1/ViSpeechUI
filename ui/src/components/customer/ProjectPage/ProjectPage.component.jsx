@@ -2,10 +2,10 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { CUSTOMER_PATH, STATUS } from 'utils/constant'
-import ReactTable from 'components/customer/ReactTable/ReactTable.component'
+import AntdTable from 'components/common/AntdTable/AntdTable.component'
 import * as moment from 'moment'
 import Utils from 'utils'
 import InfoModal from '../InfoModal/InfoModal.component'
@@ -22,163 +22,170 @@ const ProjectPage = ({
 
   const myProjectTableColumns = [
     {
-      Header: 'Tên project',
-      accessor: 'name',
-      headerClassName: 'data-col dt-tnxno',
-      className: 'data-col dt-tnxno',
+      title: 'Tên dự án',
+      dataIndex: 'name',
+      headerClassName: 'dt-tnxno',
+      className: 'dt-tnxno',
       style: { paddingRight: '30px' },
-      Cell: props => {
-        const { cell } = props
-        return (
-          <span className="lead tnx-id" style={{ color: '#2c80ff' }}>
-            {cell.value}
-          </span>
-        )
-      },
+      canSearch: true,
+      render: name => (
+        <span className="lead tnx-id" style={{ color: '#2c80ff' }}>
+          {name}
+        </span>
+      ),
+      width: 180,
     },
     {
-      Header: 'Mô tả',
-      accessor: 'description',
-      headerClassName: 'data-col dt-type',
-      className: 'data-col dt-tnxno',
+      title: 'Mô tả',
+      dataIndex: 'description',
+      headerClassName: 'dt-type',
+      className: 'dt-tnxno',
       style: { paddingRight: '30px' },
-      Cell: props => {
-        const { cell } = props
-        return <div className="d-flex align-items-center">{cell.value}</div>
-      },
+      render: description => <div className="d-flex align-items-center">{description}</div>,
+      width: 200,
     },
     {
-      Header: 'Thời gian tạo',
-      accessor: 'createdDate',
-      headerClassName: 'data-col dt-amount',
-      className: 'data-col dt-amount',
-      Cell: props => {
-        const { cell } = props
-        return (
-          <span className="sub sub-date" style={{ fontSize: '13px' }}>
-            {moment(cell.value).format('DD/MM/YYYY HH:mm')}
-          </span>
-        )
-      },
+      title: 'Thời gian tạo',
+      dataIndex: 'createdDate',
+      headerClassName: 'dt-amount',
+      className: 'dt-amount',
+      sorter: true,
+      render: createdDate => (
+        <span className="sub sub-date" style={{ fontSize: '13px' }}>
+          {moment(createdDate).format('DD/MM/YYYY HH:mm')}
+        </span>
+      ),
+      width: 180,
+      align: 'center',
     },
     {
-      Header: '',
-      accessor: '_id',
-      id: 'my-project-detail',
-      headerClassName: 'data-col',
-      className: 'data-col text-right',
-      Cell: props => {
-        const { cell } = props
-        return (
-          <Link to={`${CUSTOMER_PATH}/my-project/${cell.value}`} className="btn btn-light-alt btn-xs btn-icon">
-            <em className="ti ti-eye" />
-          </Link>
-        )
-      },
+      title: '',
+      dataIndex: '_id',
+      render: _id => (
+        <Link to={`${CUSTOMER_PATH}/my-project/${_id}`} className="btn btn-light-alt btn-xs btn-icon">
+          <em className="ti ti-eye" />
+        </Link>
+      ),
+      width: 60,
+      align: 'right',
     },
   ]
 
   const acceptedProjectTableColumns = [
     {
-      Header: 'Tên project',
-      accessor: 'name',
-      headerClassName: 'data-col dt-tnxno',
-      className: 'data-col dt-tnxno',
+      title: 'Tên dự án',
+      dataIndex: 'name',
+      headerClassName: 'dt-tnxno',
+      className: 'dt-tnxno',
       style: { paddingRight: '30px' },
-      Cell: props => {
-        const { cell } = props
-        return (
-          <span className="lead tnx-id" style={{ color: '#2c80ff' }}>
-            {cell.value}
-          </span>
-        )
-      },
+      canSearch: true,
+      render: name => (
+        <span className="lead tnx-id" style={{ color: '#2c80ff' }}>
+          {name}
+        </span>
+      ),
+      width: 180,
     },
     {
-      Header: 'Mô tả',
-      accessor: 'description',
-      headerClassName: 'data-col dt-type',
-      className: 'data-col dt-tnxno',
+      title: 'Mô tả',
+      dataIndex: 'description',
+      headerClassName: 'dt-type',
+      className: 'dt-tnxno',
       style: { paddingRight: '30px' },
-      Cell: props => {
-        const { cell } = props
-        return <div className="d-flex align-items-center">{cell.value}</div>
-      },
+      render: description => <div className="d-flex align-items-center">{description}</div>,
+      width: 200,
     },
     {
-      Header: 'Tạo bởi',
-      accessor: 'ownerName',
-      headerClassName: 'data-col dt-amount',
-      className: 'data-col dt-amount',
-      Cell: props => {
-        const { cell } = props
-        return <span className="lead tnx-id">{cell.value}</span>
-      },
+      title: 'Tạo bởi',
+      dataIndex: 'ownerName',
+      headerClassName: 'dt-amount',
+      className: 'dt-amount',
+      canSearch: true,
+      render: ownerName => <span className="lead tnx-id">{ownerName}</span>,
+      width: 180,
     },
     {
-      Header: 'Thời gian tạo',
-      accessor: 'createdDate',
-      headerClassName: 'data-col dt-amount',
-      className: 'data-col dt-amount',
-      Cell: props => {
-        const { cell } = props
-        return (
-          <span className="sub sub-date" style={{ fontSize: '13px' }}>
-            {moment(cell.value).format('DD/MM/YYYY HH:mm')}
+      title: 'Thời gian tạo',
+      dataIndex: 'createdDate',
+      headerClassName: 'dt-amount',
+      className: 'dt-amount',
+      sorter: true,
+      render: createdDate => (
+        <span className="sub sub-date" style={{ fontSize: '13px' }}>
+          {moment(createdDate).format('DD/MM/YYYY HH:mm')}
+        </span>
+      ),
+      width: 180,
+      align: 'center',
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'status',
+      headerClassName: 'dt-token',
+      className: 'dt-token',
+      filters: [
+        { text: STATUS.ACCEPTED.viText, value: STATUS.ACCEPTED.name },
+        { text: STATUS.REJECTED.viText, value: STATUS.REJECTED.name },
+      ],
+      filterMultiple: false,
+      render: status => (
+        <div className="d-flex align-items-center">
+          <div className={`data-state ${status.class}`} />
+          <span className="sub sub-s2" style={{ paddingTop: 0 }}>
+            {status.name}
           </span>
-        )
-      },
+        </div>
+      ),
+      width: 180,
+      align: 'left',
     },
     {
-      Header: 'Trạng thái',
-      accessor: 'status',
-      headerClassName: 'data-col dt-token',
-      className: 'data-col dt-token',
-      Cell: props => {
-        const { cell } = props
-        return (
-          <div className="d-flex align-items-center">
-            <div className={`data-state ${cell.value.class}`} />
-            <span className="sub sub-s2" style={{ paddingTop: 0 }}>
-              {cell.value.name}
-            </span>
-          </div>
-        )
-      },
-    },
-    {
-      Header: '',
-      accessor: '_id',
-      id: 'accepted-project-detail',
-      headerClassName: 'data-col',
-      className: 'data-col text-right',
-      Cell: props => {
-        const { cell } = props
-        const isRejected = cell.row.values.status.status === STATUS.REJECTED.name
+      title: '',
+      dataIndex: '_id',
+      render: (_id, record) => {
+        const isRejected = record.status.value === STATUS.REJECTED.name
         return (
           <Link
-            to={isRejected ? '#!' : `${CUSTOMER_PATH}/accepted-project/${cell.value}`}
+            to={isRejected ? '#!' : `${CUSTOMER_PATH}/accepted-project/${_id}`}
             className={`btn btn-light-alt btn-xs btn-icon ${isRejected ? 'disabled' : ''}`}
           >
             <em className="ti ti-eye" />
           </Link>
         )
       },
+      width: 60,
+      align: 'right',
     },
   ]
 
+  useEffect(() => {
+    const userId = currentUser._id
+    if (userId) {
+      const pagination = {
+        pageSize: 5,
+        current: 1,
+      }
+      getMyProjects({ userId, pagination })
+      getAcceptedProjects({ userId, pagination })
+    }
+  }, [currentUser._id, getMyProjects, getAcceptedProjects])
+
   const getMyProjectList = useCallback(
-    ({ pageIndex, pageSize }) => {
+    ({ pagination, sortField, sortOrder, filters }) => {
       const userId = currentUser._id
-      getMyProjects({ userId, pageIndex, pageSize })
+      if (userId) {
+        getMyProjects({ userId, pagination, sortField, sortOrder, filters })
+      }
     },
     [currentUser._id, getMyProjects]
   )
 
   const getAcceptedProjectList = useCallback(
-    ({ pageIndex, pageSize }) => {
+    ({ pagination, sortField, sortOrder, filters }) => {
       const userId = currentUser._id
-      getAcceptedProjects({ userId, pageIndex, pageSize })
+      if (userId) {
+        getAcceptedProjects({ userId, pagination, sortField, sortOrder, filters })
+      }
     },
     [currentUser._id, getAcceptedProjects]
   )
@@ -257,31 +264,25 @@ const ProjectPage = ({
             <div className="tab-content">
               <div className="tab-pane fade active show" id="my-project-list">
                 <div className="gaps-1x" />
-                {currentUser._id && (
-                  <ReactTable
-                    columns={myProjectTableColumns}
-                    data={getMyProjectListObj.myProjectList.data}
-                    fetchData={getMyProjectList}
-                    loading={getMyProjectListObj.isLoading}
-                    pageCount={Math.ceil(getMyProjectListObj.myProjectList.count / 5)}
-                    defaultPageSize={5}
-                    pageSize={5}
-                  />
-                )}
+                <AntdTable
+                  dataObj={getMyProjectListObj.myProjectList}
+                  columns={myProjectTableColumns}
+                  fetchData={getMyProjectList}
+                  isLoading={getMyProjectListObj.isLoading}
+                  pageSize={5}
+                  scrollY={500}
+                />
               </div>
               <div className="tab-pane fade" id="accepted-project-list">
                 <div className="gaps-1x" />
-                {currentUser._id && (
-                  <ReactTable
-                    columns={acceptedProjectTableColumns}
-                    data={getAcceptedProjectListObj.acceptedProjectList.data}
-                    fetchData={getAcceptedProjectList}
-                    loading={getAcceptedProjectListObj.isLoading}
-                    pageCount={Math.ceil(getAcceptedProjectListObj.acceptedProjectList.count / 5)}
-                    defaultPageSize={5}
-                    pageSize={5}
-                  />
-                )}
+                <AntdTable
+                  dataObj={getAcceptedProjectListObj.acceptedProjectList}
+                  columns={acceptedProjectTableColumns}
+                  fetchData={getAcceptedProjectList}
+                  isLoading={getAcceptedProjectListObj.isLoading}
+                  pageSize={5}
+                  scrollY={500}
+                />
               </div>
             </div>
           </div>

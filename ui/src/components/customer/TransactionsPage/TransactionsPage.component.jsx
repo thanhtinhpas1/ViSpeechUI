@@ -4,7 +4,7 @@
 /* eslint-disable no-alert */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import AntdTable from 'components/common/AntdTable/AntdTable.component'
 import { CUSTOMER_PATH, STATUS, TOKEN_TYPE } from 'utils/constant'
@@ -15,6 +15,8 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
     {
       title: 'Mã',
       dataIndex: '_id',
+      headerClassName: 'dt-tnxno',
+      className: 'dt-tnxno',
       canSearch: true,
       render: _id => <span className="lead tnx-id">{_id}</span>,
       width: 150,
@@ -22,6 +24,8 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
     {
       title: 'Trạng thái',
       dataIndex: 'status',
+      headerClassName: 'dt-token',
+      className: 'dt-token',
       filters: [
         { text: STATUS.PENDING.viText, value: STATUS.PENDING.name },
         { text: STATUS.SUCCESS.viText, value: STATUS.SUCCESS.name },
@@ -49,7 +53,8 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
           {moment(createdDate).format('DD/MM/YYYY HH:mm')}
         </span>
       ),
-      width: 180,
+      width: 240,
+      align: 'center',
     },
     {
       title: 'Token',
@@ -88,7 +93,8 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
           </span>
         </>
       ),
-      width: 180,
+      width: 150,
+      align: 'center',
     },
     {
       title: '',
@@ -103,12 +109,24 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
     },
   ]
 
+  useEffect(() => {
+    const userId = currentUser._id
+    if (userId) {
+      const pagination = {
+        pageSize: 5,
+        current: 1,
+      }
+      getOrderList({ userId, pagination })
+    }
+  }, [currentUser._id, getOrderList])
+
   const getList = useCallback(
     // eslint-disable-next-line no-unused-vars
     ({ pagination, sortField, sortOrder, filters }) => {
       const userId = currentUser._id
-      const { current, pageSize } = pagination
-      getOrderList({ userId, pageIndex: current - 1, pageSize })
+      if (userId) {
+        getOrderList({ userId, pagination, sortField, sortOrder, filters })
+      }
     },
     [currentUser._id, getOrderList]
   )
@@ -121,15 +139,14 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
             <div className="card-head">
               <h4 className="card-title">Lịch sử giao dịch</h4>
             </div>
-            {currentUser._id && (
-              <AntdTable
-                dataObj={orderListObj.orderList}
-                columns={columns}
-                fetchData={getList}
-                isLoading={orderListObj.isLoading}
-                pageSize={5}
-              />
-            )}
+            <AntdTable
+              dataObj={orderListObj.orderList}
+              columns={columns}
+              fetchData={getList}
+              isLoading={orderListObj.isLoading}
+              pageSize={5}
+              scrollY={500}
+            />
           </div>
         </div>
       </div>

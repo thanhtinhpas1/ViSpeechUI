@@ -136,7 +136,7 @@ const ProjectsTab = ({
         </div>
       ),
       width: 180,
-      align: 'center',
+      align: 'left',
     },
     {
       title: '',

@@ -35,7 +35,7 @@ const formatAcceptedProjectList = acceptedProjectList => {
     return {
       ...project,
       status: {
-        status: project.status,
+        value: project.status,
         name: STATUS[project.status].viText,
         class: STATUS[project.status].cssClass,
       },

@@ -207,16 +207,14 @@ const ProjectDetailsPage = ({
               </div>
             </div>
             <div className="gaps-5x" />
-            {currentUser._id && (
-              <AntdTable
-                dataObj={getProjectTokenListObj.projectTokenList}
-                columns={columns}
-                fetchData={getProjectTokensList}
-                isLoading={getProjectTokenListObj.isLoading}
-                pageSize={5}
-                scrollY={500}
-              />
-            )}
+            <AntdTable
+              dataObj={getProjectTokenListObj.projectTokenList}
+              columns={columns}
+              fetchData={getProjectTokensList}
+              isLoading={getProjectTokenListObj.isLoading}
+              pageSize={5}
+              scrollY={500}
+            />
           </div>
         </div>
       </div>
