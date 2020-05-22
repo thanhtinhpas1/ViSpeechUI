@@ -26,8 +26,6 @@ const ProjectDetailsPage = ({
     {
       title: 'Token',
       dataIndex: 'value',
-      headerClassName: 'dt-tnxno',
-      className: 'dt-tnxno',
       style: { paddingRight: '30px' },
       render: value => (
         <span className="lead tnx-id">
@@ -47,7 +45,7 @@ const ProjectDetailsPage = ({
       title: 'Loại token',
       dataIndex: 'tokenType',
       headerClassName: 'dt-type',
-      className: 'dt-tnxno',
+      className: 'dt-type',
       style: { paddingRight: '30px' },
       filters: [
         { text: TOKEN_TYPE.FREE.viText, value: TOKEN_TYPE.FREE.name },
@@ -94,7 +92,6 @@ const ProjectDetailsPage = ({
       headerStyle: { textAlign: 'center' },
       style: { textAlign: 'center' },
       className: 'dt-amount',
-      sorter: true,
       render: minutesLeft => <span className="lead">{minutesLeft} phút</span>,
       width: 200,
       align: 'center',

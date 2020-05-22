@@ -4,6 +4,22 @@ export const onClearTokenState = () => ({
   type: TokenTypes.CLEAR_TOKEN_STATE,
 })
 
+// Get token list
+export const getTokenList = filterConditions => ({
+  type: TokenTypes.GET_TOKENS,
+  payload: filterConditions,
+})
+
+export const getTokenListSuccess = data => ({
+  type: TokenTypes.GET_TOKENS_SUCCESS,
+  payload: { data },
+})
+
+export const getTokenListFailure = message => ({
+  type: TokenTypes.GET_TOKENS_FAILURE,
+  payload: message,
+})
+
 // Get user token list
 export const getUserTokenList = filterConditions => ({
   type: TokenTypes.GET_USER_TOKENS,
@@ -64,5 +80,20 @@ export const getFreeTokenSuccess = data => ({
 
 export const getFreeTokenFailure = message => ({
   type: TokenTypes.GET_FREE_TOKEN_FAILURE,
+  payload: message,
+})
+
+// delete token
+export const deleteToken = id => ({
+  type: TokenTypes.DELETE_TOKEN,
+  payload: id,
+})
+
+export const deleteTokenSuccess = () => ({
+  type: TokenTypes.DELETE_TOKEN_SUCCESS,
+})
+
+export const deleteTokenFailure = message => ({
+  type: TokenTypes.DELETE_TOKEN_FAILURE,
   payload: message,
 })

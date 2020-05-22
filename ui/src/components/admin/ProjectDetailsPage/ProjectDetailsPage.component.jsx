@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useCallback, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import * as moment from 'moment'
 import AntdTable from 'components/common/AntdTable/AntdTable.component'
 import { ADMIN_PATH, TOKEN_TYPE, STATUS } from 'utils/constant'
@@ -16,6 +16,7 @@ const ProjectDetailsPage = ({
   getProjectTokens,
   updateProjectInfo,
 }) => {
+  const history = useHistory()
   const { id } = useParams()
 
   useEffect(() => {
@@ -53,7 +54,7 @@ const ProjectDetailsPage = ({
       title: 'Loại token',
       dataIndex: 'tokenType',
       headerClassName: 'dt-type',
-      className: 'dt-tnxno',
+      className: 'dt-type',
       style: { paddingRight: '30px' },
       filters: [
         { text: TOKEN_TYPE.FREE.viText, value: TOKEN_TYPE.FREE.name },
@@ -99,7 +100,6 @@ const ProjectDetailsPage = ({
       headerClassName: 'dt-amount',
       headerStyle: { textAlign: 'center' },
       className: 'dt-amount',
-      sorter: true,
       render: minutesLeft => <span className="lead">{minutesLeft} phút</span>,
       width: 200,
       align: 'center',
@@ -167,8 +167,15 @@ const ProjectDetailsPage = ({
     <div className="row">
       <div className="col-md-12">
         <div className="card">
-          <div className="card-header">
+          <div className="card-header d-flex justify-content-between align-items-center">
             <h4 className="card-title">{getProjectInfoObj.project.name}</h4>
+            <a href="#!" onClick={history.goBack} className="btn btn-auto btn-primary d-sm-block d-none">
+              <em className="fas fa-arrow-left" style={{ marginRight: '10px' }} />
+              Trở lại
+            </a>
+            <a href="#!" onClick={history.goBack} className="btn btn-icon btn-primary d-sm-none">
+              <em className="fas fa-arrow-left" />
+            </a>
           </div>
           <div className="card-content">
             <form onSubmit={onSubmit}>

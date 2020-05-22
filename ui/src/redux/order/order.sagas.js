@@ -3,9 +3,15 @@ import { call, all, takeLatest, put } from 'redux-saga/effects'
 import { TOKEN_TYPE, STATUS, ORDER_STATUS } from 'utils/constant'
 import OrderService from 'services/order.service'
 import OrderTypes from './order.types'
-import { getOrderListSuccess, getOrderListFailure, getOrderInfoSuccess, getOrderInfoFailure } from './order.actions'
+import {
+  getUserOrderListSuccess,
+  getUserOrderListFailure,
+  getOrderInfoSuccess,
+  getOrderInfoFailure,
+  getOrderListSuccess,
+  getOrderListFailure,
+} from './order.actions'
 
-// get order list
 const formatOrderList = orderList => {
   const mapFunc = order => {
     return {
@@ -26,7 +32,8 @@ const formatOrderList = orderList => {
   return orderList.map(mapFunc)
 }
 
-function* getList({ payload: filterConditions }) {
+// get order list
+function* getOrderList({ payload: filterConditions }) {
   try {
     const orderList = yield OrderService.getOrderList(filterConditions)
     orderList.data = formatOrderList(orderList.data)
@@ -36,7 +43,21 @@ function* getList({ payload: filterConditions }) {
   }
 }
 export function* getOrderListSaga() {
-  yield takeLatest(OrderTypes.GET_ORDER_LIST, getList)
+  yield takeLatest(OrderTypes.GET_ORDER_LIST, getOrderList)
+}
+
+// get user order list
+function* getUserOrderList({ payload: filterConditions }) {
+  try {
+    const orderList = yield OrderService.getUserOrderList(filterConditions)
+    orderList.data = formatOrderList(orderList.data)
+    yield put(getUserOrderListSuccess(orderList))
+  } catch (err) {
+    yield put(getUserOrderListFailure(err.message))
+  }
+}
+export function* getUserOrderListSaga() {
+  yield takeLatest(OrderTypes.GET_USER_ORDER_LIST, getUserOrderList)
 }
 
 // get order info
@@ -68,7 +89,7 @@ function* getOrderInfo({ payload: { id, tokenId } }) {
     yield put(getOrderInfoFailure(err.message))
   }
 }
-export function* getOrderInfotSaga() {
+export function* getOrderInfoSaga() {
   yield takeLatest(OrderTypes.GET_ORDER_INFO, getOrderInfo)
 }
 
@@ -89,5 +110,5 @@ export function* getOrderInfotSaga() {
 // =================================
 
 export function* orderSaga() {
-  yield all([call(getOrderListSaga), call(getOrderInfotSaga)])
+  yield all([call(getOrderListSaga), call(getUserOrderListSaga), call(getOrderInfoSaga)])
 }

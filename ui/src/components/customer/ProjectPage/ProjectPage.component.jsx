@@ -24,8 +24,6 @@ const ProjectPage = ({
     {
       title: 'Tên dự án',
       dataIndex: 'name',
-      headerClassName: 'dt-tnxno',
-      className: 'dt-tnxno',
       style: { paddingRight: '30px' },
       canSearch: true,
       render: name => (
@@ -39,10 +37,30 @@ const ProjectPage = ({
       title: 'Mô tả',
       dataIndex: 'description',
       headerClassName: 'dt-type',
-      className: 'dt-tnxno',
+      className: 'dt-type',
       style: { paddingRight: '30px' },
       render: description => <div className="d-flex align-items-center">{description}</div>,
       width: 200,
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'isValid',
+      headerClassName: 'dt-token',
+      className: 'dt-amount',
+      filters: [
+        { text: STATUS.VALID.viText, value: STATUS.VALID.name },
+        { text: STATUS.INVALID.viText, value: STATUS.INVALID.name },
+      ],
+      filterMultiple: false,
+      render: isValid => (
+        <div className="d-flex align-items-center">
+          <div className={`data-state ${isValid.cssClass}`} />
+          <span className="sub sub-s2" style={{ paddingTop: '0' }}>
+            {isValid.viText}
+          </span>
+        </div>
+      ),
+      width: 180,
     },
     {
       title: 'Thời gian tạo',
@@ -61,11 +79,13 @@ const ProjectPage = ({
     {
       title: '',
       dataIndex: '_id',
-      render: _id => (
-        <Link to={`${CUSTOMER_PATH}/my-project/${_id}`} className="btn btn-light-alt btn-xs btn-icon">
-          <em className="ti ti-eye" />
-        </Link>
-      ),
+      render: _id => {
+        return (
+          <Link to={`${CUSTOMER_PATH}/my-project/${_id}`} className="btn btn-light-alt btn-xs btn-icon">
+            <em className="ti ti-eye" />
+          </Link>
+        )
+      },
       width: 60,
       align: 'right',
     },
@@ -75,8 +95,6 @@ const ProjectPage = ({
     {
       title: 'Tên dự án',
       dataIndex: 'name',
-      headerClassName: 'dt-tnxno',
-      className: 'dt-tnxno',
       style: { paddingRight: '30px' },
       canSearch: true,
       render: name => (
@@ -90,7 +108,7 @@ const ProjectPage = ({
       title: 'Mô tả',
       dataIndex: 'description',
       headerClassName: 'dt-type',
-      className: 'dt-tnxno',
+      className: 'dt-type',
       style: { paddingRight: '30px' },
       render: description => <div className="d-flex align-items-center">{description}</div>,
       width: 200,
@@ -102,6 +120,26 @@ const ProjectPage = ({
       className: 'dt-amount',
       canSearch: true,
       render: ownerName => <span className="lead tnx-id">{ownerName}</span>,
+      width: 180,
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'isValid',
+      headerClassName: 'dt-token',
+      className: 'dt-amount',
+      filters: [
+        { text: STATUS.VALID.viText, value: STATUS.VALID.name },
+        { text: STATUS.INVALID.viText, value: STATUS.INVALID.name },
+      ],
+      filterMultiple: false,
+      render: isValid => (
+        <div className="d-flex align-items-center">
+          <div className={`data-state ${isValid.cssClass}`} />
+          <span className="sub sub-s2" style={{ paddingTop: '0' }}>
+            {isValid.viText}
+          </span>
+        </div>
+      ),
       width: 180,
     },
     {

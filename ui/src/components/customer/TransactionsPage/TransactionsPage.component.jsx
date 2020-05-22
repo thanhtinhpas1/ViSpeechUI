@@ -10,13 +10,11 @@ import AntdTable from 'components/common/AntdTable/AntdTable.component'
 import { CUSTOMER_PATH, STATUS, TOKEN_TYPE } from 'utils/constant'
 import * as moment from 'moment'
 
-const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
+const TransactionsPage = ({ currentUser, getUserOrderListObj, getUserOrderList }) => {
   const columns = [
     {
       title: 'Mã',
       dataIndex: '_id',
-      headerClassName: 'dt-tnxno',
-      className: 'dt-tnxno',
       canSearch: true,
       render: _id => <span className="lead tnx-id">{_id}</span>,
       width: 150,
@@ -79,7 +77,6 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
       title: () => <div className="dt-type-text">Loại token</div>,
       dataIndex: 'tokenType',
       filters: [
-        { text: TOKEN_TYPE.FREE.viText, value: TOKEN_TYPE.FREE.name },
         { text: TOKEN_TYPE['50-MINS'].viText, value: TOKEN_TYPE['50-MINS'].name },
         { text: TOKEN_TYPE['200-MINS'].viText, value: TOKEN_TYPE['200-MINS'].name },
         { text: TOKEN_TYPE['500-MINS'].viText, value: TOKEN_TYPE['500-MINS'].name },
@@ -116,19 +113,19 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
         pageSize: 5,
         current: 1,
       }
-      getOrderList({ userId, pagination })
+      getUserOrderList({ userId, pagination })
     }
-  }, [currentUser._id, getOrderList])
+  }, [currentUser._id, getUserOrderList])
 
   const getList = useCallback(
     // eslint-disable-next-line no-unused-vars
     ({ pagination, sortField, sortOrder, filters }) => {
       const userId = currentUser._id
       if (userId) {
-        getOrderList({ userId, pagination, sortField, sortOrder, filters })
+        getUserOrderList({ userId, pagination, sortField, sortOrder, filters })
       }
     },
-    [currentUser._id, getOrderList]
+    [currentUser._id, getUserOrderList]
   )
 
   return (
@@ -140,10 +137,10 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
               <h4 className="card-title">Lịch sử giao dịch</h4>
             </div>
             <AntdTable
-              dataObj={orderListObj.orderList}
+              dataObj={getUserOrderListObj.userOrderList}
               columns={columns}
               fetchData={getList}
-              isLoading={orderListObj.isLoading}
+              isLoading={getUserOrderListObj.isLoading}
               pageSize={5}
               scrollY={500}
             />

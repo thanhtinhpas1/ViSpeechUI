@@ -1,14 +1,14 @@
 import { connect } from 'react-redux'
-import { getOrderList } from 'redux/order/order.actions'
+import { getUserOrderList } from 'redux/order/order.actions'
 import TokenSaleGraph from './TokenSaleGraph.component'
 
 const mapStateToProps = state => ({
   currentUser: state.user.currentUser,
-  orderListObj: state.order.getList,
+  getUserOrderListObj: state.order.getUserOrderList,
 })
 
 const mapDispatchToProps = dispatch => ({
-  getOrderList: ({ userId, pageIndex, pageSize }) => dispatch(getOrderList({ userId, pageIndex, pageSize })),
+  getUserOrderList: ({ userId, pageIndex, pageSize }) => dispatch(getUserOrderList({ userId, pageIndex, pageSize })),
 })
 
 const TokenSaleGraphContainer = connect(mapStateToProps, mapDispatchToProps)(TokenSaleGraph)

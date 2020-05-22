@@ -23,8 +23,6 @@ const ProjectsTab = ({
     {
       title: 'Tên dự án',
       dataIndex: 'name',
-      headerClassName: 'dt-tnxno',
-      className: 'dt-tnxno',
       style: { paddingRight: '30px' },
       canSearch: true,
       render: name => (
@@ -38,10 +36,30 @@ const ProjectsTab = ({
       title: 'Mô tả',
       dataIndex: 'description',
       headerClassName: 'dt-type',
-      className: 'dt-tnxno',
+      className: 'dt-type',
       style: { paddingRight: '30px' },
       render: description => <div className="d-flex align-items-center">{description}</div>,
       width: 200,
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'isValid',
+      headerClassName: 'dt-token',
+      className: 'dt-amount',
+      filters: [
+        { text: STATUS.VALID.viText, value: STATUS.VALID.name },
+        { text: STATUS.INVALID.viText, value: STATUS.INVALID.name },
+      ],
+      filterMultiple: false,
+      render: isValid => (
+        <div className="d-flex align-items-center">
+          <div className={`data-state ${isValid.cssClass}`} />
+          <span className="sub sub-s2" style={{ paddingTop: '0' }}>
+            {isValid.viText}
+          </span>
+        </div>
+      ),
+      width: 180,
     },
     {
       title: 'Thời gian tạo',
@@ -74,8 +92,6 @@ const ProjectsTab = ({
     {
       title: 'Tên dự án',
       dataIndex: 'name',
-      headerClassName: 'dt-tnxno',
-      className: 'dt-tnxno',
       style: { paddingRight: '30px' },
       canSearch: true,
       render: name => (
@@ -89,10 +105,30 @@ const ProjectsTab = ({
       title: 'Mô tả',
       dataIndex: 'description',
       headerClassName: 'dt-type',
-      className: 'dt-tnxno',
+      className: 'dt-type',
       style: { paddingRight: '30px' },
       render: description => <div className="d-flex align-items-center">{description}</div>,
       width: 200,
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'isValid',
+      headerClassName: 'dt-token',
+      className: 'dt-amount',
+      filters: [
+        { text: STATUS.VALID.viText, value: STATUS.VALID.name },
+        { text: STATUS.INVALID.viText, value: STATUS.INVALID.name },
+      ],
+      filterMultiple: false,
+      render: isValid => (
+        <div className="d-flex align-items-center">
+          <div className={`data-state ${isValid.cssClass}`} />
+          <span className="sub sub-s2" style={{ paddingTop: '0' }}>
+            {isValid.viText}
+          </span>
+        </div>
+      ),
+      width: 180,
     },
     {
       title: 'Tạo bởi',

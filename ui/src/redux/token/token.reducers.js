@@ -13,6 +13,12 @@ const INITIAL_STATE = {
     isSuccess: null,
     errorMessage: null,
   },
+  getTokenList: {
+    tokenList: { data: [], count: 0 },
+    isLoading: false,
+    isSuccess: null,
+    errorMessage: null,
+  },
   getProjectTokenList: {
     projectTokenList: { data: [], count: 0 },
     isLoading: false,
@@ -24,6 +30,11 @@ const INITIAL_STATE = {
     isLoading: false,
     isSuccess: null,
     errorMessage: null,
+  },
+  deleteToken: {
+    isLoading: false,
+    isSuccess: null,
+    message: null,
   },
 }
 
@@ -56,6 +67,34 @@ const tokenReducer = (state = INITIAL_STATE, action) => {
         ...state,
         getUserTokenList: {
           ...state.getUserTokenList,
+          isLoading: false,
+          isSuccess: false,
+          message: action.payload,
+        },
+      }
+    // GET TOKENS
+    case TokenTypes.GET_TOKENS:
+      return {
+        ...state,
+        getTokenList: {
+          ...state.getTokenList,
+          isLoading: true,
+        },
+      }
+    case TokenTypes.GET_TOKENS_SUCCESS:
+      return {
+        ...state,
+        getTokenList: {
+          isLoading: false,
+          isSuccess: true,
+          tokenList: action.payload.data,
+        },
+      }
+    case TokenTypes.GET_TOKENS_FAILURE:
+      return {
+        ...state,
+        getTokenList: {
+          ...state.getTokenList,
           isLoading: false,
           isSuccess: false,
           message: action.payload,
@@ -140,6 +179,32 @@ const tokenReducer = (state = INITIAL_STATE, action) => {
         ...state,
         getFreeToken: {
           ...state.getFreeToken,
+          isLoading: false,
+          isSuccess: false,
+          message: action.payload,
+        },
+      }
+    // DELETE TOKEN
+    case TokenTypes.DELETE_TOKEN:
+      return {
+        ...state,
+        deleteToken: {
+          ...state.deleteToken,
+          isLoading: true,
+        },
+      }
+    case TokenTypes.DELETE_TOKEN_SUCCESS:
+      return {
+        ...state,
+        deleteToken: {
+          isLoading: false,
+          isSuccess: true,
+        },
+      }
+    case TokenTypes.DELETE_TOKEN_FAILURE:
+      return {
+        ...state,
+        deleteToken: {
           isLoading: false,
           isSuccess: false,
           message: action.payload,

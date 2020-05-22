@@ -7,10 +7,10 @@
 import React, { useEffect } from 'react'
 import moment from 'moment'
 
-const TokenSaleGraph = ({ orderListObj }) => {
+const TokenSaleGraph = ({ userOrderListObj }) => {
   useEffect(() => {
-    const labels = orderListObj.orderList.data.map(order => moment(order.createdDate).format('YYYY-MM-DD'))
-    const data = orderListObj.orderList.data.map(order => {
+    const labels = userOrderListObj.userOrderList.data.map(order => moment(order.createdDate).format('YYYY-MM-DD'))
+    const data = userOrderListObj.userOrderList.data.map(order => {
       const tokenType = order.tokenType ? order.tokenType : null
       return tokenType ? tokenType.price : 0
     })
@@ -86,7 +86,7 @@ const TokenSaleGraph = ({ orderListObj }) => {
         },
       },
     })
-  }, [orderListObj])
+  }, [userOrderListObj])
 
   return (
     <div className="card-innr">

@@ -1,19 +1,19 @@
-/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-alert */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import * as moment from 'moment'
 import AntdTable from 'components/common/AntdTable/AntdTable.component'
-import { ADMIN_PATH, TOKEN_TYPE, STATUS } from 'utils/constant'
+import { ADMIN_PATH, STATUS, TOKEN_TYPE } from 'utils/constant'
 
-const TransactionsTab = ({ userInfoObj, getUserOrderListObj, getUserOrderList }) => {
+const TransactionsPage = ({ getOrderListObj, getOrderList }) => {
   const columns = [
     {
       title: 'Mã đơn hàng',
       dataIndex: '_id',
+      canSearch: true,
       render: _id => <span className="lead tnx-id">{_id}</span>,
       width: 150,
     },
@@ -63,7 +63,6 @@ const TransactionsTab = ({ userInfoObj, getUserOrderListObj, getUserOrderList })
       headerClassName: 'dt-type',
       className: 'dt-type',
       filters: [
-        { text: TOKEN_TYPE.FREE.viText, value: TOKEN_TYPE.FREE.name },
         { text: TOKEN_TYPE['50-MINS'].viText, value: TOKEN_TYPE['50-MINS'].name },
         { text: TOKEN_TYPE['200-MINS'].viText, value: TOKEN_TYPE['200-MINS'].name },
         { text: TOKEN_TYPE['500-MINS'].viText, value: TOKEN_TYPE['500-MINS'].name },
@@ -79,6 +78,24 @@ const TransactionsTab = ({ userInfoObj, getUserOrderListObj, getUserOrderList })
       ),
       width: 150,
       align: 'center',
+    },
+    {
+      title: 'Khách hàng',
+      dataIndex: 'username',
+      headerClassName: 'dt-amount',
+      className: 'dt-amount',
+      canSearch: true,
+      render: username => <span className="lead tnx-id">{username}</span>,
+      width: 180,
+    },
+    {
+      title: 'Dự án',
+      dataIndex: 'projectName',
+      headerClassName: 'dt-amount',
+      className: 'dt-amount',
+      canSearch: true,
+      render: projectName => <span className="lead tnx-id">{projectName}</span>,
+      width: 180,
     },
     {
       title: 'Thời gian tạo',
@@ -108,38 +125,36 @@ const TransactionsTab = ({ userInfoObj, getUserOrderListObj, getUserOrderList })
   ]
 
   useEffect(() => {
-    const userId = userInfoObj.user._id
-    if (userId) {
-      const pagination = {
-        pageSize: 5,
-        current: 1,
-      }
-      getUserOrderList({ userId, pagination })
+    const pagination = {
+      pageSize: 10,
+      current: 1,
     }
-  }, [userInfoObj.user._id, getUserOrderList])
-
-  const getList = useCallback(
-    ({ pagination, sortField, sortOrder, filters }) => {
-      const userId = userInfoObj.user._id
-      if (userId) {
-        getUserOrderList({ userId, pagination, sortField, sortOrder, filters })
-      }
-    },
-    [userInfoObj.user._id, getUserOrderList]
-  )
+    getOrderList({ pagination })
+  }, [getOrderList])
 
   return (
-    <div>
-      <AntdTable
-        dataObj={getUserOrderListObj.userOrderList}
-        columns={columns}
-        fetchData={getList}
-        isLoading={getUserOrderListObj.isLoading}
-        pageSize={5}
-        scrollY={500}
-      />
+    <div className="row">
+      <div className="col-md-12">
+        <div className="card">
+          <div className="card-header">
+            <h4 className="card-title">Lịc sử giao dịch</h4>
+          </div>
+          <div className="card-content">
+            <div className="material-datatables">
+              <AntdTable
+                dataObj={getOrderListObj.orderList}
+                columns={columns}
+                fetchData={getOrderList}
+                isLoading={getOrderListObj.isLoading}
+                pageSize={10}
+                scrollY={700}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
 
-export default TransactionsTab
+export default TransactionsPage

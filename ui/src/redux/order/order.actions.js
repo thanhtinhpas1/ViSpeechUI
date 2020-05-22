@@ -20,6 +20,22 @@ export const getOrderListFailure = message => ({
   payload: message,
 })
 
+// get user order list
+export const getUserOrderList = filterConditions => ({
+  type: OrderTypes.GET_USER_ORDER_LIST,
+  payload: filterConditions,
+})
+
+export const getUserOrderListSuccess = data => ({
+  type: OrderTypes.GET_USER_ORDER_LIST_SUCCESS,
+  payload: { data },
+})
+
+export const getUserOrderListFailure = message => ({
+  type: OrderTypes.GET_USER_ORDER_LIST_FAILURE,
+  payload: message,
+})
+
 // get order info
 export const getOrderInfo = ({ id, tokenId }) => ({
   type: OrderTypes.GET_ORDER_INFO,

@@ -89,6 +89,24 @@ const Sidebar = ({ currentUser, onAuthenticate, logout }) => {
               </ul>
             </div>
           </li>
+          <li className={`${location.pathname === `${ADMIN_PATH}/projects` ? 'active' : ''} `}>
+            <a href={`${ADMIN_PATH}/projects`}>
+              <i className="material-icons">library_books</i>
+              <p>Danh sách dự án</p>
+            </a>
+          </li>
+          <li className={`${location.pathname === `${ADMIN_PATH}/tokens` ? 'active' : ''} `}>
+            <a href={`${ADMIN_PATH}/tokens`}>
+              <i className="material-icons">library_books</i>
+              <p>Danh sách token</p>
+            </a>
+          </li>
+          <li className={`${location.pathname === `${ADMIN_PATH}/transactions` ? 'active' : ''} `}>
+            <a href={`${ADMIN_PATH}/transactions`}>
+              <i className="material-icons">library_books</i>
+              <p>Lịch sử giao dịch</p>
+            </a>
+          </li>
           <li className={`${location.pathname === `${ADMIN_PATH}/reports` ? 'active' : ''} `}>
             <a href={`${ADMIN_PATH}/reports`}>
               <i className="material-icons">equalizer</i>
