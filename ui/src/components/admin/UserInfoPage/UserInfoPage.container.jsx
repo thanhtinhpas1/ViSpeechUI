@@ -5,7 +5,6 @@ import UserInfoPage from './UserInfoPage.component'
 const mapStateToProps = state => ({
   userInfoObj: state.user.getInfo,
   deleteUserObj: state.user.deleteUser,
-  updateInfoObj: state.user.updateInfo,
 })
 
 const mapDispatchToProps = dispatch => ({

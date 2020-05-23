@@ -31,10 +31,7 @@ const PayOption = ({ payOption }) => (
           {payOption.price}/ {payOption.time}
         </span>
         {payOption.saleOff ? (
-          <span
-            className="pay-amount"
-            style={{ marginBottom: '0.5em', color: 'red' }}
-          >
+          <span className="pay-amount" style={{ marginBottom: '0.5em', color: 'red' }}>
             {payOption.saleOff.price}/ {payOption.saleOff.time}
           </span>
         ) : null}

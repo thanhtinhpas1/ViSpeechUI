@@ -10,10 +10,7 @@ import PermissionService from 'services/permission.service'
 import Utils from 'utils'
 
 const { KAFKA_TOPIC, invokeCheckSubject } = SocketUtils
-const {
-  PERMISSION_ASSIGN_REPLIED_SUCCESS_EVENT,
-  PERMISSION_ASSIGN_REPLIED_FAILED_EVENT,
-} = KAFKA_TOPIC
+const { PERMISSION_ASSIGN_REPLIED_SUCCESS_EVENT, PERMISSION_ASSIGN_REPLIED_FAILED_EVENT } = KAFKA_TOPIC
 
 const ReplyPermissionAssignPage = ({
   currentUser,
@@ -31,8 +28,6 @@ const ReplyPermissionAssignPage = ({
   const history = useHistory()
 
   useEffect(() => {
-    SocketService.socketEmitEvent(PERMISSION_ASSIGN_REPLIED_SUCCESS_EVENT)
-    SocketService.socketEmitEvent(PERMISSION_ASSIGN_REPLIED_FAILED_EVENT)
     SocketService.socketOnListeningEvent(PERMISSION_ASSIGN_REPLIED_SUCCESS_EVENT)
     SocketService.socketOnListeningEvent(PERMISSION_ASSIGN_REPLIED_FAILED_EVENT)
   }, [])
@@ -64,10 +59,7 @@ const ReplyPermissionAssignPage = ({
       }
 
       // 2 cases: refresh page or click verify button again
-      if (
-        replyPermissionAssignObj.isLoading === false &&
-        replyPermissionAssignObj.isSuccess === true
-      ) {
+      if (replyPermissionAssignObj.isLoading === false && replyPermissionAssignObj.isSuccess === true) {
         setInfoModal(infoObj)
         window.$('#info-modal').modal('show')
         return
@@ -124,8 +116,7 @@ const ReplyPermissionAssignPage = ({
         setInfoTemplate({
           title: 'Phản hồi lời mời',
           user: currentUser,
-          content:
-            'Bạn được mời tham gia dự án.<br/>Nhấn chấp nhận hoặc từ chối để phản hồi lời mời.',
+          content: 'Bạn được mời tham gia dự án.<br/>Nhấn chấp nhận hoặc từ chối để phản hồi lời mời.',
           positiveButton: {
             content: STATUS.ACCEPTED.viText,
             clickFunc: () => onReplyPermissionAssign(STATUS.ACCEPTED.name),
@@ -140,10 +131,7 @@ const ReplyPermissionAssignPage = ({
   }, [currentUser, findPermissionByEmailTokenObj, history, onReplyPermissionAssign])
 
   useEffect(() => {
-    if (
-      replyPermissionAssignObj.isLoading === false &&
-      replyPermissionAssignObj.isSuccess != null
-    ) {
+    if (replyPermissionAssignObj.isLoading === false && replyPermissionAssignObj.isSuccess != null) {
       if (replyPermissionAssignObj.isSuccess === true) {
         setInfoModal({
           title: 'Phản hồi lời mời',

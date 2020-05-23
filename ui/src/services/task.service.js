@@ -1,17 +1,21 @@
 import STORAGE from 'utils/storage'
 import { JWT_TOKEN, DEFAULT_ERR_MESSAGE } from 'utils/constant'
+import Utils from 'utils'
 import { apiUrl } from './api-url'
 
 export default class TaskService {
   static getTaskList = filterConditions => {
-    const { pageIndex, pageSize } = filterConditions
-    const offset = pageIndex * pageSize
-    const limit = pageSize
+    const { pagination, sortField, sortOrder, filters } = filterConditions
+    const { current, pageSize } = pagination
+    const offset = (current - 1) * pageSize || 0
+    const limit = pageSize || 0
 
-    const api =
-      pageIndex != null && pageSize != null
-        ? `${apiUrl}/tasks?offset=${offset}&limit=${limit}`
-        : `${apiUrl}/tasks`
+    let query = `${Utils.parameterizeObject({ offset, limit })}`
+    query += Utils.buildSortQuery(sortField, sortOrder)
+    query += Utils.buildFiltersQuery(filters)
+    query = Utils.trimByChar(query, '&')
+
+    const api = `${apiUrl}/tasks?${query}`
     const jwtToken = STORAGE.getPreferences(JWT_TOKEN)
 
     let status = 400

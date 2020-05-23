@@ -21,11 +21,7 @@ const ReportUtils = {
     return moment(new Date(Date.now()))
   },
   getPreviousTenDatesFromNow: () => {
-    return moment(
-      new Date(
-        Date.now() - ReportUtils.ONE_DAY_IN_MILLISECONDS * (ReportUtils.RANGE_PICKER_LIMIT - 3)
-      )
-    )
+    return moment(new Date(Date.now() - ReportUtils.ONE_DAY_IN_MILLISECONDS * (ReportUtils.RANGE_PICKER_LIMIT - 3)))
   },
   getOnlyDate: date => {
     let formattedDate = JSON.parse(JSON.stringify(date)) // string

@@ -13,9 +13,7 @@ export default class ReportService {
     })}&${Utils.parameterizeObject({ fromYear, toYear })}`
     query = Utils.trimByChar(query, '&')
 
-    const api = `${apiUrl}/reports/statistics-by-id/${encodeURIComponent(
-      id
-    )}/${statisticsType}/${timeType}?${query}`
+    const api = `${apiUrl}/reports/statistics-by-id/${encodeURIComponent(id)}/${statisticsType}/${timeType}?${query}`
     const jwtToken = STORAGE.getPreferences(JWT_TOKEN)
 
     let status = 400
@@ -51,9 +49,9 @@ export default class ReportService {
     })}&${Utils.parameterizeObject({ fromYear, toYear })}`
     query = Utils.trimByChar(query, '&')
 
-    const api = `${apiUrl}/reports/user-token-type-statistics/${encodeURIComponent(
-      id
-    )}/${encodeURIComponent(userId)}/${timeType}?${query}`
+    const api = `${apiUrl}/reports/user-token-type-statistics/${encodeURIComponent(id)}/${encodeURIComponent(
+      userId
+    )}/${timeType}?${query}`
     const jwtToken = STORAGE.getPreferences(JWT_TOKEN)
 
     let status = 400

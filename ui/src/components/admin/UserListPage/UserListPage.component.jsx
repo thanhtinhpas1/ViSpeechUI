@@ -4,9 +4,9 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect, useState } from 'react'
-import { ADMIN_PATH } from 'utils/constant'
+import { ADMIN_PATH, ROLES } from 'utils/constant'
 import * as moment from 'moment'
-import ReactTable from 'components/admin/ReactTable/ReactTable.component'
+import AntdTable from 'components/common/AntdTable/AntdTable.component'
 import SocketService from 'services/socket.service'
 import UserService from 'services/user.service'
 import SocketUtils from 'utils/socket.util'
@@ -35,14 +35,6 @@ const UserListPage = ({
   const [infoModal, setInfoModal] = useState({})
 
   useEffect(() => {
-    SocketService.socketEmitEvent(USER_DELETED_FAILED_EVENT)
-    SocketService.socketEmitEvent(TOKEN_DELETED_BY_USERID_SUCCESS_EVENT)
-    SocketService.socketEmitEvent(TOKEN_DELETED_BY_USERID_FAILED_EVENT)
-    SocketService.socketEmitEvent(PROJECT_DELETED_BY_USERID_SUCCESS_EVENT)
-    SocketService.socketEmitEvent(PROJECT_DELETED_BY_USERID_FAILED_EVENT)
-    SocketService.socketEmitEvent(PERMISSION_DELETED_BY_USERID_SUCCESS_EVENT)
-    SocketService.socketEmitEvent(PERMISSION_DELETED_BY_USERID_FAILED_EVENT)
-
     SocketService.socketOnListeningEvent(USER_DELETED_FAILED_EVENT)
     SocketService.socketOnListeningEvent(TOKEN_DELETED_BY_USERID_SUCCESS_EVENT)
     SocketService.socketOnListeningEvent(TOKEN_DELETED_BY_USERID_FAILED_EVENT)
@@ -63,7 +55,7 @@ const UserListPage = ({
             content: 'Đóng',
             clickFunc: () => {
               window.$('#info-modal').modal('hide')
-              getUserList({ pageIndex: 0, pageSize: 5 })
+              getUserList({ pagination: { current: 1, pageSize: 5 } })
             },
           },
         })
@@ -127,70 +119,81 @@ const UserListPage = ({
 
   const columns = [
     {
-      Header: 'Họ tên',
-      accessor: 'fullName',
-      Cell: props => {
-        const { cell } = props
-        return <span>{cell.value}</span>
+      title: 'Họ',
+      dataIndex: 'lastName',
+      canSearch: true,
+      render: lastName => <span>{lastName}</span>,
+      width: 180,
+    },
+    {
+      title: 'Tên',
+      dataIndex: 'firstName',
+      canSearch: true,
+      render: firstName => <span>{firstName}</span>,
+      width: 180,
+    },
+    {
+      title: 'Tên đăng nhập',
+      dataIndex: 'username',
+      canSearch: true,
+      render: username => <span>{username}</span>,
+      width: 180,
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      canSearch: true,
+      render: email => <span>{email}</span>,
+      width: 180,
+    },
+    {
+      title: 'Vai trò',
+      dataIndex: 'roles',
+      filters: [
+        { text: ROLES.USER, value: ROLES.USER },
+        { text: ROLES.MANAGER_USER, value: ROLES.MANAGER_USER },
+        { text: ROLES.ADMIN, value: ROLES.ADMIN },
+      ],
+      filterMultiple: false,
+      render: roles => {
+        return <span>{roles[0].name}</span>
       },
+      width: 180,
     },
     {
-      Header: 'Tên đăng nhập',
-      accessor: 'username',
-      Cell: props => {
-        const { cell } = props
-        return <span>{cell.value}</span>
-      },
+      title: 'Tạo ngày',
+      dataIndex: 'createdDate',
+      sorter: true,
+      render: createdDate => moment(createdDate).format('DD/MM/YYYY HH:mm'),
+      width: 180,
+      align: 'center',
     },
     {
-      Header: 'Email',
-      accessor: 'email',
-      Cell: props => {
-        const { cell } = props
-        return <span>{cell.value}</span>
-      },
-    },
-    {
-      Header: 'Vai trò',
-      accessor: 'rolesInText',
-      Cell: props => {
-        const { cell } = props
-        return <span>{cell.value}</span>
-      },
-    },
-    {
-      Header: 'Tạo ngày',
-      accessor: 'createdDate',
-      Cell: props => moment(props.cell.value).format('DD/MM/YYYY HH:mm'),
-    },
-    {
-      Header: '',
-      accessor: '_id',
-      id: 'action',
+      title: '',
+      dataIndex: '_id',
       headerClassName: 'text-right',
-      className: 'text-right',
-      Cell: props => {
-        const { cell } = props
-        return (
-          <>
-            <a
-              href={`${ADMIN_PATH}/user-info/${cell.value}`}
-              className="btn btn-simple btn-secondary btn-just-icon"
-            >
-              <i className="zmdi zmdi-eye" />
-            </a>
-            <a
-              href="#"
-              className="btn btn-simple btn-danger btn-just-icon"
-              onClick={() => onDeleteUser(cell.value)}
-            >
-              <i className="zmdi zmdi-close-circle-o" />
-            </a>
-          </>
-        )
-      },
+      render: _id => (
+        <>
+          <a href={`${ADMIN_PATH}/user-info/${_id}`} className="btn btn-simple btn-secondary btn-just-icon">
+            <i className="zmdi zmdi-eye" />
+          </a>
+          <a href="#" className="btn btn-simple btn-danger btn-just-icon" onClick={() => onDeleteUser(_id)}>
+            <i className="zmdi zmdi-close-circle-o" />
+          </a>
+        </>
+      ),
+      width: 120,
+      align: 'right',
     },
   ]
+
+  useEffect(() => {
+    const pagination = {
+      pageSize: 10,
+      current: 1,
+    }
+    getUserList({ pagination })
+  }, [getUserList])
 
   return (
     <div className="row">
@@ -211,14 +214,13 @@ const UserListPage = ({
           </div>
           <div className="card-content">
             <div className="material-datatables">
-              <ReactTable
+              <AntdTable
+                dataObj={userListObj.userList}
                 columns={columns}
-                data={userListObj.userList.data}
                 fetchData={getUserList}
-                loading={userListObj.isLoading}
-                pageCount={Math.ceil(userListObj.userList.count / 5)}
-                defaultPageSize={5}
+                isLoading={userListObj.isLoading}
                 pageSize={5}
+                scrollY={500}
               />
             </div>
           </div>

@@ -16,8 +16,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   findPermissionByEmailToken: queryParams => dispatch(findPermissionByEmailToken(queryParams)),
-  replyPermissionAssign: ({ emailToken, status }) =>
-    dispatch(replyPermissionAssign({ emailToken, status })),
+  replyPermissionAssign: ({ emailToken, status }) => dispatch(replyPermissionAssign({ emailToken, status })),
   replyPermissionAssignSuccess: ({ emailToken, status }) =>
     dispatch(replyPermissionAssignSuccess({ emailToken, status })),
   replyPermissionAssignFailure: ({ emailToken, status }) =>
@@ -25,9 +24,6 @@ const mapDispatchToProps = dispatch => ({
   onAuthenticate: token => dispatch(authenticate(token)),
 })
 
-const ReplyPermissionAssignPageContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ReplyPermissionAssignPage)
+const ReplyPermissionAssignPageContainer = connect(mapStateToProps, mapDispatchToProps)(ReplyPermissionAssignPage)
 
 export default ReplyPermissionAssignPageContainer

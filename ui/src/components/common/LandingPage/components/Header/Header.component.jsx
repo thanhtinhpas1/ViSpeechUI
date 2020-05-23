@@ -40,11 +40,7 @@ const Header = () => {
       <div className="container">
         <nav className="navbar navbar-expand-lg">
           <a className="navbar-brand" href="/">
-            <img
-              className="light-logo"
-              src={`${process.env.PUBLIC_URL}/images/customer/logo-light.svg`}
-              alt=""
-            />
+            <img className="light-logo" src={`${process.env.PUBLIC_URL}/images/customer/logo-light.svg`} alt="" />
           </a>
           <button
             className="navbar-toggler"

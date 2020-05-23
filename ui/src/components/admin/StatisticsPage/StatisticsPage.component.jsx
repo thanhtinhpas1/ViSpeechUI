@@ -47,22 +47,12 @@ const StatisticsPage = () => {
             <div role="tabpanel">
               <ul className="nav nav-pills">
                 <li className="active">
-                  <a
-                    href="#total-statistics"
-                    aria-controls="total-statistics"
-                    role="tab"
-                    data-toggle="tab"
-                  >
+                  <a href="#total-statistics" aria-controls="total-statistics" role="tab" data-toggle="tab">
                     Thống kê tổng
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#statistics-by-id"
-                    aria-controls="statistics-by-id"
-                    role="tab"
-                    data-toggle="tab"
-                  >
+                  <a href="#statistics-by-id" aria-controls="statistics-by-id" role="tab" data-toggle="tab">
                     Thống kê chi tiết
                   </a>
                 </li>

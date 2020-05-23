@@ -8,7 +8,6 @@ import { getRequestListSuccess, getRequestListFailure } from './request.actions'
 function* getList({ payload: filterConditions }) {
   try {
     const requestList = yield RequestService.getRequestList(filterConditions)
-    // requestList.data = formatOrderList(requestList.data)
     yield put(getRequestListSuccess(requestList))
   } catch (err) {
     yield put(getRequestListFailure(err.message))

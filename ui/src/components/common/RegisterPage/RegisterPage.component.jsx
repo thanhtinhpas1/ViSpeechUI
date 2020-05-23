@@ -11,25 +11,12 @@ import SocketUtils from 'utils/socket.util'
 import Utils from 'utils'
 
 const { KAFKA_TOPIC, invokeCheckSubject } = SocketUtils
-const {
-  FREE_TOKEN_CREATED_SUCCESS_EVENT,
-  FREE_TOKEN_CREATED_FAILED_EVENT,
-  USER_CREATED_FAILED_EVENT,
-} = KAFKA_TOPIC
+const { FREE_TOKEN_CREATED_SUCCESS_EVENT, FREE_TOKEN_CREATED_FAILED_EVENT, USER_CREATED_FAILED_EVENT } = KAFKA_TOPIC
 
-const RegisterPage = ({
-  registerObj,
-  onClearUserState,
-  registerStart,
-  registerSuccess,
-  registerFailure,
-}) => {
+const RegisterPage = ({ registerObj, onClearUserState, registerStart, registerSuccess, registerFailure }) => {
   const history = useHistory()
 
   useEffect(() => {
-    SocketService.socketEmitEvent(USER_CREATED_FAILED_EVENT)
-    SocketService.socketEmitEvent(FREE_TOKEN_CREATED_SUCCESS_EVENT)
-    SocketService.socketEmitEvent(FREE_TOKEN_CREATED_FAILED_EVENT)
     SocketService.socketOnListeningEvent(USER_CREATED_FAILED_EVENT)
     SocketService.socketOnListeningEvent(FREE_TOKEN_CREATED_SUCCESS_EVENT)
     SocketService.socketOnListeningEvent(FREE_TOKEN_CREATED_FAILED_EVENT)
@@ -57,7 +44,7 @@ const RegisterPage = ({
       password: form.elements.password.value,
       roles: [{ name: ROLES.USER }],
     }
-    
+
     registerStart()
     try {
       await UserService.register(user)
@@ -74,7 +61,7 @@ const RegisterPage = ({
         }
       })
     } catch (err) {
-      let msg = "Đã có lỗi xảy ra, vui lòng kiểm tra lại thông tin đã nhập."
+      const msg = 'Đã có lỗi xảy ra, vui lòng kiểm tra lại thông tin đã nhập.'
       registerFailure({ message: msg })
     }
   }
@@ -101,51 +88,22 @@ const RegisterPage = ({
             )}
             <form onSubmit={e => handleOnSubmit(e)}>
               <div className="input-item">
-                <input
-                  type="text"
-                  placeholder="Tên đăng nhập"
-                  className="input-bordered"
-                  name="username"
-                  required
-                />
+                <input type="text" placeholder="Tên đăng nhập" className="input-bordered" name="username" required />
               </div>
               <div className="input-item">
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="input-bordered"
-                  name="email"
-                  required
-                />
+                <input type="email" placeholder="Email" className="input-bordered" name="email" required />
               </div>
               <div className="input-item">
                 <input type="text" placeholder="Họ" className="input-bordered" name="lastName" />
               </div>
               <div className="input-item">
-                <input
-                  type="text"
-                  placeholder="Tên"
-                  className="input-bordered"
-                  name="firstName"
-                  required
-                />
+                <input type="text" placeholder="Tên" className="input-bordered" name="firstName" required />
               </div>
               <div className="input-item">
-                <input
-                  type="password"
-                  placeholder="Mật khẩu"
-                  className="input-bordered"
-                  name="password"
-                  required
-                />
+                <input type="password" placeholder="Mật khẩu" className="input-bordered" name="password" required />
               </div>
               <div className="input-item text-left">
-                <input
-                  className="input-checkbox input-checkbox-md"
-                  id="term-condition"
-                  type="checkbox"
-                  required
-                />
+                <input className="input-checkbox input-checkbox-md" id="term-condition" type="checkbox" required />
                 <label htmlFor="term-condition">
                   I agree to Softia&apos;s
                   <a href="#"> Privacy Policy</a> &amp;

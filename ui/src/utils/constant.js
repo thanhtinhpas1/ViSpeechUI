@@ -26,6 +26,8 @@ export const STATUS = {
   FAILURE: { name: 'FAILURE', viText: 'Thất bại', cssClass: 'data-state-canceled' },
   ACCEPTED: { name: 'ACCEPTED', viText: 'Chấp nhận', cssClass: 'data-state-approved' },
   REJECTED: { name: 'REJECTED', viText: 'Từ chối', cssClass: 'data-state-canceled' },
+  VALID: { name: true, viText: 'Hợp lệ', cssClass: 'data-state-approved' },
+  INVALID: { name: false, viText: 'Có vấn đề', cssClass: 'data-state-canceled' },
   // -canceled -missing
 }
 export const ORDER_STATUS = {
@@ -35,3 +37,7 @@ export const ORDER_STATUS = {
   // -canceled -missing
 }
 export const DEFAULT_ERR_MESSAGE = 'Đã có lỗi xảy ra. Vui lòng thử lại sau ít phút.'
+export const SORT_ORDER = {
+  ASC: 'ASC',
+  DESC: 'DESC',
+}

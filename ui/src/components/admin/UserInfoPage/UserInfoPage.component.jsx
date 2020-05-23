@@ -6,12 +6,15 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react'
 import { Redirect, useParams } from 'react-router-dom'
+import { Tabs } from 'antd'
 import { ADMIN_PATH } from 'utils/constant'
 import InfoTab from './components/InfoTab/InfoTab.container'
 import TransactionsTab from './components/TransactionsTab/TransactionsTab.container'
 import ProjectsTab from './components/ProjectsTab/ProjectsTab.container'
 
-const UserInfoPage = ({ userInfoObj, deleteUserObj, updateInfoObj, getUserInfo, deleteUser }) => {
+const { TabPane } = Tabs
+
+const UserInfoPage = ({ userInfoObj, deleteUserObj, getUserInfo, deleteUser }) => {
   const { id } = useParams()
 
   useEffect(() => {
@@ -19,12 +22,6 @@ const UserInfoPage = ({ userInfoObj, deleteUserObj, updateInfoObj, getUserInfo, 
       getUserInfo(id)
     }
   }, [id, getUserInfo])
-
-  useEffect(() => {
-    if (updateInfoObj.isLoading === false && updateInfoObj.isSuccess === true) {
-      getUserInfo(id)
-    }
-  }, [updateInfoObj, id, getUserInfo])
 
   const onDeleteUser = (e, userId) => {
     deleteUser(userId)
@@ -54,44 +51,17 @@ const UserInfoPage = ({ userInfoObj, deleteUserObj, updateInfoObj, getUserInfo, 
             </h4>
           </div>
           <div className="card-content">
-            <div className="row">
-              <div className="col-md-2">
-                <ul className="nav nav-pills nav-pills-rose nav-stacked">
-                  <li className="active">
-                    <a href="#info-tab" aria-controls="info-tab" role="tab" data-toggle="tab">
-                      Thông tin
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#projects-tab"
-                      aria-controls="projects-tab"
-                      role="tab"
-                      data-toggle="tab"
-                    >
-                      Dự án
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#transactions-tab"
-                      aria-controls="transactions-tab"
-                      role="tab"
-                      data-toggle="tab"
-                    >
-                      Lịch sử giao dịch
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="col-md-10">
-                <div className="tab-content">
-                  <InfoTab userInfoObj={userInfoObj} />
-                  <ProjectsTab userInfoObj={userInfoObj} />
-                  <TransactionsTab userInfoObj={userInfoObj} />
-                </div>
-              </div>
-            </div>
+            <Tabs tabPosition="left" size="large">
+              <TabPane tab="Thông tin" key="1">
+                <InfoTab userInfoObj={userInfoObj} />
+              </TabPane>
+              <TabPane tab="Dự án" key="2">
+                <ProjectsTab userInfoObj={userInfoObj} />
+              </TabPane>
+              <TabPane tab="Lịch sử giao dịch" key="3">
+                <TransactionsTab userInfoObj={userInfoObj} />
+              </TabPane>
+            </Tabs>
           </div>
         </div>
       </div>

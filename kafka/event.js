@@ -20,7 +20,7 @@ module.exports = {
         ORDERED_TOKEN_CREATED_FAILED_EVENT: 'OrderedTokenCreatedFailedEvent',
         TOKEN_CREATED_SUCCESS_EVENT: 'TokenCreatedSuccessEvent',
         TOKEN_CREATED_FAILED_EVENT: 'TokenCreatedFailedEvent',
-        TOKEN_DELETED_SUCCESS_EVENT: 'TokenDeletedSucessEvent',
+        TOKEN_DELETED_SUCCESS_EVENT: 'TokenDeletedSuccessEvent',
         TOKEN_DELETED_FAILED_EVENT: 'TokenDeletedFailedEvent',
         TOKEN_DELETED_BY_USERID_SUCCESS_EVENT: 'TokenDeletedByUserIdSuccessEvent',
         TOKEN_DELETED_BY_USERID_FAILED_EVENT: 'TokenDeletedByUserIdFailedEvent',

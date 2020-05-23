@@ -14,12 +14,39 @@ import {
   getProjectInfoFailure,
   updateProjectInfoSuccess,
   updateProjectInfoFailure,
+  getProjectListSuccess,
+  getProjectListFailure,
 } from './project.actions'
+
+const formatProjectList = projectList => {
+  const mapFunc = project => {
+    return {
+      ...project,
+      isValid: project.isValid ? STATUS.VALID : STATUS.INVALID,
+    }
+  }
+  return projectList.map(mapFunc)
+}
+
+// get project list
+function* getProjectList({ payload: filterConditions }) {
+  try {
+    const projectList = yield ProjectService.getProjectList(filterConditions)
+    projectList.data = formatProjectList(projectList.data)
+    yield put(getProjectListSuccess(projectList))
+  } catch (err) {
+    yield put(getProjectListFailure(err.message))
+  }
+}
+export function* getProjectListSaga() {
+  yield takeLatest(ProjectTypes.GET_PROJECT_LIST, getProjectList)
+}
 
 // get my project list
 function* getMyProjectList({ payload: filterConditions }) {
   try {
     const projectList = yield ProjectService.getMyProjectList(filterConditions)
+    projectList.data = formatProjectList(projectList.data)
     yield put(getMyProjectListSuccess(projectList))
   } catch (err) {
     yield put(getMyProjectListFailure(err.message))
@@ -35,10 +62,11 @@ const formatAcceptedProjectList = acceptedProjectList => {
     return {
       ...project,
       status: {
-        status: project.status,
+        value: project.status,
         name: STATUS[project.status].viText,
         class: STATUS[project.status].cssClass,
       },
+      isValid: project.isValid ? STATUS.VALID : STATUS.INVALID,
     }
   }
   return acceptedProjectList.map(mapFunc)
@@ -101,6 +129,7 @@ function* updateProjectInfoSaga() {
 
 export function* projectSaga() {
   yield all([
+    call(getProjectListSaga),
     call(getMyProjectListSaga),
     call(getAcceptedProjectListSaga),
     // call(createProjectSaga),

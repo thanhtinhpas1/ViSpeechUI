@@ -8,11 +8,11 @@ import { Link } from 'react-router-dom'
 import { CUSTOMER_PATH } from 'utils/constant'
 import moment from 'moment'
 
-const TokenTransaction = ({ orderListObj }) => {
+const TokenTransaction = ({ userOrderListObj }) => {
   const [tableData, setTableData] = useState([])
 
   useEffect(() => {
-    const transactionsArray = orderListObj.orderList.data.map(item => {
+    const transactionsArray = userOrderListObj.userOrderList.data.map(item => {
       return {
         id: item._id,
         state: item.status,
@@ -21,7 +21,7 @@ const TokenTransaction = ({ orderListObj }) => {
       }
     })
     setTableData(transactionsArray)
-  }, [orderListObj])
+  }, [userOrderListObj])
 
   return (
     <div className="card-innr">
@@ -61,9 +61,7 @@ const TokenTransaction = ({ orderListObj }) => {
                   <span className="sub sub-s2">{rowData.date}</span>
                 </td>
                 <td className="tnx-type">
-                  <span
-                    className={`tnx-type-md badge badge-outline ${rowData.type.class} badge-md`}
-                  >
+                  <span className={`tnx-type-md badge badge-outline ${rowData.type.class} badge-md`}>
                     {rowData.type.name}
                   </span>
                   <span className="tnx-type-sm badge badge-sq badge-outline badge-success badge-md">

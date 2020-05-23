@@ -12,10 +12,7 @@ import SocketUtils from 'utils/socket.util'
 import InfoModal from 'components/customer/InfoModal/InfoModal.component'
 
 const { KAFKA_TOPIC, invokeCheckSubject } = SocketUtils
-const {
-  PERMISSION_ASSIGN_EMAIL_SENT_SUCCESS_EVENT,
-  PERMISSION_ASSIGN_EMAIL_SENT_FAILED_EVENT,
-} = KAFKA_TOPIC
+const { PERMISSION_ASSIGN_EMAIL_SENT_SUCCESS_EVENT, PERMISSION_ASSIGN_EMAIL_SENT_FAILED_EVENT } = KAFKA_TOPIC
 
 const AssignPermissionPage = ({
   currentUser,
@@ -30,8 +27,6 @@ const AssignPermissionPage = ({
   const [infoModal, setInfoModal] = useState({})
 
   useEffect(() => {
-    SocketService.socketEmitEvent(PERMISSION_ASSIGN_EMAIL_SENT_SUCCESS_EVENT)
-    SocketService.socketEmitEvent(PERMISSION_ASSIGN_EMAIL_SENT_FAILED_EVENT)
     SocketService.socketOnListeningEvent(PERMISSION_ASSIGN_EMAIL_SENT_SUCCESS_EVENT)
     SocketService.socketOnListeningEvent(PERMISSION_ASSIGN_EMAIL_SENT_FAILED_EVENT)
   }, [])

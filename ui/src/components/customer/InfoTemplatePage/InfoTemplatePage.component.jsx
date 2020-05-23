@@ -40,14 +40,10 @@ const InfoTemplatePage = ({ infoTemplate, infoModal }) => {
                               <td className="pdl-3x pdr-3x pdb-2x">
                                 {infoTemplate.user && (
                                   <p className="mgb-1x">
-                                    Xin chào {infoTemplate.user.lastName}{' '}
-                                    {infoTemplate.user.firstName},
+                                    Xin chào {infoTemplate.user.lastName} {infoTemplate.user.firstName},
                                   </p>
                                 )}
-                                <p
-                                  className="mgb-1x"
-                                  dangerouslySetInnerHTML={{ __html: infoTemplate.content }}
-                                />
+                                <p className="mgb-1x" dangerouslySetInnerHTML={{ __html: infoTemplate.content }} />
                                 <div className="gaps-1x" />
                                 <div className="d-flex justify-content-end align-items-center">
                                   {infoTemplate.positiveButton && (

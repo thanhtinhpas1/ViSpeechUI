@@ -144,18 +144,10 @@ const App = ({ currentUser }) => {
           )
           console.log(`${link.id} is loaded`)
           // load link
-          link = await loadLink(
-            `${process.env.PUBLIC_URL}/assets/css/admin/react-table.css`,
-            'react-table.css',
-            'on'
-          )
+          link = await loadLink(`${process.env.PUBLIC_URL}/assets/css/admin/react-table.css`, 'react-table.css', 'on')
           console.log(`${link.id} is loaded`)
           // load link
-          link = await loadLink(
-            `${process.env.PUBLIC_URL}/assets/css/admin/turbo.css`,
-            'admin-turbo.css',
-            'on'
-          )
+          link = await loadLink(`${process.env.PUBLIC_URL}/assets/css/admin/turbo.css`, 'admin-turbo.css', 'on')
           console.log(`${link.id} is loaded`)
           // setIsCssLoaded(true)
           // load link
@@ -189,11 +181,7 @@ const App = ({ currentUser }) => {
           )
           console.log(`${script.id} is loaded`)
           // load script
-          script = await loadScript(
-            `${process.env.PUBLIC_URL}/assets/js/admin/turbo.js`,
-            'admin-turbo.js',
-            'on'
-          )
+          script = await loadScript(`${process.env.PUBLIC_URL}/assets/js/admin/turbo.js`, 'admin-turbo.js', 'on')
           console.log(`${script.id} is loaded`)
           // load script because of ClipboardJS
           script = await loadScript(
@@ -239,11 +227,7 @@ const App = ({ currentUser }) => {
       )
       console.log(`${script.id} is ${status}`)
 
-      script = await loadScript(
-        `${process.env.PUBLIC_URL}/assets/js/customer/custom.js`,
-        'customer-custom.js',
-        action
-      )
+      script = await loadScript(`${process.env.PUBLIC_URL}/assets/js/customer/custom.js`, 'customer-custom.js', action)
       console.log(`${script.id} is ${status}`)
 
       script = await loadScript(
@@ -281,11 +265,7 @@ const App = ({ currentUser }) => {
       )
       console.log(`${script.id} is ${status}`)
 
-      script = await loadScript(
-        `${process.env.PUBLIC_URL}/assets/js/admin/turbo.js`,
-        'admin-turbo.js',
-        action
-      )
+      script = await loadScript(`${process.env.PUBLIC_URL}/assets/js/admin/turbo.js`, 'admin-turbo.js', action)
       console.log(`${script.id} is ${status}`)
 
       // script = await loadScript(
@@ -329,11 +309,7 @@ const App = ({ currentUser }) => {
       )
       console.log(`${link.id} is ${status}`)
 
-      link = await loadLink(
-        `${process.env.PUBLIC_URL}/assets/css/customer/style-1.css`,
-        'customer-style-1.css',
-        action
-      )
+      link = await loadLink(`${process.env.PUBLIC_URL}/assets/css/customer/style-1.css`, 'customer-style-1.css', action)
       console.log(`${link.id} is ${status}`)
 
       link = await loadLink(
@@ -342,11 +318,7 @@ const App = ({ currentUser }) => {
         action
       )
 
-      link = await loadLink(
-        `${process.env.PUBLIC_URL}/assets/css/customer/style-2.css`,
-        'customer-style-2.css',
-        action
-      )
+      link = await loadLink(`${process.env.PUBLIC_URL}/assets/css/customer/style-2.css`, 'customer-style-2.css', action)
       console.log(`${link.id} is ${status}`)
 
       link = await loadLink(
@@ -356,11 +328,7 @@ const App = ({ currentUser }) => {
       )
       console.log(`${link.id} is ${status}`)
 
-      link = await loadLink(
-        `${process.env.PUBLIC_URL}/assets/css/admin/turbo.css`,
-        'admin-turbo.css',
-        action
-      )
+      link = await loadLink(`${process.env.PUBLIC_URL}/assets/css/admin/turbo.css`, 'admin-turbo.css', action)
       console.log(`${link.id} is ${status}`)
 
       link = await loadLink(

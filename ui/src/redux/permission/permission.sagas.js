@@ -2,10 +2,7 @@
 import { call, all, takeLatest, put } from 'redux-saga/effects'
 import PermissionService from 'services/permission.service'
 import PermissionTypes from './permission.types'
-import {
-  findPermissionByEmailTokenSuccess,
-  findPermissionByEmailTokenFailure,
-} from './permission.actions'
+import { findPermissionByEmailTokenSuccess, findPermissionByEmailTokenFailure } from './permission.actions'
 
 // find permission by email token
 function* findPermissionByEmailToken({ payload: token }) {

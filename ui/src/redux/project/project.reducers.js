@@ -7,6 +7,12 @@ const INITIAL_STATE = {
     isSuccess: null,
     message: null,
   },
+  getProjectList: {
+    projectList: { data: [], count: 0 },
+    isLoading: false,
+    isSuccess: null,
+    message: null,
+  },
   getMyProjectList: {
     myProjectList: { data: [], count: 0 },
     isLoading: false,
@@ -26,6 +32,11 @@ const INITIAL_STATE = {
     message: null,
   },
   updateInfo: {
+    isLoading: false,
+    isSuccess: null,
+    message: null,
+  },
+  deleteProject: {
     isLoading: false,
     isSuccess: null,
     message: null,
@@ -60,6 +71,34 @@ const projectReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         createProject: {
+          isLoading: false,
+          isSuccess: false,
+          message: action.payload,
+        },
+      }
+    // GET PROJECT LIST
+    case ProjectTypes.GET_PROJECT_LIST:
+      return {
+        ...state,
+        getProjectList: {
+          ...state.getProjectList,
+          isLoading: true,
+        },
+      }
+    case ProjectTypes.GET_PROJECT_LIST_SUCCESS:
+      return {
+        ...state,
+        getProjectList: {
+          isLoading: false,
+          isSuccess: true,
+          projectList: action.payload.data,
+        },
+      }
+    case ProjectTypes.GET_PROJECT_LIST_FAILURE:
+      return {
+        ...state,
+        getProjectList: {
+          ...state.getProjectList,
           isLoading: false,
           isSuccess: false,
           message: action.payload,
@@ -170,6 +209,32 @@ const projectReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         updateInfo: {
+          isLoading: false,
+          isSuccess: false,
+          message: action.payload,
+        },
+      }
+    // DELETE PROJECT
+    case ProjectTypes.DELETE_PROJECT:
+      return {
+        ...state,
+        deleteProject: {
+          ...state.deleteProject,
+          isLoading: true,
+        },
+      }
+    case ProjectTypes.DELETE_PROJECT_SUCCESS:
+      return {
+        ...state,
+        deleteProject: {
+          isLoading: false,
+          isSuccess: true,
+        },
+      }
+    case ProjectTypes.DELETE_PROJECT_FAILURE:
+      return {
+        ...state,
+        deleteProject: {
           isLoading: false,
           isSuccess: false,
           message: action.payload,

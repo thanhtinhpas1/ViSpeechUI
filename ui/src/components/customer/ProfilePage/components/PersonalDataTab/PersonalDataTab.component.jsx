@@ -21,8 +21,6 @@ const PersonalDataTab = ({
   const [infoModal, setInfoModal] = useState({})
 
   useEffect(() => {
-    SocketService.socketEmitEvent(USER_UPDATED_SUCCESS_EVENT)
-    SocketService.socketEmitEvent(USER_UPDATED_FAILED_EVENT)
     SocketService.socketOnListeningEvent(USER_UPDATED_SUCCESS_EVENT)
     SocketService.socketOnListeningEvent(USER_UPDATED_FAILED_EVENT)
   }, [])

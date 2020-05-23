@@ -29,10 +29,7 @@ const InfoModal = ({ infoModal }) => {
             {infoModal.icon && infoModal.icon.isLoading != null && <LoadingIcon />}
             <div className="gaps-2x" />
             {infoModal.title && <h4 style={{ color: '#495463' }}>{infoModal.title}</h4>}
-            <p
-              style={{ color: '#495463' }}
-              dangerouslySetInnerHTML={{ __html: infoModal.message }}
-            />
+            <p style={{ color: '#495463' }} dangerouslySetInnerHTML={{ __html: infoModal.message }} />
             <div className="gaps-2x" />
             {infoModal.button && (
               <button

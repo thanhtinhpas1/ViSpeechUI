@@ -6,22 +6,14 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react'
 import moment from 'moment'
-import { ORDER_STATUS } from 'utils/constant'
 
-const TokenSaleGraph = ({ orderListObj }) => {
+const TokenSaleGraph = ({ userOrderListObj }) => {
   useEffect(() => {
-    const labels = [];
-    const data = [];
-    for (const order of orderListObj.orderList.data) {
-      if (ORDER_STATUS.SUCCESS.name === order.status['status']) {
-        labels.push(moment(order.createdDate).format('YYYY-MM-DD'))
-        const tokenType = order.tokenType ? order.tokenType : null
-        const price = tokenType ? tokenType.price : 0
-        data.push(price);
-      }
-      // else do nothing
-    }
-
+    const labels = userOrderListObj.userOrderList.data.map(order => moment(order.createdDate).format('YYYY-MM-DD'))
+    const data = userOrderListObj.userOrderList.data.map(order => {
+      const tokenType = order.tokenType ? order.tokenType : null
+      return tokenType ? tokenType.price : 0
+    })
     const chart = document.getElementById('tknSale').getContext('2d')
     // eslint-disable-next-line no-new
     new window.Chart(chart, {
@@ -42,7 +34,7 @@ const TokenSaleGraph = ({ orderListObj }) => {
             pointHoverBorderWidth: 2,
             pointRadius: 6,
             pointHitRadius: 6,
-            data: data,
+            data,
           },
         ],
       },
@@ -94,7 +86,7 @@ const TokenSaleGraph = ({ orderListObj }) => {
         },
       },
     })
-  }, [orderListObj])
+  }, [userOrderListObj])
 
   return (
     <div className="card-innr">

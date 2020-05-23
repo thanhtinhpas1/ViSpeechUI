@@ -3,51 +3,68 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as moment from 'moment'
-import ReactTable from 'components/admin/ReactTable/ReactTable.component'
+import AntdTable from 'components/common/AntdTable/AntdTable.component'
+import { STATUS } from 'utils/constant'
 
 const TasksPage = ({ taskListObj, getTaskList }) => {
   const columns = [
     {
-      Header: 'Tên',
-      accessor: 'name',
-      Cell: props => {
-        const { cell } = props
-        return <span>{cell.value}</span>
-      },
+      title: 'Tên',
+      dataIndex: 'name',
+      canSearch: true,
+      render: name => <span>{name}</span>,
+      width: 180,
     },
     {
-      Header: 'Thời gian kế tiếp',
-      accessor: 'nextRun',
-      Cell: props => moment(props.cell.value).format('DD/MM/YYYY HH:mm:ss'),
+      title: 'Thời gian kế tiếp',
+      dataIndex: 'nextRun',
+      sorter: true,
+      render: nextRun => moment(nextRun).format('DD/MM/YYYY HH:mm:ss'),
+      width: 200,
+      align: 'center',
     },
     {
-      Header: 'Thời gian trước đó',
-      accessor: 'previousRun',
-      Cell: props => moment(props.cell.value).format('DD/MM/YYYY HH:mm:ss'),
+      title: 'Thời gian trước đó',
+      dataIndex: 'previousRun',
+      sorter: true,
+      render: nextRun => moment(nextRun).format('DD/MM/YYYY HH:mm:ss'),
+      width: 220,
+      align: 'center',
     },
     {
-      Header: 'Trạng thái',
-      accessor: 'previousRunStatus',
-      Cell: props => {
-        const { cell } = props
-        return (
-          <span className={`badge ${cell.value.status && cell.value.class} ucap`}>
-            {cell.value.name}
-          </span>
-        )
-      },
+      title: 'Trạng thái',
+      dataIndex: 'previousRunStatus',
+      filters: [
+        { text: STATUS.SUCCESS.viText, value: STATUS.SUCCESS.name },
+        { text: STATUS.FAILURE.viText, value: STATUS.FAILURE.name },
+      ],
+      filterMultiple: false,
+      render: previousRunStatus => (
+        <span className={`badge ${previousRunStatus.status && previousRunStatus.class} ucap`}>
+          {previousRunStatus.name}
+        </span>
+      ),
+      width: 180,
+      align: 'center',
     },
     {
-      Header: 'Lỗi',
-      accessor: 'errorLog',
-      Cell: props => {
-        const { cell } = props
-        return <span>{cell.value}</span>
-      },
+      title: 'Lỗi',
+      dataIndex: 'errorLog',
+      render: errorLog => <span>{errorLog}</span>,
+      width: 200,
+      ellipsis: true,
     },
   ]
+
+  useEffect(() => {
+    const pagination = {
+      pageSize: 10,
+      current: 1,
+    }
+    getTaskList({ pagination })
+  }, [getTaskList])
 
   return (
     <div className="row">
@@ -58,14 +75,13 @@ const TasksPage = ({ taskListObj, getTaskList }) => {
           </div>
           <div className="card-content">
             <div className="material-datatables">
-              <ReactTable
+              <AntdTable
+                dataObj={taskListObj.taskList}
                 columns={columns}
-                data={taskListObj.taskList.data}
                 fetchData={getTaskList}
-                loading={taskListObj.isLoading}
-                pageCount={Math.ceil(taskListObj.taskList.count / 10)}
-                defaultPageSize={10}
+                isLoading={taskListObj.isLoading}
                 pageSize={10}
+                scrollY={700}
               />
             </div>
           </div>

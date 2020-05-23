@@ -4,127 +4,128 @@
 /* eslint-disable no-alert */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { CUSTOMER_PATH } from 'utils/constant'
-import ReactTable from 'components/customer/ReactTable/ReactTable.component'
+import AntdTable from 'components/common/AntdTable/AntdTable.component'
+import { CUSTOMER_PATH, STATUS, TOKEN_TYPE } from 'utils/constant'
 import * as moment from 'moment'
 
-const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
+const TransactionsPage = ({ currentUser, getUserOrderListObj, getUserOrderList }) => {
   const columns = [
     {
-      Header: 'Mã',
-      accessor: '_id',
-      headerClassName: 'data-col dt-tnxno',
-      className: 'data-col dt-tnxno',
-      Cell: props => {
-        const { cell } = props
-        return <span className="lead tnx-id">{cell.value}</span>
-      },
+      title: 'Mã',
+      dataIndex: '_id',
+      canSearch: true,
+      render: _id => <span className="lead tnx-id">{_id}</span>,
+      width: 150,
     },
     {
-      Header: 'Trạng thái',
-      accessor: 'status',
-      headerClassName: 'data-col dt-token',
-      className: 'data-col dt-token',
-      Cell: props => {
-        const { cell } = props
-        return (
-          <div className="d-flex align-items-center">
-            <div className={`data-state ${cell.value.class}`} />
-            <span className="sub sub-s2" style={{ paddingTop: 0 }}>
-              {cell.value.name}
-            </span>
+      title: 'Trạng thái',
+      dataIndex: 'status',
+      headerClassName: 'dt-token',
+      className: 'dt-token',
+      filters: [
+        { text: STATUS.PENDING.viText, value: STATUS.PENDING.name },
+        { text: STATUS.SUCCESS.viText, value: STATUS.SUCCESS.name },
+        { text: STATUS.FAILURE.viText, value: STATUS.FAILURE.name },
+      ],
+      filterMultiple: false,
+      render: status => (
+        <div className="d-flex align-items-center">
+          <div className={`data-state ${status.class}`} />
+          <span className="sub sub-s2" style={{ paddingTop: 0 }}>
+            {status.name}
+          </span>
+        </div>
+      ),
+      width: 180,
+    },
+    {
+      title: 'Thời gian tạo',
+      dataIndex: 'createdDate',
+      headerClassName: 'dt-amount',
+      className: 'dt-amount',
+      sorter: true,
+      render: createdDate => (
+        <span className="sub sub-date" style={{ fontSize: '13px' }}>
+          {moment(createdDate).format('DD/MM/YYYY HH:mm')}
+        </span>
+      ),
+      width: 240,
+      align: 'center',
+    },
+    {
+      title: 'Token',
+      dataIndex: 'token',
+      headerClassName: 'dt-account',
+      className: 'dt-account',
+      render: token => (
+        <span className="lead tnx-id">
+          <div className="copy-wrap w-100">
+            <span className="copy-feedback" />
+            <em className="fas fa-key" />
+            <input type="text" className="copy-address" defaultValue={token} disabled />
+            <button type="button" className="copy-trigger copy-clipboard" data-clipboard-text={token}>
+              <em className="ti ti-files" />
+            </button>
           </div>
-        )
-      },
+        </span>
+      ),
+      width: 250,
     },
     {
-      Header: 'Thời gian tạo',
-      accessor: 'createdDate',
-      headerClassName: 'data-col dt-amount',
-      className: 'data-col dt-amount',
-      Cell: props => {
-        const { cell } = props
-        return (
-          <span className="sub sub-date" style={{ fontSize: '13px' }}>
-            {moment(cell.value).format('DD/MM/YYYY HH:mm')}
+      title: () => <div className="dt-type-text">Loại token</div>,
+      dataIndex: 'tokenType',
+      filters: [
+        { text: TOKEN_TYPE['50-MINS'].viText, value: TOKEN_TYPE['50-MINS'].name },
+        { text: TOKEN_TYPE['200-MINS'].viText, value: TOKEN_TYPE['200-MINS'].name },
+        { text: TOKEN_TYPE['500-MINS'].viText, value: TOKEN_TYPE['500-MINS'].name },
+      ],
+      filterMultiple: false,
+      render: tokenType => (
+        <>
+          <span className={`dt-type-md badge badge-outline ${tokenType.class} badge-md`}>{tokenType.name}</span>
+          <span className={`dt-type-sm badge badge-sq badge-outline ${tokenType.class} badge-md`}>
+            {tokenType.name}
           </span>
-        )
-      },
+        </>
+      ),
+      width: 150,
+      align: 'center',
     },
     {
-      Header: 'Token',
-      accessor: 'token',
-      headerClassName: 'data-col dt-usd-account',
-      className: 'data-col dt-account',
-      Cell: props => {
-        const { cell } = props
-        return (
-          <span className="lead tnx-id">
-            <div className="copy-wrap w-100">
-              <span className="copy-feedback" />
-              <em className="fas fa-key" />
-              <input type="text" className="copy-address" defaultValue={cell.value} disabled />
-              <button
-                type="button"
-                className="copy-trigger copy-clipboard"
-                data-clipboard-text={cell.value}
-              >
-                <em className="ti ti-files" />
-              </button>
-            </div>
-          </span>
-        )
-      },
-    },
-    {
-      Header: () => <div className="dt-type-text">Loại token</div>,
-      accessor: 'tokenType',
-      headerClassName: 'data-col dt-type',
-      className: 'data-col dt-type',
-      Cell: props => {
-        const { cell } = props
-        return (
-          <>
-            <span className={`dt-type-md badge badge-outline ${cell.value.class} badge-md`}>
-              {cell.value.name}
-            </span>
-            <span
-              className={`dt-type-sm badge badge-sq badge-outline ${cell.value.class} badge-md`}
-            >
-              {cell.value.name}
-            </span>
-          </>
-        )
-      },
-    },
-    {
-      Header: '',
-      accessor: '_id',
-      id: 'transaction-detail',
-      headerClassName: 'data-col',
-      className: 'data-col text-right',
-      Cell: props => {
-        const { cell } = props
-        return (
-          <Link
-            to={`${CUSTOMER_PATH}/transaction-details?id=${cell.value}`}
-            className="btn btn-light-alt btn-xs btn-icon"
-          >
-            <em className="ti ti-eye" />
-          </Link>
-        )
-      },
+      title: '',
+      dataIndex: '_id',
+      render: _id => (
+        <Link to={`${CUSTOMER_PATH}/transaction-details?id=${_id}`} className="btn btn-light-alt btn-xs btn-icon">
+          <em className="ti ti-eye" />
+        </Link>
+      ),
+      align: 'right',
+      width: 60,
     },
   ]
 
+  useEffect(() => {
+    const userId = currentUser._id
+    if (userId) {
+      const pagination = {
+        pageSize: 5,
+        current: 1,
+      }
+      getUserOrderList({ userId, pagination })
+    }
+  }, [currentUser._id, getUserOrderList])
+
   const getList = useCallback(
-    ({ pageSize, pageIndex }) => {
+    // eslint-disable-next-line no-unused-vars
+    ({ pagination, sortField, sortOrder, filters }) => {
       const userId = currentUser._id
-      getOrderList({ userId, pageIndex, pageSize })
+      if (userId) {
+        getUserOrderList({ userId, pagination, sortField, sortOrder, filters })
+      }
     },
-    [currentUser._id, getOrderList]
+    [currentUser._id, getUserOrderList]
   )
 
   return (
@@ -135,17 +136,14 @@ const TransactionsPage = ({ currentUser, orderListObj, getOrderList }) => {
             <div className="card-head">
               <h4 className="card-title">Lịch sử giao dịch</h4>
             </div>
-            {currentUser._id && (
-              <ReactTable
-                columns={columns}
-                data={orderListObj.orderList.data}
-                fetchData={getList}
-                loading={orderListObj.isLoading}
-                pageCount={Math.ceil(orderListObj.orderList.count / 5)}
-                defaultPageSize={5}
-                pageSize={5}
-              />
-            )}
+            <AntdTable
+              dataObj={getUserOrderListObj.userOrderList}
+              columns={columns}
+              fetchData={getList}
+              isLoading={getUserOrderListObj.isLoading}
+              pageSize={5}
+              scrollY={500}
+            />
           </div>
         </div>
       </div>

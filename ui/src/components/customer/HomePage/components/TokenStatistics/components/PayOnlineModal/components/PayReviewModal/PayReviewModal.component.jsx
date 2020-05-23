@@ -14,22 +14,12 @@ const PayReviewModal = ({ payReviewModal }) => {
             </div>
             <div className="gaps-2x" />
             <h3 style={{ color: '#495463' }}>Giao dịch thành công.</h3>
-            <p style={{ color: '#495463' }}>
-              Thời hạn sử dụng token là {payReviewModal.minutes} phút. Xin cảm ơn.
-            </p>
+            <p style={{ color: '#495463' }}>Thời hạn sử dụng token là {payReviewModal.minutes} phút. Xin cảm ơn.</p>
             <div className="copy-wrap mgb-1-5x mgt-1-5x">
               <span className="copy-feedback" />
               <em className="fas fa-key" />
-              <input
-                type="text"
-                className="copy-address"
-                defaultValue={payReviewModal.token}
-                disabled
-              />
-              <button
-                className="copy-trigger copy-clipboard"
-                data-clipboard-text={payReviewModal.token}
-              >
+              <input type="text" className="copy-address" defaultValue={payReviewModal.token} disabled />
+              <button className="copy-trigger copy-clipboard" data-clipboard-text={payReviewModal.token}>
                 <em className="ti ti-files" />
               </button>
             </div>

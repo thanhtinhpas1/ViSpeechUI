@@ -1,14 +1,14 @@
 import { connect } from 'react-redux'
-import { getOrderList } from 'redux/order/order.actions'
+import { getUserOrderList } from 'redux/order/order.actions'
 import TransactionsTab from './TransactionsTab.component'
 
 const mapStateToProps = state => ({
-  orderListObj: state.order.getList,
+  getUserOrderListObj: state.order.getUserOrderList,
 })
 
 const mapDispatchToProps = dispatch => ({
-  getOrderList: ({ userId, pageIndex, pageSize }) =>
-    dispatch(getOrderList({ userId, pageIndex, pageSize })),
+  getUserOrderList: ({ userId, pagination, sortField, sortOrder, filters }) =>
+    dispatch(getUserOrderList({ userId, pagination, sortField, sortOrder, filters })),
 })
 
 const TransactionsTabContainer = connect(mapStateToProps, mapDispatchToProps)(TransactionsTab)

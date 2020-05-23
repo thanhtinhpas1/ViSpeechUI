@@ -60,6 +60,14 @@ const Header = ({ currentUser, authenticate, logout }) => {
     history.push(`/`)
   }
 
+  const handleOnClick = e => {
+    window.$('ul.navbar-menu li.menu-item').removeClass('active')
+    window
+      .$(e.target)
+      .parent()
+      .addClass('active')
+  }
+
   return (
     <>
       <div className="topbar-wrap">
@@ -79,11 +87,7 @@ const Header = ({ currentUser, authenticate, logout }) => {
                 </li>
               </ul>
               <a className="topbar-logo" href="/">
-                <img
-                  className="light-logo"
-                  src={`${process.env.PUBLIC_URL}/images/customer/logo-light.svg`}
-                  alt=""
-                />
+                <img className="light-logo" src={`${process.env.PUBLIC_URL}/images/customer/logo-light.svg`} alt="" />
               </a>
               <ul className="topbar-nav">
                 <li className="topbar-nav-item relative">
@@ -132,8 +136,8 @@ const Header = ({ currentUser, authenticate, logout }) => {
               <ul className="navbar-menu">
                 {navbarMenu.map(menuItem => {
                   return (
-                    <li key={menuItem.href}>
-                      <Link to={menuItem.href}>
+                    <li key={menuItem.href} className="menu-item">
+                      <Link to={menuItem.href} onClick={handleOnClick}>
                         <em className={`ikon ${menuItem.emClass}`} />
                         {menuItem.name}
                       </Link>

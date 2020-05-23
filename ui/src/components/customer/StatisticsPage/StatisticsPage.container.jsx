@@ -1,9 +1,5 @@
 import { connect } from 'react-redux'
-import {
-  getUserTotalStatistics,
-  getStatisticsById,
-  getUserTokenTypeStatistics,
-} from 'redux/report/report.actions'
+import { getUserTotalStatistics, getStatisticsById, getUserTokenTypeStatistics } from 'redux/report/report.actions'
 import { getMyProjectList } from 'redux/project/project.actions'
 import StatisticsPage from './StatisticsPage.component'
 

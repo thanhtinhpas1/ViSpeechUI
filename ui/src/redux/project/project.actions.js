@@ -4,6 +4,22 @@ export const onClearOrderState = () => ({
   type: ProjectTypes.CLEAR_PROJECT_STATE,
 })
 
+// get project list
+export const getProjectList = filterConditions => ({
+  type: ProjectTypes.GET_PROJECT_LIST,
+  payload: filterConditions,
+})
+
+export const getProjectListSuccess = data => ({
+  type: ProjectTypes.GET_PROJECT_LIST_SUCCESS,
+  payload: { data },
+})
+
+export const getProjectListFailure = message => ({
+  type: ProjectTypes.GET_PROJECT_LIST_FAILURE,
+  payload: message,
+})
+
 // get my project list
 export const getMyProjectList = filterConditions => ({
   type: ProjectTypes.GET_MY_PROJECT_LIST,
@@ -81,5 +97,20 @@ export const updateProjectInfoSuccess = data => ({
 
 export const updateProjectInfoFailure = message => ({
   type: ProjectTypes.UPDATE_PROJECT_INFO_FAILURE,
+  payload: message,
+})
+
+// delete project
+export const deleteProject = id => ({
+  type: ProjectTypes.DELETE_PROJECT,
+  payload: id,
+})
+
+export const deleteProjectSuccess = () => ({
+  type: ProjectTypes.DELETE_PROJECT_SUCCESS,
+})
+
+export const deleteProjectFailure = message => ({
+  type: ProjectTypes.DELETE_PROJECT_FAILURE,
   payload: message,
 })

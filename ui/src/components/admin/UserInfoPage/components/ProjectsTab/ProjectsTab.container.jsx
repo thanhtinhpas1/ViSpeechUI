@@ -8,10 +8,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getMyProjects: ({ userId, pageIndex, pageSize }) =>
-    dispatch(getMyProjectList({ userId, pageIndex, pageSize })),
-  getAcceptedProjects: ({ userId, pageIndex, pageSize }) =>
-    dispatch(getAcceptedProjectList({ userId, pageIndex, pageSize })),
+  getMyProjects: ({ userId, pagination, sortField, sortOrder, filters }) =>
+    dispatch(getMyProjectList({ userId, pagination, sortField, sortOrder, filters })),
+  getAcceptedProjects: ({ userId, pagination, sortField, sortOrder, filters }) =>
+    dispatch(getAcceptedProjectList({ userId, pagination, sortField, sortOrder, filters })),
 })
 
 const ProjectsTabContainer = connect(mapStateToProps, mapDispatchToProps)(ProjectsTab)

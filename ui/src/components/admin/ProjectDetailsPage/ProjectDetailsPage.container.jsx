@@ -12,8 +12,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getProjectInfo: projectId => dispatch(getProjectInfo(projectId)),
-  getProjectTokens: ({ userId, projectId, pageIndex, pageSize }) =>
-    dispatch(getProjectTokenList({ userId, projectId, pageIndex, pageSize })),
+  getProjectTokens: ({ userId, projectId, pagination, sortField, sortOrder, filters }) =>
+    dispatch(getProjectTokenList({ userId, projectId, pagination, sortField, sortOrder, filters })),
   updateProjectInfo: (id, data) => dispatch(updateProjectInfo(id, data)),
 })
 

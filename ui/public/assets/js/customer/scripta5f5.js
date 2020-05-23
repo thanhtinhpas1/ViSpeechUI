@@ -42,7 +42,7 @@
   f.length > 0 &&
     f.each(function() {
       p === this.href &&
-        g[1] !== '' &&
+        (g[1] !== '' && g[1] !== '!') &&
         e(this)
           .closest('li')
           .addClass('active')

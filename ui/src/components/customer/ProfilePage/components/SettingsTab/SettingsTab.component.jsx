@@ -10,12 +10,7 @@ const SettingsTab = ({ settings }) => {
       {settings.security.map(item => {
         return (
           <div className="input-item" key={item.id}>
-            <input
-              type="checkbox"
-              className="input-switch input-switch-sm"
-              id={item.id}
-              defaultChecked
-            />
+            <input type="checkbox" className="input-switch input-switch-sm" id={item.id} defaultChecked />
             <label htmlFor={item.id}>{item.label}</label>
           </div>
         )
@@ -26,12 +21,7 @@ const SettingsTab = ({ settings }) => {
       {settings.notifications.map(item => {
         return (
           <div className="input-item" key={item.id}>
-            <input
-              type="checkbox"
-              className="input-switch input-switch-sm"
-              id={item.id}
-              defaultChecked
-            />
+            <input type="checkbox" className="input-switch input-switch-sm" id={item.id} defaultChecked />
             <label htmlFor={item.id}>{item.label}</label>
           </div>
         )

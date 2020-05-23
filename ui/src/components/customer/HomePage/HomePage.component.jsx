@@ -7,13 +7,13 @@ import TokenTransaction from './components/TokenTransaction/TokenTransaction.con
 import TokenCalculator from './components/TokenCalculator/TokenCalculator.component'
 import TokenSaleGraph from './components/TokenSaleGraph/TokenSaleGraph.component'
 
-const Home = ({ currentUser, orderListObj, getFreeTokenObj, getFreeToken, getOrderList }) => {
+const Home = ({ currentUser, getUserOrderListObj, getFreeTokenObj, getFreeToken, getUserOrderList }) => {
   useEffect(() => {
     if (currentUser._id) {
       getFreeToken(currentUser._id)
-      getOrderList({ userId: currentUser._id })
+      getUserOrderList({ userId: currentUser._id })
     }
-  }, [currentUser._id, getFreeToken, getOrderList])
+  }, [currentUser._id, getFreeToken, getUserOrderList])
 
   return (
     <div className="page-content">
@@ -28,19 +28,14 @@ const Home = ({ currentUser, orderListObj, getFreeTokenObj, getFreeToken, getOrd
             <div className="token-statistics card card-token height-auto">
               <div className="card-innr">
                 <div className="card-head has-aside">
-                  <h4
-                    className="card-title"
-                    style={{ fontSize: '16px', color: '#fff', textTransform: 'uppercase' }}
-                  >
+                  <h4 className="card-title" style={{ fontSize: '16px', color: '#fff', textTransform: 'uppercase' }}>
                     Token miễn phí
                   </h4>
                   <div>Miễn phí 10 phút sử dụng</div>
                 </div>
                 <div className="card-opt">
                   <span className="lead tnx-id">
-                    {getFreeTokenObj.isLoading && getFreeTokenObj.isSuccess == null && (
-                      <LoadingIcon />
-                    )}
+                    {getFreeTokenObj.isLoading && getFreeTokenObj.isSuccess == null && <LoadingIcon />}
                     {getFreeTokenObj.isLoading === false && getFreeTokenObj.isSuccess === false && (
                       <div>Lấy token miễn phí thất bại</div>
                     )}
@@ -56,6 +51,7 @@ const Home = ({ currentUser, orderListObj, getFreeTokenObj, getFreeToken, getOrd
                           style={{ fontSize: '15px' }}
                         />
                         <button
+                          type="button"
                           className="copy-trigger copy-clipboard"
                           data-clipboard-text={getFreeTokenObj.freeToken.value}
                         >
@@ -70,19 +66,19 @@ const Home = ({ currentUser, orderListObj, getFreeTokenObj, getFreeToken, getOrd
           </div>
           <div className="col-xl-8 col-lg-7">
             <div className="token-transaction card card-full-height">
-              <TokenTransaction orderListObj={orderListObj} />
+              <TokenTransaction userOrderListObj={getUserOrderListObj} />
             </div>
           </div>
           <div className="col-xl-4 col-lg-5">
             <div className="token-calculator card card-full-height">
-              <TokenCalculator keyQuantity={orderListObj.orderList.data.length} />
+              <TokenCalculator keyQuantity={getUserOrderListObj.userOrderList.data.length} />
             </div>
           </div>
         </div>
         <div className="row">
           <div className="col-xl-12 col-lg-12">
             <div className="token-sale-graph card card-full-height">
-              <TokenSaleGraph orderListObj={orderListObj} />
+              <TokenSaleGraph userOrderListObj={getUserOrderListObj} />
             </div>
           </div>
         </div>

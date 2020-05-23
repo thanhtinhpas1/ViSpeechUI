@@ -36,10 +36,9 @@ const Main = () => {
                 <span className="theme-g-bg" />
                 <h2 id="advanced-home">Điểm nổi bật</h2>
                 <p>
-                  Được nghiên cứu và phát triển bởi các nhà khoa học và các chuyên gia đầu ngành
-                  trong lĩnh vực Học máy, Xử lý ngôn ngữ tự nhiên, Thị giác máy tính, nền tảng trí
-                  tuệ nhân tạo toàn diện Softia. cung cấp các giải pháp công nghệ tốt nhất cho doanh
-                  nghiệp của bạn với sự hỗ trợ tận tình 24/7.
+                  Được nghiên cứu và phát triển bởi các nhà khoa học và các chuyên gia đầu ngành trong lĩnh vực Học máy,
+                  Xử lý ngôn ngữ tự nhiên, Thị giác máy tính, nền tảng trí tuệ nhân tạo toàn diện Softia. cung cấp các
+                  giải pháp công nghệ tốt nhất cho doanh nghiệp của bạn với sự hỗ trợ tận tình 24/7.
                 </p>
               </div>
             </div>
@@ -52,8 +51,7 @@ const Main = () => {
                 </div>
                 <h4 className="m-25px-t">Tốc độ cao</h4>
                 <p>
-                  Được xây dựng với hệ thống chịu tải cao. Đảm bảo dịch vụ của bạn hoạt động 24/7
-                  với tốc độ nhanh nhất.
+                  Được xây dựng với hệ thống chịu tải cao. Đảm bảo dịch vụ của bạn hoạt động 24/7 với tốc độ nhanh nhất.
                 </p>
               </div>
             </div>
@@ -64,8 +62,8 @@ const Main = () => {
                 </div>
                 <h4>Tự động hóa</h4>
                 <p>
-                  Mọi hoạt động doanh nghiệp của bạn không ngừng trở nên thông minh hơn, nâng cao
-                  hiệu suất kinh doanh và gia tăng sự hài lòng của khách hàng.
+                  Mọi hoạt động doanh nghiệp của bạn không ngừng trở nên thông minh hơn, nâng cao hiệu suất kinh doanh
+                  và gia tăng sự hài lòng của khách hàng.
                 </p>
               </div>
             </div>
@@ -76,8 +74,8 @@ const Main = () => {
                 </div>
                 <h4>Mô hình linh hoạt.</h4>
                 <p>
-                  Softia riển khai các sản phẩm, dịch vụ cũng như hỗ trợ một cách linh hoạt từ cloud
-                  đến on-premise để đáp ứng nhu cầu của doanh nghiệp.
+                  Softia riển khai các sản phẩm, dịch vụ cũng như hỗ trợ một cách linh hoạt từ cloud đến on-premise để
+                  đáp ứng nhu cầu của doanh nghiệp.
                 </p>
               </div>
             </div>
@@ -167,18 +165,13 @@ const Main = () => {
                   <div className="d-flex">
                     <div className="img">
                       <span>
-                        <img
-                          src={`${process.env.PUBLIC_URL}/images/customer/avtar1.jpg`}
-                          alt="Shark"
-                          title="Shark"
-                        />
+                        <img src={`${process.env.PUBLIC_URL}/images/customer/avtar1.jpg`} alt="Shark" title="Shark" />
                       </span>
                     </div>
                     <div className="speac">
                       <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry&apos;s standard dummy text ever since the
-                        1500s.
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                        the industry&apos;s standard dummy text ever since the 1500s.
                       </p>
                       <h6>
                         <strong>
@@ -192,18 +185,13 @@ const Main = () => {
                   <div className="d-flex">
                     <div className="img">
                       <span>
-                        <img
-                          src={`${process.env.PUBLIC_URL}/images/customer/avtar1.jpg`}
-                          alt="Shark"
-                          title="Shark"
-                        />
+                        <img src={`${process.env.PUBLIC_URL}/images/customer/avtar1.jpg`} alt="Shark" title="Shark" />
                       </span>
                     </div>
                     <div className="speac">
                       <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry&apos;s standard dummy text ever since the
-                        1500s.
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                        the industry&apos;s standard dummy text ever since the 1500s.
                       </p>
                       <h6>
                         <strong>
@@ -217,18 +205,13 @@ const Main = () => {
                   <div className="d-flex">
                     <div className="img">
                       <span>
-                        <img
-                          src={`${process.env.PUBLIC_URL}/images/customer/avtar1.jpg`}
-                          alt="Shark"
-                          title="Shark"
-                        />
+                        <img src={`${process.env.PUBLIC_URL}/images/customer/avtar1.jpg`} alt="Shark" title="Shark" />
                       </span>
                     </div>
                     <div className="speac">
                       <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry&apos;s standard dummy text ever since the
-                        1500s.
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                        the industry&apos;s standard dummy text ever since the 1500s.
                       </p>
                       <h6>
                         <strong>
@@ -242,18 +225,13 @@ const Main = () => {
                   <div className="d-flex">
                     <div className="img">
                       <span>
-                        <img
-                          src={`${process.env.PUBLIC_URL}/images/customer/avtar1.jpg`}
-                          alt="Shark"
-                          title="Shark"
-                        />
+                        <img src={`${process.env.PUBLIC_URL}/images/customer/avtar1.jpg`} alt="Shark" title="Shark" />
                       </span>
                     </div>
                     <div className="speac">
                       <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry&apos;s standard dummy text ever since the
-                        1500s.
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                        the industry&apos;s standard dummy text ever since the 1500s.
                       </p>
                       <h6>
                         <strong>
@@ -280,13 +258,10 @@ const Main = () => {
                   Clients
                 </h2>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                  et dolore magna aliqua. Ut enim ad minim veniam
                 </p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                  incididunt.
-                </p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
                 <a className="m-btn btn-theme" href="#">
                   Sign Up For Beta
                 </a>

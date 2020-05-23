@@ -3,14 +3,7 @@
 import React, { useEffect } from 'react'
 import { useTable, usePagination } from 'react-table'
 
-const ReactTable = ({
-  columns,
-  data,
-  fetchData,
-  loading,
-  pageCount: controlledPageCount,
-  defaultPageSize,
-}) => {
+const ReactTable = ({ columns, data, fetchData, loading, pageCount: controlledPageCount, defaultPageSize }) => {
   // Use the state and functions returned from useTable to build your UI
   const {
     getTableProps,
@@ -51,10 +44,7 @@ const ReactTable = ({
   return (
     <>
       <div className="dataTables_wrapper">
-        <table
-          {...getTableProps()}
-          className="table data-table user-tnx table-striped table-no-bordered table-hover"
-        >
+        <table {...getTableProps()} className="table data-table user-tnx table-striped table-no-bordered table-hover">
           <thead>
             {headerGroups.map(headerGroup => (
               <tr {...headerGroup.getHeaderGroupProps()}>
@@ -92,19 +82,11 @@ const ReactTable = ({
             <tr className="data-item">
               {loading ? (
                 // Use our custom loading state to show a loading indicator
-                <td
-                  colSpan="10000"
-                  className="data-col"
-                  style={{ borderBottom: 'none', color: '#23406c' }}
-                >
+                <td colSpan="10000" className="data-col" style={{ borderBottom: 'none', color: '#23406c' }}>
                   Đang tải...
                 </td>
               ) : (
-                <td
-                  colSpan="10000"
-                  className="data-col"
-                  style={{ borderBottom: 'none', color: '#23406c' }}
-                >
+                <td colSpan="10000" className="data-col" style={{ borderBottom: 'none', color: '#23406c' }}>
                   Hiển thị {page.length} trên ~{controlledPageCount * pageSize} kết quả
                 </td>
               )}
@@ -123,42 +105,22 @@ const ReactTable = ({
             <div className="pagination dataTables_paginate">
               <ul className="pagination">
                 <li className="paginate-button-page-item previous">
-                  <a
-                    href="#!"
-                    className="page-link"
-                    onClick={() => gotoPage(0)}
-                    disabled={!canPreviousPage}
-                  >
+                  <a href="#!" className="page-link" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
                     Trang đầu
                   </a>
                 </li>
                 <li className="paginate-button-page-item previous">
-                  <a
-                    href="#!"
-                    className="page-link"
-                    onClick={() => previousPage()}
-                    disabled={!canPreviousPage}
-                  >
+                  <a href="#!" className="page-link" onClick={() => previousPage()} disabled={!canPreviousPage}>
                     Trang trước
                   </a>
                 </li>
                 <li className="paginate-button-page-item next">
-                  <a
-                    href="#!"
-                    className="page-link"
-                    onClick={() => nextPage()}
-                    disabled={!canNextPage}
-                  >
+                  <a href="#!" className="page-link" onClick={() => nextPage()} disabled={!canNextPage}>
                     Trang kế
                   </a>
                 </li>
                 <li className="paginate-button-page-item next">
-                  <a
-                    href="#!"
-                    className="page-link"
-                    onClick={() => gotoPage(pageCount - 1)}
-                    disabled={!canNextPage}
-                  >
+                  <a href="#!" className="page-link" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
                     Trang cuối
                   </a>
                 </li>

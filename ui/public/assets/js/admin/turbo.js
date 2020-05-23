@@ -284,32 +284,32 @@ var md = {
         var $sidebar_wrapper = $('.sidebar-wrapper');
 
         if (!mobile_menu_initialized) {
-            var $navbar = $('nav').find('.navbar-collapse').first().clone(true);
+            //var $navbar = $('nav').find('.navbar-collapse').first().clone(true);
 
-            var nav_content = '';
-            var mobile_menu_content = '';
+            //var nav_content = '';
+            //var mobile_menu_content = '';
 
-            $navbar.children('ul').each(function() {
+            // $navbar.children('ul').each(function() {
 
-                var content_buff = $(this).html();
-                nav_content = nav_content + content_buff;
-            });
+            //     var content_buff = $(this).html();
+            //     nav_content = nav_content + content_buff;
+            // });
 
-            nav_content = '<ul class="nav nav-mobile-menu">' + nav_content + '</ul>';
+            //nav_content = '<ul class="nav nav-mobile-menu">' + nav_content + '</ul>';
 
-            var $navbar_form = $('nav').find('.navbar-form').clone(true);
+            //var $navbar_form = $('nav').find('.navbar-form').clone(true);
 
-            var $sidebar_nav = $sidebar_wrapper.find(' > .nav');
+            //var $sidebar_nav = $sidebar_wrapper.find(' > .nav');
 
             // insert the navbar form before the sidebar list
-            var $nav_content = $(nav_content);
-            $nav_content.insertBefore($sidebar_nav);
-            $navbar_form.insertBefore($nav_content);
+            //var $nav_content = $(nav_content);
+            //$nav_content.insertBefore($sidebar_nav);
+            //$navbar_form.insertBefore($nav_content);
 
-            $(".sidebar-wrapper .dropdown .dropdown-menu > li > a").on('click', function(event) {
-                event.stopPropagation();
+            // $(".sidebar-wrapper .dropdown .dropdown-menu > li > a").on('click', function(event) {
+            //     event.stopPropagation();
 
-            });
+            // });
 
             // simulate resize so all the charts/maps will be redrawn
             window.dispatchEvent(new Event('resize'));
@@ -318,8 +318,8 @@ var md = {
         } else {
             if ($(window).width() > 991) {
                 // reset all the additions that we made for the sidebar wrapper only if the screen is bigger than 991px
-                $sidebar_wrapper.find('.navbar-form').remove();
-                $sidebar_wrapper.find('.nav-mobile-menu').remove();
+                //$sidebar_wrapper.find('.navbar-form').remove();
+                // $sidebar_wrapper.find('.nav-mobile-menu').remove();
 
                 mobile_menu_initialized = false;
             }

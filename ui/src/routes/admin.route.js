@@ -15,6 +15,9 @@ import AdminTransactionDetailsPage from 'components/admin/TransactionDetailsPage
 import AdminHistoriesPage from 'components/admin/HistoriesPage/HistoriesPage.container'
 import AdminTasksPage from 'components/admin/TasksPage/TasksPage.container'
 import StatisticsPage from 'components/admin/StatisticsPage/StatisticsPage.component'
+import ProjectsPage from 'components/admin/ProjectsPage/ProjectsPage.container'
+import TokensPage from 'components/admin/TokensPage/TokensPage.container'
+import TransactionsPage from 'components/admin/TransactionsPage/TransactionsPage.container'
 
 const RouteAdmin = ({ currentUser }) => {
   return (
@@ -46,6 +49,15 @@ const RouteAdmin = ({ currentUser }) => {
             </Route>
             <Route path={`${ADMIN_PATH}/user-accepted-project/:id`}>
               <AdminProjectDetailsPage />
+            </Route>
+            <Route path={`${ADMIN_PATH}/projects`}>
+              <ProjectsPage />
+            </Route>
+            <Route path={`${ADMIN_PATH}/tokens`}>
+              <TokensPage />
+            </Route>
+            <Route path={`${ADMIN_PATH}/transactions`}>
+              <TransactionsPage />
             </Route>
             <Route path={`${ADMIN_PATH}/histories`}>
               <AdminHistoriesPage />

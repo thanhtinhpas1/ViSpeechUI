@@ -2,11 +2,11 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useCallback, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useCallback, useEffect } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
 import * as moment from 'moment'
-import ReactTable from 'components/customer/ReactTable/ReactTable.component'
-import { ADMIN_PATH } from 'utils/constant'
+import AntdTable from 'components/common/AntdTable/AntdTable.component'
+import { ADMIN_PATH, TOKEN_TYPE, STATUS } from 'utils/constant'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import './ProjectDetailsPage.style.scss'
@@ -19,8 +19,8 @@ const ProjectDetailsPage = ({
   getProjectTokens,
   updateProjectInfo,
 }) => {
+  const history = useHistory()
   const { id } = useParams()
-  const { infoModal, setInfoModal } = useState({})
 
   useEffect(() => {
     getProjectInfo(id)
@@ -34,104 +34,128 @@ const ProjectDetailsPage = ({
 
   const columns = [
     {
-      Header: 'Token',
-      accessor: 'value',
-      headerClassName: 'data-col dt-tnxno',
-      className: 'data-col dt-tnxno',
+      title: 'Token',
+      dataIndex: 'value',
+      headerClassName: 'dt-type',
+      className: 'dt-type',
       style: { paddingRight: '30px' },
-      Cell: props => {
-        const { cell } = props
-        return (
-          <span className="lead tnx-id">
-            <div className="copy-wrap w-100">
-              <span className="copy-feedback" />
-              <em className="fas fa-key" />
-              <input type="text" className="copy-address" defaultValue={cell.value} disabled />
-              <button className="copy-trigger copy-clipboard" data-clipboard-text={cell.value}>
-                <em className="ti ti-files" />
-              </button>
-            </div>
-          </span>
-        )
-      },
-    },
-    {
-      Header: 'Loại token',
-      accessor: 'tokenType',
-      headerClassName: 'data-col dt-type',
-      className: 'data-col dt-tnxno',
-      style: { paddingRight: '30px' },
-      Cell: props => {
-        const { cell } = props
-        return <div className="d-flex align-items-center">{cell.value}</div>
-      },
-    },
-    {
-      Header: 'Trạng thái',
-      accessor: 'isValid',
-      headerClassName: 'data-col dt-token',
-      className: 'data-col dt-amount',
-      Cell: props => {
-        const { cell } = props
-        return (
-          <div className="d-flex align-items-center">
-            <div
-              className={`data-state ${cell.value ? 'data-state-approved' : 'data-state-canceled'}`}
-            />
-            <span className="sub sub-s2" style={{ paddingTop: '0' }}>
-              {cell.value ? 'Hợp lệ' : 'Có vấn đề'}
-            </span>
+      render: value => (
+        <span className="lead tnx-id">
+          <div className="copy-wrap w-100">
+            <span className="copy-feedback" />
+            <em className="fas fa-key" />
+            <input type="text" className="copy-address" defaultValue={value} disabled />
+            <button type="button" className="copy-trigger copy-clipboard" data-clipboard-text={value}>
+              <em className="ti ti-files" />
+            </button>
           </div>
-        )
-      },
+        </span>
+      ),
+      width: 250,
     },
     {
-      Header: 'Thời gian còn lại',
-      accessor: 'minutesLeft',
-      headerClassName: 'data-col dt-amount',
+      title: 'Loại token',
+      dataIndex: 'tokenType',
+      headerClassName: 'dt-type',
+      className: 'dt-type',
+      style: { paddingRight: '30px' },
+      filters: [
+        { text: TOKEN_TYPE.FREE.viText, value: TOKEN_TYPE.FREE.name },
+        { text: TOKEN_TYPE['50-MINS'].viText, value: TOKEN_TYPE['50-MINS'].name },
+        { text: TOKEN_TYPE['200-MINS'].viText, value: TOKEN_TYPE['200-MINS'].name },
+        { text: TOKEN_TYPE['500-MINS'].viText, value: TOKEN_TYPE['500-MINS'].name },
+      ],
+      filterMultiple: false,
+      render: tokenType => (
+        <>
+          <span className={`dt-type-md badge badge-outline ${tokenType.class} badge-md`}>{tokenType.name}</span>
+          <span className={`dt-type-sm badge badge-sq badge-outline ${tokenType.class} badge-md`}>
+            {tokenType.name}
+          </span>
+        </>
+      ),
+      width: 150,
+      align: 'center',
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'isValid',
+      headerClassName: 'dt-token',
+      className: 'dt-amount',
+      filters: [
+        { text: STATUS.VALID.viText, value: STATUS.VALID.name },
+        { text: STATUS.INVALID.viText, value: STATUS.INVALID.name },
+      ],
+      filterMultiple: false,
+      render: isValid => (
+        <div className="d-flex align-items-center">
+          <div className={`data-state ${isValid.cssClass}`} />
+          <span className="sub sub-s2" style={{ paddingTop: '0' }}>
+            {isValid.viText}
+          </span>
+        </div>
+      ),
+      width: 180,
+    },
+    {
+      title: 'Thời gian còn lại',
+      dataIndex: 'minutesLeft',
+      headerClassName: 'dt-amount',
       headerStyle: { textAlign: 'center' },
-      style: { textAlign: 'center' },
-      className: 'data-col dt-amount',
-      Cell: props => {
-        const { cell } = props
-        return <span className="lead">{cell.value} phút</span>
-      },
+      className: 'dt-amount',
+      render: minutesLeft => <span className="lead">{minutesLeft} phút</span>,
+      width: 200,
+      align: 'center',
     },
     {
-      Header: '',
-      accessor: '_id',
-      id: 'transaction-detail',
-      headerClassName: 'data-col',
-      className: 'data-col text-right',
-      Cell: props => {
-        const { cell } = props
-        return (
-          <a
-            href={`${ADMIN_PATH}/transaction-details?tokenId=${cell.value}`}
-            className="btn btn-just-icon btn-secondary btn-simple"
-          >
-            <i className="zmdi zmdi-eye" />
-          </a>
-        )
-      },
+      title: '',
+      dataIndex: '_id',
+      render: _id => (
+        <a
+          href={`${ADMIN_PATH}/transaction-details?tokenId=${_id}`}
+          className="btn btn-just-icon btn-secondary btn-simple"
+        >
+          <i className="zmdi zmdi-eye" />
+        </a>
+      ),
+      width: 60,
+      align: 'right',
     },
   ]
 
+  useEffect(() => {
+    const projectOwnerId = getProjectInfoObj.project.userId
+    if (projectOwnerId) {
+      const pagination = {
+        pageSize: 5,
+        current: 1,
+      }
+      getProjectTokens({ userId: projectOwnerId, projectId: id, pagination })
+    }
+  }, [getProjectInfoObj.project.userId, id, getProjectTokens])
+
   const getProjectTokensList = useCallback(
-    ({ pageIndex, pageSize }) => {
+    ({ pagination, sortField, sortOrder, filters }) => {
       const projectOwnerId = getProjectInfoObj.project.userId
       if (projectOwnerId) {
-        getProjectTokens({ userId: projectOwnerId, projectId: id, pageIndex, pageSize })
+        getProjectTokens({
+          userId: projectOwnerId,
+          projectId: id,
+          pagination,
+          sortField,
+          sortOrder,
+          filters,
+        })
       }
     },
-    [id, getProjectInfoObj.project.userId, getProjectTokens]
+    [getProjectInfoObj.project.userId, id, getProjectTokens]
   )
 
   const onSubmit = event => {
     event.preventDefault()
     confirmAlert({
       title: 'Xác nhận',
-      message: 'Bạn có chắc muốn xóa',
+      message: 'Bạn có chắc muốn cập nhật',
       buttons: [
         {
           label: 'Có',
@@ -161,8 +185,15 @@ const ProjectDetailsPage = ({
     <div className="row">
       <div className="col-md-12">
         <div className="card">
-          <div className="card-header">
+          <div className="card-header d-flex justify-content-between align-items-center">
             <h4 className="card-title">{getProjectInfoObj.project.name}</h4>
+            <a href="#!" onClick={history.goBack} className="btn btn-auto btn-primary d-sm-block d-none">
+              <em className="fas fa-arrow-left" style={{ marginRight: '10px' }} />
+              Trở lại
+            </a>
+            <a href="#!" onClick={history.goBack} className="btn btn-icon btn-primary d-sm-none">
+              <em className="fas fa-arrow-left" />
+            </a>
           </div>
           <div className="card-content">
             <form onSubmit={onSubmit}>
@@ -171,10 +202,7 @@ const ProjectDetailsPage = ({
                   <div className="fake-class" style={{ paddingRight: '10px' }}>
                     <span className="data-details-title">Tên dự án</span>
                     <span className="data-details-info">
-                      <div
-                        className="form-group label-floating is-empty"
-                        style={{ padding: '0px', margin: '0px' }}
-                      >
+                      <div className="form-group label-floating is-empty" style={{ padding: '0px', margin: '0px' }}>
                         <label className="control-label" />
                         <input
                           type="text"
@@ -189,10 +217,7 @@ const ProjectDetailsPage = ({
                   <div className="fake-class" style={{ paddingRight: '10px' }}>
                     <span className="data-details-title">Mô tả</span>
                     <span className="data-details-info">
-                      <div
-                        className="form-group label-floating is-empty"
-                        style={{ padding: '0px', margin: '0px' }}
-                      >
+                      <div className="form-group label-floating is-empty" style={{ padding: '0px', margin: '0px' }}>
                         <label className="control-label" />
                         <input
                           type="text"
@@ -218,10 +243,7 @@ const ProjectDetailsPage = ({
                   </div>
                 </div>
 
-                <div
-                  className="row"
-                  style={{ display: 'flex', justifyContent: 'flex-end', margin: '0px 0px' }}
-                >
+                <div className="row" style={{ display: 'flex', justifyContent: 'flex-end', margin: '0px 0px' }}>
                   <button type="submit" className="btn btn-primary">
                     Cập nhật
                   </button>
@@ -230,14 +252,13 @@ const ProjectDetailsPage = ({
             </form>
             <div className="gaps-5x" />
             <div className="material-datatables">
-              <ReactTable
+              <AntdTable
+                dataObj={getProjectTokenListObj.projectTokenList}
                 columns={columns}
-                data={getProjectTokenListObj.projectTokenList.data}
                 fetchData={getProjectTokensList}
-                loading={getProjectTokenListObj.isLoading}
-                pageCount={Math.ceil(getProjectTokenListObj.projectTokenList.count / 5)}
-                defaultPageSize={5}
+                isLoading={getProjectTokenListObj.isLoading}
                 pageSize={5}
+                scrollY={500}
               />
             </div>
           </div>

@@ -1,8 +1,14 @@
 import OrderTypes from './order.types'
 
 const INITIAL_STATE = {
-  getList: {
+  getOrderList: {
     orderList: { data: [], count: 0 },
+    isLoading: false,
+    isSuccess: null,
+    message: null,
+  },
+  getUserOrderList: {
+    userOrderList: { data: [], count: 0 },
     isLoading: false,
     isSuccess: null,
     message: null,
@@ -31,15 +37,15 @@ const orderReducer = (state = INITIAL_STATE, action) => {
     case OrderTypes.GET_ORDER_LIST:
       return {
         ...state,
-        getList: {
-          ...state.getList,
+        getOrderList: {
+          ...state.getOrderList,
           isLoading: true,
         },
       }
     case OrderTypes.GET_ORDER_LIST_SUCCESS:
       return {
         ...state,
-        getList: {
+        getOrderList: {
           isLoading: false,
           isSuccess: true,
           orderList: action.payload.data,
@@ -48,8 +54,36 @@ const orderReducer = (state = INITIAL_STATE, action) => {
     case OrderTypes.GET_ORDER_LIST_FAILURE:
       return {
         ...state,
-        getList: {
-          ...state.getList,
+        getOrderList: {
+          ...state.getOrderList,
+          isLoading: false,
+          isSuccess: false,
+          message: action.payload,
+        },
+      }
+    // GET USER ORDER LIST
+    case OrderTypes.GET_USER_ORDER_LIST:
+      return {
+        ...state,
+        getUserOrderList: {
+          ...state.getUserOrderList,
+          isLoading: true,
+        },
+      }
+    case OrderTypes.GET_USER_ORDER_LIST_SUCCESS:
+      return {
+        ...state,
+        getUserOrderList: {
+          isLoading: false,
+          isSuccess: true,
+          userOrderList: action.payload.data,
+        },
+      }
+    case OrderTypes.GET_USER_ORDER_LIST_FAILURE:
+      return {
+        ...state,
+        getUserOrderList: {
+          ...state.getUserOrderList,
           isLoading: false,
           isSuccess: false,
           message: action.payload,
