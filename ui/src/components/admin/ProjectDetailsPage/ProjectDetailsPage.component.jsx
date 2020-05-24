@@ -7,6 +7,9 @@ import { useParams, useHistory } from 'react-router-dom'
 import * as moment from 'moment'
 import AntdTable from 'components/common/AntdTable/AntdTable.component'
 import { ADMIN_PATH, TOKEN_TYPE, STATUS } from 'utils/constant'
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
+import './ProjectDetailsPage.style.scss'
 
 const ProjectDetailsPage = ({
   getProjectInfoObj,
@@ -150,17 +153,32 @@ const ProjectDetailsPage = ({
 
   const onSubmit = event => {
     event.preventDefault()
-    const projectId = getProjectInfoObj.project._id
-    if (!projectId) {
-      return
-    }
+    confirmAlert({
+      title: 'Xác nhận',
+      message: 'Bạn có chắc muốn cập nhật',
+      buttons: [
+        {
+          label: 'Có',
+          onClick: () => {
+            const projectId = getProjectInfoObj.project._id
+            if (!projectId) {
+              return
+            }
 
-    const form = event.target
-    const data = {
-      name: form.elements.name.value,
-      description: form.elements.description.value,
-    }
-    updateProjectInfo(projectId, data)
+            const form = event.target
+            const data = {
+              name: form.elements.name.value,
+              description: form.elements.description.value,
+            }
+            updateProjectInfo(projectId, data)
+          },
+        },
+        {
+          label: 'Không',
+          onClick: () => {},
+        },
+      ],
+    })
   }
 
   return (
