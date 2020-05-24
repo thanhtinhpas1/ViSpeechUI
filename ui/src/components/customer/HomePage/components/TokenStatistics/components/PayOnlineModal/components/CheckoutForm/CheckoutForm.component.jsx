@@ -80,8 +80,11 @@ const CheckoutForm = ({
         setIsLoading(false)
         return
       }
-      if (confirmedCardPayment.paymentIntent.status === 'succeeded') {
+      if (confirmedCardPayment.paymentIntent && confirmedCardPayment.paymentIntent.status === 'succeeded') {
         // The payment has been processed!
+        const paymentIntent = {
+          id: result.id,
+        }
         const order = {
           userId: user._id,
           tokenType,
@@ -90,9 +93,9 @@ const CheckoutForm = ({
             projectId,
           },
         }
-        createOrder(order)
+        createOrder(order, paymentIntent)
         try {
-          await OrderService.createOrder(order)
+          await OrderService.createOrder(order, paymentIntent)
           invokeCheckSubject.OrderCreated.subscribe(data => {
             if (data.error != null) {
               createOrderFailure(data.errorObj)
