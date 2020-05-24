@@ -14,8 +14,8 @@ COPY ui/package.json package-lock.json /tmp/ui/
 FROM base AS dependencies
 
 # Install Node.js dependencies
-RUN cd /tmp && npm install
-RUN cd /tmp/ui && npm install
+RUN cd /tmp && npm install --production
+RUN cd /tmp/ui && npm install --production
 
 ### RELEASE
 FROM base AS development
@@ -26,6 +26,6 @@ COPY . .
 COPY --from=dependencies /tmp/node_modules ./node_modules
 COPY --from=dependencies /tmp/ui/node_modules ./node_modules
 
-CMD npm run start:dev
+CMD npm run start:prod
 # Expose application port
 EXPOSE 3200:3200
