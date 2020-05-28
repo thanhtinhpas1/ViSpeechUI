@@ -24,6 +24,7 @@ const CheckoutForm = ({
   createOrder,
   createOrderSuccess,
   createOrderFailure,
+  clearCreateOrderState,
 }) => {
   const stripe = useStripe()
   const elements = useElements()
@@ -33,6 +34,7 @@ const CheckoutForm = ({
   const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
+    clearCreateOrderState()
     SocketService.socketOnListeningEvent(ORDER_CREATED_FAILED_EVENT)
     SocketService.socketOnListeningEvent(ORDERED_TOKEN_CREATED_SUCCESS_EVENT)
     SocketService.socketOnListeningEvent(ORDERED_TOKEN_CREATED_FAILED_EVENT)
@@ -51,7 +53,7 @@ const CheckoutForm = ({
       let result = null
 
       try {
-        result = await OrderService.createPaymentIntent(tokenType.price * 100)
+        result = await OrderService.createPaymentIntent(tokenType.saleOffPrice * 100)
       } catch (err) {
         setErrorMessage(err.message || err)
         setIsLoading(false)
@@ -83,11 +85,11 @@ const CheckoutForm = ({
       if (confirmedCardPayment.paymentIntent && confirmedCardPayment.paymentIntent.status === 'succeeded') {
         // The payment has been processed!
         const paymentIntent = {
-          id: result.id,
+          id: confirmedCardPayment.paymentIntent.id,
         }
         const order = {
           userId: user._id,
-          tokenType,
+          tokenType: Utils.removePropertyFromObject(tokenType, 'saleOffPrice'),
           token: {
             userId: user._id,
             projectId,
